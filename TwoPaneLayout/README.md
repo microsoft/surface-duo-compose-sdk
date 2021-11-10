@@ -6,8 +6,7 @@ When the app is spanned across a vertical hinge or fold, or when the width is la
 
 If running on regular single-screen device, there will be only one pane visible. The other pane will be overlayed and navigation will be available to switch between two panes.
 
-
-```
+```kotlin
 @Composable
 fun TwoPaneLayout(
     modifier: Modifier = Modifier,
@@ -24,8 +23,6 @@ fun navigateToPane2()
 Please refer to [TwoPaneLayout](https://docs.microsoft.com/dual-screen/android/jetpack/compose/two-pane-layout) on Microsoft Dual-screen document for more details.
 About some common use case for the two panes, please check out [user interface patterns](https://docs.microsoft.com/dual-screen/introduction#dual-screen-app-patterns).
 
-## 
-
 ## Add to your project
 
 1. Make sure you have **mavenCentral()** repository in your top level **build.gradle** file:
@@ -40,12 +37,14 @@ About some common use case for the two panes, please check out [user interface p
     ```
 
 2. Add dependencies to the module-level **build.gradle** file (current version may be different from what's shown here).
+
     ```gradle
     implementation "com.microsoft.device.dualscreen:twopanelayout:1.0.0-alpha08"
     ```
+
 3. Also ensure the compileSdkVersion and targetSdkVersion are set to API 31 or newer in the module-level build.gradle file.
 
-    ```
+    ```gradle
     android { 
         compileSdkVersion 31
         
@@ -56,7 +55,7 @@ About some common use case for the two panes, please check out [user interface p
     }
     ```
 
-4. Build layout with **TwoPaneLayout**. Please refer to the [sample](https://github.com/microsoft/surface-duo-compose-samples/tree/main/TwoPaneLayout/sample) for more details.
+4. Build layout with **TwoPaneLayout**. Please refer to the [sample](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/TwoPaneLayout/sample) for more details.
 
 - Dual-screen device(Surface Duo device, 1:1)
 
