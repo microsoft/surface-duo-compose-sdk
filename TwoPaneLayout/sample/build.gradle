@@ -1,0 +1,67 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        applicationId "com.microsoft.device.dualscreen.twopanelayout.sample"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion composeVersion
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/AL2.0'
+    }
+}
+
+dependencies {
+    implementation project(path: ':library')
+
+    implementation kotlinDependencies.kotlinStdlib
+    implementation androidxDependencies.ktxCore
+    implementation androidxDependencies.appCompat
+    implementation androidxDependencies.window
+    implementation composeDependencies.composeUI
+    implementation composeDependencies.composeMaterial
+    implementation composeDependencies.composeUITooling
+    implementation composeDependencies.activityCompose
+
+    implementation googleDependencies.material
+
+    androidTestImplementation(testDependencies.androidxTestCore)
+    androidTestImplementation(testDependencies.androidxTestRules)
+    androidTestImplementation(testDependencies.androidxTestRunner)
+    androidTestImplementation(testDependencies.composeUITest)
+    androidTestImplementation(testDependencies.composeJunit)
+
+    debugImplementation(testDependencies.composeUITestManifest)
+}
