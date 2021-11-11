@@ -16,7 +16,7 @@ Please check out our page on [Jetpack Compose for Microsoft Surface Duo](https:/
 
 ## Contents
 
-### [TwoPaneLayout](https://github.com/microsoft/surface-duo-compose-samples/tree/main/TwoPaneLayout)
+### [TwoPaneLayout](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/TwoPaneLayout)
 
 A UI component that help you build two-pane layout for dual-screen, foldable, and large-screen devices.
 
@@ -33,7 +33,6 @@ A UI component that help you build two-pane layout for dual-screen, foldable, an
 ## Related links
 
 - [Compose samples](https://github.com/microsoft/surface-duo-compose-samples/)
-- [App samples](https://github.com/microsoft/surface-duo-app-samples)
 - [Jetpack Window Manager samples](https://github.com/microsoft/surface-duo-window-manager-samples)
 - [SDK samples (Java)](https://github.com/microsoft/surface-duo-sdk-samples)
 - [SDK samples (Kotlin)](https://github.com/microsoft/surface-duo-sdk-samples-kotlin)
