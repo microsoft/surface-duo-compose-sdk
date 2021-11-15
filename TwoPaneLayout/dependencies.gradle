@@ -14,11 +14,11 @@ ext {
 
     // TwoPaneLayout library version code:
     // If you want to publish a new version, bump in one (1) the specific line(s)
-    twoPaneLayoutVersionCode = 8
+    twoPaneLayoutVersionCode = 9
 
     // TwoPaneLayout library version name:
     // If you want to publish a new version, bump the specific line
-    twoPaneLayoutVersionName = '1.0.0-alpha08'
+    twoPaneLayoutVersionName = '1.0.0-alpha09'
 
     // ----------------------------------
 
@@ -38,7 +38,7 @@ ext {
             kotlinStdlib: "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     ]
 
-    //AndroidX versions
+    // AndroidX dependencies
     appCompatVersion = "1.3.0"
     ktxCoreVersion = "1.5.0"
     windowVersion = "1.0.0-beta02"
@@ -49,9 +49,10 @@ ext {
             window            : "androidx.window:window:$windowVersion"
     ]
 
-    composeVersion = "1.0.4"
+    // Compose dependencies
+    composeVersion = "1.0.5"
     activityComposeVersion = "1.4.0"
-    navigationComposeVersion = "2.4.0-beta01"
+    navigationComposeVersion = "2.4.0-beta02"
 
     composeDependencies = [
             composeMaterial         : "androidx.compose.material:material:$composeVersion",
@@ -61,6 +62,7 @@ ext {
             navigationCompose       : "androidx.navigation:navigation-compose:$navigationComposeVersion"
     ]
 
+    // Test dependencies
     androidxTestVersion = "1.4.0"
     testDependencies = [
             androidxTestCore        : "androidx.test:core:$androidxTestVersion",
@@ -71,7 +73,7 @@ ext {
             composeUITestManifest   : "androidx.compose.ui:ui-test-manifest:$composeVersion",
     ]
 
-    //Google dependencies
+    // Google dependencies
     materialVersion = "1.5.0-alpha01"
 
     googleDependencies = [
