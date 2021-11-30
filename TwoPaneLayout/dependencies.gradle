@@ -14,11 +14,11 @@ ext {
 
     // TwoPaneLayout library version code:
     // If you want to publish a new version, bump in one (1) the specific line(s)
-    twoPaneLayoutVersionCode = 9
+    twoPaneLayoutVersionCode = 10
 
     // TwoPaneLayout library version name:
     // If you want to publish a new version, bump the specific line
-    twoPaneLayoutVersionName = '1.0.0-alpha09'
+    twoPaneLayoutVersionName = '1.0.0-alpha10'
 
     // ----------------------------------
 
@@ -41,7 +41,7 @@ ext {
     // AndroidX dependencies
     appCompatVersion = "1.3.0"
     ktxCoreVersion = "1.5.0"
-    windowVersion = "1.0.0-beta02"
+    windowVersion = "1.0.0-beta04"
 
     androidxDependencies = [
             appCompat         : "androidx.appcompat:appcompat:$appCompatVersion",

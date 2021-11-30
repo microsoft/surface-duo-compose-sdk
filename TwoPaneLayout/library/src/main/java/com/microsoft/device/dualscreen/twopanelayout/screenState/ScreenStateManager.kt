@@ -15,15 +15,16 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.window.layout.FoldingFeature
-import androidx.window.layout.WindowInfoRepository.Companion.windowInfoRepository
+import androidx.window.layout.WindowInfoTracker
 import kotlinx.coroutines.flow.collect
 
 const val SMALLEST_TABLET_SCREEN_WIDTH_DP = 585
 
 @Composable
 fun ConfigScreenState(onStateChange: (ScreenState) -> Unit) {
-    val activity = LocalContext.current as Activity
-    val windowInfoRep = activity.windowInfoRepository()
+    val context = LocalContext.current
+    val activity = context as Activity
+    val windowInfoRep = WindowInfoTracker.getOrCreate(context)
 
     val smallestScreenWidthDp = LocalConfiguration.current.smallestScreenWidthDp
     val isTablet = smallestScreenWidthDp > SMALLEST_TABLET_SCREEN_WIDTH_DP
@@ -34,7 +35,7 @@ fun ConfigScreenState(onStateChange: (ScreenState) -> Unit) {
     var orientation = orientationMappingFromScreen(LocalConfiguration.current.orientation)
 
     LaunchedEffect(windowInfoRep) {
-        windowInfoRep.windowLayoutInfo
+        windowInfoRep.windowLayoutInfo(activity)
             .collect { newLayoutInfo ->
                 var featureBounds = Rect()
                 if (newLayoutInfo.displayFeatures.isNotEmpty()) {
