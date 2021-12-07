@@ -1,5 +1,6 @@
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
+apply plugin: 'org.jetbrains.dokka'
 
 //Every module defines its own values
 group = PUBLISH_GROUP_ID
@@ -27,6 +28,19 @@ task androidSourcesJar(type: Jar) {
     from android.sourceSets.main.kotlin.srcDirs
 }
 
+dokkaHtml.configure {
+    dokkaSourceSets {
+        named("main") {
+            noAndroidSdkLink.set(false)
+        }
+    }
+}
+
+task dokkaHtmlJar(type: Jar, dependsOn: dokkaHtml) {
+    archiveClassifier.set('html-doc')
+    from dokkaHtml.outputDirectory
+}
+
 publishing {
     publications {
         SurfaceDuoCompose(MavenPublication) {
@@ -38,6 +52,7 @@ publishing {
             //Set the artifact files
             artifact("$buildDir/outputs/aar/${project.getName()}-release.aar")
             artifact(androidSourcesJar)
+            artifact(dokkaHtmlJar)
 
             pom {
                 name = PUBLISH_ARTIFACT_ID
