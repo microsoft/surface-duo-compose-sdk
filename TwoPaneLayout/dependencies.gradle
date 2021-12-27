@@ -27,6 +27,7 @@ ext {
     compileSdkVersion = 31
     targetSdkVersion = compileSdkVersion
     minSdkVersion = 23
+    dokkaVersion = "1.6.0"
 
     config = [
             gradlePlugin             : "com.android.tools.build:gradle:$gradlePluginVersion",
@@ -36,6 +37,10 @@ ext {
 
     kotlinDependencies = [
             kotlinStdlib: "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    ]
+
+    dokkaDependencies = [
+            dokkaGradlePlugin: "org.jetbrains.dokka:dokka-gradle-plugin:$dokkaVersion"
     ]
 
     // AndroidX dependencies
