@@ -1,0 +1,87 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
+ext {
+
+    //---- Important -------------------
+    // We have to update following versionName and versionCode groups in order to
+    // publish correctly a new version of each of our libraries.
+    // e.g. windowstate library, you could have as a current version
+    // 1.0.0-beta1, if you want to publish a new version you will have to increase in one the
+    //windowStateVersionCode and to bump the windowStateVersionName.
+
+    // WindowState library version code:
+    // If you want to publish a new version, bump in one (1) the specific line(s)
+    windowStateVersionCode = 1
+
+    // WindowState library version name:
+    // If you want to publish a new version, bump the specific line
+    windowStateVersionName = '1.0.0-alpha1'
+
+    // ----------------------------------
+
+    gradlePluginVersion = '7.0.3'
+    kotlinVersion = "1.5.31"
+    compileSdkVersion = 31
+    targetSdkVersion = compileSdkVersion
+    minSdkVersion = 23
+    dokkaVersion = "1.6.0"
+
+    config = [
+            gradlePlugin             : "com.android.tools.build:gradle:$gradlePluginVersion",
+            kotlinGradlePlugin       : "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion",
+            testInstrumentationRunner: "androidx.test.runner.AndroidJUnitRunner"
+    ]
+
+    kotlinDependencies = [
+            kotlinStdlib: "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    ]
+
+    dokkaDependencies = [
+            dokkaGradlePlugin: "org.jetbrains.dokka:dokka-gradle-plugin:$dokkaVersion"
+    ]
+
+    // AndroidX dependencies
+    appCompatVersion = "1.3.0"
+    ktxCoreVersion = "1.5.0"
+    windowVersion = "1.0.0-beta04"
+
+    androidxDependencies = [
+            appCompat         : "androidx.appcompat:appcompat:$appCompatVersion",
+            ktxCore           : "androidx.core:core-ktx:$ktxCoreVersion",
+            window            : "androidx.window:window:$windowVersion"
+    ]
+
+    // Compose dependencies
+    composeVersion = "1.0.5"
+    activityComposeVersion = "1.4.0"
+    navigationComposeVersion = "2.4.0-beta02"
+
+    composeDependencies = [
+            composeMaterial         : "androidx.compose.material:material:$composeVersion",
+            composeUI               : "androidx.compose.ui:ui:$composeVersion",
+            composeUITooling        : "androidx.compose.ui:ui-tooling:$composeVersion",
+            activityCompose         : "androidx.activity:activity-compose:$activityComposeVersion",
+            navigationCompose       : "androidx.navigation:navigation-compose:$navigationComposeVersion"
+    ]
+
+    // Test dependencies
+    androidxTestVersion = "1.4.0"
+    testDependencies = [
+            androidxTestCore        : "androidx.test:core:$androidxTestVersion",
+            androidxTestRules       : "androidx.test:rules:$androidxTestVersion",
+            androidxTestRunner      : "androidx.test:runner:$androidxTestVersion",
+            composeUITest           : "androidx.compose.ui:ui-test:$composeVersion",
+            composeJunit            : "androidx.compose.ui:ui-test-junit4:$composeVersion",
+            composeUITestManifest   : "androidx.compose.ui:ui-test-manifest:$composeVersion",
+    ]
+
+    // Google dependencies
+    materialVersion = "1.5.0-alpha01"
+
+    googleDependencies = [
+            material: "com.google.android.material:material:$materialVersion"
+    ]
+}

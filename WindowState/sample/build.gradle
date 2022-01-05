@@ -1,10 +1,15 @@
-plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
-}
+/*
+ *
+ *  * Copyright (c) Microsoft Corporation. All rights reserved.
+ *  * Licensed under the MIT License.
+ *
+ */
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
-    compileSdk 31
+    compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
         applicationId "com.microsoft.device.dualscreen.windowstate"

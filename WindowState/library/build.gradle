@@ -1,19 +1,34 @@
-plugins {
-    id 'com.android.library'
-    id 'kotlin-android'
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+//Artifact publication data
+ext {
+    PUBLISH_GROUP_ID = 'com.microsoft.device.dualscreen'
+    PUBLISH_ARTIFACT_ID = 'windowstate'
+    LIBRARY_DESCRIPTION = 'WindowState Compose library'
+    LIBRARY_VERSION = rootProject.ext.windowStateVersionName
 }
+apply from: "${rootProject.projectDir}/publishing.gradle"
+
 
 android {
-    compileSdk 31
+    compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        minSdk 21
-        targetSdk 31
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.twoPaneLayoutVersionCode
+        versionName rootProject.ext.twoPaneLayoutVersionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles "consumer-rules.pro"
+        vectorDrawables {
+            useSupportLibrary true
+        }
     }
 
     buildTypes {
@@ -22,21 +37,49 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion composeVersion
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/AL2.0'
     }
 }
 
 dependencies {
+    implementation kotlinDependencies.kotlinStdlib
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.3.1'
-    implementation 'com.google.android.material:material:1.4.0'
-    testImplementation 'junit:junit:4.+'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    implementation androidxDependencies.ktxCore
+    implementation androidxDependencies.appCompat
+    implementation androidxDependencies.window
+
+    implementation composeDependencies.composeUI
+    implementation composeDependencies.composeRuntime
+    implementation composeDependencies.composeMaterial
+    implementation composeDependencies.composeUITooling
+    implementation composeDependencies.activityCompose
+
+    testImplementation testDependencies.androidJunit
+    testImplementation testDependencies.androidxTestCore
+    testImplementation testDependencies.mockitoCore
+
+    androidTestImplementation testDependencies.androidxTestCore
+    androidTestImplementation testDependencies.androidxTestRules
+    androidTestImplementation testDependencies.androidxTestRunner
+    androidTestImplementation testDependencies.espressoCore
 }

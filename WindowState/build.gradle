@@ -1,21 +1,47 @@
+/*
+ *
+ *  * Copyright (c) Microsoft Corporation. All rights reserved.
+ *  * Licensed under the MIT License.
+ *
+ */
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    ext {
-        compose_version = '1.0.1'
-    }
+    apply from: 'dependencies.gradle'
+
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:7.0.4"
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10'
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath config.gradlePlugin
+        classpath config.kotlinGradlePlugin
+        classpath dokkaDependencies.dokkaGradlePlugin
     }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    apply from: "$rootDir/ktlint.gradle"
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+// Used to get the value of a local property or if not found the value that could
+// be stored in the repo settings as a token.
+String getPropertyValue(String property) {
+    def localPropertyFound = project.hasProperty(property)
+    def envProperty = System.getenv(property)
+    if (localPropertyFound) {
+        return project.getProperties().get(property)
+    } else if (envProperty != null) {
+        return envProperty
+    } else {
+        return "NO_VALUE"
+    }
 }
