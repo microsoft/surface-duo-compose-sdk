@@ -57,7 +57,7 @@ publishing {
             pom {
                 name = PUBLISH_ARTIFACT_ID
                 description = LIBRARY_DESCRIPTION
-                url = 'https://github.com/microsoft/surface-duo-compose-samples'
+                url = 'https://github.com/microsoft/surface-duo-compose-sdk'
                 licenses {
                     license {
                         name = 'MIT'
@@ -73,9 +73,9 @@ publishing {
                 }
                 // Version control info
                 scm {
-                    connection = 'scm:git:github.com/microsoft/surface-duo-compose-samples.git'
-                    developerConnection = 'scm:git:ssh://github.com/microsoft/surface-duo-compose-samples.git'
-                    url = 'https://github.com/microsoft/surface-duo-compose-samples/tree/main'
+                    connection = 'scm:git:github.com/microsoft/surface-duo-compose-sdk.git'
+                    developerConnection = 'scm:git:ssh://github.com/microsoft/surface-duo-compose-sdk.git'
+                    url = 'https://github.com/microsoft/surface-duo-compose-sdk/tree/main'
                 }
                 // A slightly hacky fix so that your POM will include any transitive dependencies
                 // that your library builds upon
