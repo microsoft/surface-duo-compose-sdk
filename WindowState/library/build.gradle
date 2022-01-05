@@ -22,8 +22,8 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode rootProject.ext.twoPaneLayoutVersionCode
-        versionName rootProject.ext.twoPaneLayoutVersionName
+        versionCode rootProject.ext.windowStateVersionCode
+        versionName rootProject.ext.windowStateVersionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
