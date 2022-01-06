@@ -55,8 +55,6 @@ fun Activity.rememberWindowState(): WindowState {
 
     val windowWidth = with(LocalDensity.current) { windowMetrics.width().toDp() }
     val windowHeight = with(LocalDensity.current) { windowMetrics.height().toDp() }
-    val widthSizeClass = getWindowSizeClass(windowWidth)
-    val heightSizeClass = getWindowSizeClass(windowHeight, Dimension.HEIGHT)
 
     return WindowState(
         hasFold,
@@ -65,7 +63,7 @@ fun Activity.rememberWindowState(): WindowState {
         foldState,
         foldSeparates,
         foldOccludes,
-        widthSizeClass,
-        heightSizeClass
+        windowWidth,
+        windowHeight
     )
 }

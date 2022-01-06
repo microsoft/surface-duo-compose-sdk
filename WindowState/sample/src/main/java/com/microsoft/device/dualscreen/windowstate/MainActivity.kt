@@ -15,7 +15,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import com.microsoft.device.dualscreen.windowstate.ui.theme.WindowStateTheme
 
@@ -41,16 +40,15 @@ class MainActivity : ComponentActivity() {
 fun WindowStateDashboard(windowState: WindowState) {
     val foldSize = windowState.foldSize.dp
     val foldablePaneWidth = windowState.foldablePaneWidth
+
     val isDualScreen = windowState.isDualScreen()
     val isDualPortrait = windowState.isDualPortrait()
     val isDualLandscape = windowState.isDualLandscape()
     val isSinglePortrait = windowState.isSinglePortrait()
     val isSingleLandscape = windowState.isSingleLandscape()
 
-    val windowWidth = LocalConfiguration.current.screenWidthDp.dp
-    val windowHeight = LocalConfiguration.current.screenHeightDp.dp
-    val widthSizeClass = getWindowSizeClass(windowWidth)
-    val heightSizeClass = getWindowSizeClass(windowHeight, Dimension.HEIGHT)
+    val widthSizeClass = windowState.widthSizeClass()
+    val heightSizeClass = windowState.heightSizeClass()
 
     Column {
         Text(text = "The current foldSize is $foldSize")

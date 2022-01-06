@@ -6,6 +6,7 @@
 package com.microsoft.device.dualscreen.windowstate
 
 import android.graphics.Rect
+import androidx.compose.ui.unit.dp
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -15,8 +16,8 @@ class WindowStateTest {
     private val foldState = FoldState.HALF_OPENED
     private val foldSeparates = true
     private val foldOccludes = true
-    private val widthSizeClass = WindowSizeClass.MEDIUM
-    private val heightSizeClass = WindowSizeClass.EXPANDED
+    private val windowWidth = 900.dp
+    private val windowHeight = 500.dp
 
     private val horizontalFold = WindowState(
         hasFold,
@@ -25,8 +26,8 @@ class WindowStateTest {
         foldState,
         foldSeparates,
         foldOccludes,
-        widthSizeClass,
-        heightSizeClass
+        windowWidth,
+        windowHeight
     )
     private val verticalFold = WindowState(
         hasFold,
@@ -35,14 +36,29 @@ class WindowStateTest {
         foldState,
         foldSeparates,
         foldOccludes,
-        widthSizeClass,
-        heightSizeClass
+        windowWidth = 350.dp,
+        windowHeight = 650.dp
     )
     private val noFoldLargeScreen = WindowState(
-        widthSizeClass = WindowSizeClass.EXPANDED,
-        heightSizeClass = WindowSizeClass.EXPANDED
+        windowWidth = 850.dp,
+        windowHeight = 910.dp
     )
-    private val noFoldCompact = WindowState()
+    private val noFoldCompact = WindowState(
+        windowWidth = 300.dp,
+        windowHeight = 400.dp
+    )
+
+    @Test
+    fun returns_correct_window_size_class() {
+        assertEquals(WindowSizeClass.EXPANDED, getWindowSizeClass(horizontalFold.windowWidth))
+        assertEquals(WindowSizeClass.MEDIUM, getWindowSizeClass(horizontalFold.windowHeight, Dimension.HEIGHT))
+        assertEquals(WindowSizeClass.COMPACT, getWindowSizeClass(verticalFold.windowWidth))
+        assertEquals(WindowSizeClass.MEDIUM, getWindowSizeClass(verticalFold.windowHeight, Dimension.HEIGHT))
+        assertEquals(WindowSizeClass.EXPANDED, getWindowSizeClass(noFoldLargeScreen.windowWidth))
+        assertEquals(WindowSizeClass.EXPANDED, getWindowSizeClass(noFoldLargeScreen.windowHeight, Dimension.HEIGHT))
+        assertEquals(WindowSizeClass.COMPACT, getWindowSizeClass(noFoldCompact.windowWidth))
+        assertEquals(WindowSizeClass.COMPACT, getWindowSizeClass(noFoldCompact.windowHeight, Dimension.HEIGHT))
+    }
 
     @Test
     fun returns_correct_fold_size() {

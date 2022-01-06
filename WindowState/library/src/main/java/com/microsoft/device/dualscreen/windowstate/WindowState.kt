@@ -10,6 +10,8 @@ import android.graphics.Rect
 import androidx.annotation.VisibleForTesting
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 
 /**
  * Data class that contains foldable and large screen information extracted from the Jetpack
@@ -21,8 +23,8 @@ import androidx.compose.ui.platform.LocalConfiguration
  * @param foldState: state of the fold, based on state property of FoldingFeature
  * @param foldSeparates: based on isSeparating property of FoldingFeature
  * @param foldOccludes: true if FoldingFeature occlusion type is full
- * @param widthSizeClass: size class (compact, medium, or expanded) for window width
- * @param heightSizeClass: size class (compact, medium, or expanded) for window height
+ * @param windowWidth: Dp value of the window width
+ * @param windowHeight: Dp value of the window height
  */
 data class WindowState(
     val hasFold: Boolean = false,
@@ -31,8 +33,8 @@ data class WindowState(
     val foldState: FoldState = FoldState.FLAT,
     val foldSeparates: Boolean = false,
     val foldOccludes: Boolean = false,
-    val widthSizeClass: WindowSizeClass = WindowSizeClass.COMPACT,
-    val heightSizeClass: WindowSizeClass = WindowSizeClass.MEDIUM,
+    val windowWidth: Dp = 0.dp,
+    val windowHeight: Dp = 0.dp,
 ) {
     private val foldableFoldSize = when (isFoldHorizontal) {
         true -> foldBounds.height()
@@ -46,7 +48,7 @@ data class WindowState(
 
     val foldSize = if (hasFold) foldableFoldSize else 0
 
-    val windowMode: WindowMode
+    private val windowMode: WindowMode
         @Composable get() {
             // REVISIT: should width/height ratio be used instead of orientation?
             val isPortrait =
@@ -62,6 +64,7 @@ data class WindowState(
         // (which seems necessary for dualscreen apps), but we may want to think about this
         // more and change our approach if we think there are cases where we want an app to
         // know about both properties
+        val widthSizeClass = getWindowSizeClass(windowWidth)
         val isLargeScreen = !hasFold && widthSizeClass == WindowSizeClass.EXPANDED
 
         return when {
@@ -105,5 +108,17 @@ data class WindowState(
     @Composable
     fun isSingleLandscape(): Boolean {
         return windowMode == WindowMode.SINGLE_LANDSCAPE
+    }
+
+    // return the size class (compact, medium, or expanded) for window width
+    @Composable
+    fun widthSizeClass(): WindowSizeClass {
+        return getWindowSizeClass(windowWidth)
+    }
+
+    // return the size class (compact, medium, or expanded) for window height
+    @Composable
+    fun heightSizeClass(): WindowSizeClass {
+        return getWindowSizeClass(windowHeight, Dimension.HEIGHT)
     }
 }
