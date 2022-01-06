@@ -1,3 +1,10 @@
+/*
+ *
+ *  * Copyright (c) Microsoft Corporation. All rights reserved.
+ *  * Licensed under the MIT License.
+ *
+ */
+
 package com.microsoft.device.dualscreen.windowstate
 
 import android.os.Bundle
@@ -34,7 +41,7 @@ class MainActivity : ComponentActivity() {
 fun WindowStateDashboard(windowState: WindowState) {
     val foldSize = windowState.foldSize.dp
     val foldablePaneWidth = windowState.foldablePaneWidth
-    val isDualScreen= windowState.isDualScreen()
+    val isDualScreen = windowState.isDualScreen()
     val isDualPortrait = windowState.isDualPortrait()
     val isDualLandscape = windowState.isDualLandscape()
     val isSinglePortrait = windowState.isSinglePortrait()

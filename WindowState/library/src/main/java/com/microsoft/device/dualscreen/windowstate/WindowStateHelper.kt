@@ -16,14 +16,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.window.layout.FoldingFeature
-import androidx.window.layout.WindowInfoTracker
+import androidx.window.layout.WindowInfoTracker.Companion.getOrCreate
 import androidx.window.layout.WindowMetricsCalculator
 import kotlinx.coroutines.flow.collect
 
 @Composable
 fun Activity.rememberWindowState(): WindowState {
-    val activity = this
-    val windowInfoRepo = WindowInfoTracker.getOrCreate(activity)
+    val windowLayoutInfo = getOrCreate(this).windowLayoutInfo(this)
 
     var hasFold by remember { mutableStateOf(false) }
     var isFoldHorizontal by remember { mutableStateOf(false) }
@@ -32,21 +31,19 @@ fun Activity.rememberWindowState(): WindowState {
     var foldSeparates by remember { mutableStateOf(false) }
     var foldOccludes by remember { mutableStateOf(false) }
 
-    LaunchedEffect(windowInfoRepo) {
-        windowInfoRepo.windowLayoutInfo(activity).collect { newLayoutInfo ->
-            hasFold = newLayoutInfo.displayFeatures.isNotEmpty()
-            if (hasFold) {
-                val fold = newLayoutInfo.displayFeatures.firstOrNull() as? FoldingFeature
-                fold?.let {
-                    isFoldHorizontal = it.orientation == FoldingFeature.Orientation.HORIZONTAL
-                    foldBounds = it.bounds
-                    foldState = when (it.state) {
-                        FoldingFeature.State.HALF_OPENED -> FoldState.HALF_OPENED
-                        else -> FoldState.FLAT
-                    }
-                    foldSeparates = it.isSeparating
-                    foldOccludes = it.occlusionType == FoldingFeature.OcclusionType.FULL
+    LaunchedEffect(windowLayoutInfo) {
+        windowLayoutInfo.collect { newLayoutInfo ->
+            val foldingFeature = newLayoutInfo.displayFeatures.filterIsInstance<FoldingFeature>().firstOrNull()
+            foldingFeature?.let {
+                hasFold = true
+                isFoldHorizontal = it.orientation == FoldingFeature.Orientation.HORIZONTAL
+                foldBounds = it.bounds
+                foldState = when (it.state) {
+                    FoldingFeature.State.HALF_OPENED -> FoldState.HALF_OPENED
+                    else -> FoldState.FLAT
                 }
+                foldSeparates = it.isSeparating
+                foldOccludes = it.occlusionType == FoldingFeature.OcclusionType.FULL
             }
         }
     }
