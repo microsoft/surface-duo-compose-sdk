@@ -35,30 +35,13 @@ class WindowStateTest {
         foldBounds,
         foldState,
         foldSeparates,
-        foldOccludes,
-        windowWidth = 350.dp,
-        windowHeight = 650.dp
+        foldOccludes
     )
     private val noFoldLargeScreen = WindowState(
         windowWidth = 850.dp,
         windowHeight = 910.dp
     )
-    private val noFoldCompact = WindowState(
-        windowWidth = 300.dp,
-        windowHeight = 400.dp
-    )
-
-    @Test
-    fun returns_correct_window_size_class() {
-        assertEquals(WindowSizeClass.EXPANDED, getWindowSizeClass(horizontalFold.windowWidth))
-        assertEquals(WindowSizeClass.MEDIUM, getWindowSizeClass(horizontalFold.windowHeight, Dimension.HEIGHT))
-        assertEquals(WindowSizeClass.COMPACT, getWindowSizeClass(verticalFold.windowWidth))
-        assertEquals(WindowSizeClass.MEDIUM, getWindowSizeClass(verticalFold.windowHeight, Dimension.HEIGHT))
-        assertEquals(WindowSizeClass.EXPANDED, getWindowSizeClass(noFoldLargeScreen.windowWidth))
-        assertEquals(WindowSizeClass.EXPANDED, getWindowSizeClass(noFoldLargeScreen.windowHeight, Dimension.HEIGHT))
-        assertEquals(WindowSizeClass.COMPACT, getWindowSizeClass(noFoldCompact.windowWidth))
-        assertEquals(WindowSizeClass.COMPACT, getWindowSizeClass(noFoldCompact.windowHeight, Dimension.HEIGHT))
-    }
+    private val noFoldCompact = WindowState()
 
     @Test
     fun returns_correct_fold_size() {
