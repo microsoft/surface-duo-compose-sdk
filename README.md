@@ -20,6 +20,10 @@ Please check out our page on [Jetpack Compose for Microsoft Surface Duo](https:/
 
 A UI component that help you build two-pane layout for dual-screen, foldable, and large-screen devices.
 
+### [WindowState](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/WindowState)
+
+A utility component that help you easily get details about the window state of dual-screen, foldable, and large-screen devices.
+
 ## Social links
 
 - [video: NavigationRail Compose sample Twitch](https://www.twitch.tv/videos/1196858313)
