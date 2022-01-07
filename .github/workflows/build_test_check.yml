@@ -21,7 +21,7 @@ jobs:
 
     strategy:
       matrix:
-        projects: [ TwoPaneLayout ]
+        projects: [ TwoPaneLayout, WindowState ]
       fail-fast: false
 
     steps:
