@@ -15,7 +15,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.platform.LocalDensity
 import com.microsoft.device.dualscreen.windowstate.ui.theme.WindowStateTheme
 
 class MainActivity : ComponentActivity() {
@@ -38,8 +38,10 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun WindowStateDashboard(windowState: WindowState) {
-    val foldSize = windowState.foldSize.dp
+    val foldSize = windowState.foldSize
     val foldablePaneWidth = windowState.foldablePaneWidth
+    val foldSizeDp = with(LocalDensity.current) { foldSize.toDp() }
+    val foldablePaneWidthDp = with(LocalDensity.current) { foldablePaneWidth.toDp() }
 
     val isDualScreen = windowState.isDualScreen()
     val isDualPortrait = windowState.isDualPortrait()
@@ -51,8 +53,8 @@ fun WindowStateDashboard(windowState: WindowState) {
     val heightSizeClass = windowState.heightSizeClass()
 
     Column {
-        Text(text = "The current foldSize is $foldSize")
-        Text(text = "The current foldablePaneWidth is $foldablePaneWidth")
+        Text(text = "The current foldSize is ${foldSize}px, $foldSizeDp")
+        Text(text = "The current foldablePaneWidth is ${foldablePaneWidth}px, $foldablePaneWidthDp")
 
         Text(text = "Is the app in dual screen mode? $isDualScreen")
         Text(text = "Is the app in dual portrait mode? $isDualPortrait")
