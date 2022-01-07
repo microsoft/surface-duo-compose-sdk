@@ -18,7 +18,7 @@ on:
         required: false
 
 jobs:
-  publish-TwoPaneLayout-ADO:
+  publish-WindowState-ADO:
     runs-on: ubuntu-latest
     defaults:
       run:
