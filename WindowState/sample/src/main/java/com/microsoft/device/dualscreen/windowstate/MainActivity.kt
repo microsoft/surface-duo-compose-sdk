@@ -11,11 +11,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.dp
 import com.microsoft.device.dualscreen.windowstate.ui.theme.WindowStateTheme
 
 class MainActivity : ComponentActivity() {
@@ -55,12 +59,14 @@ fun WindowStateDashboard(windowState: WindowState) {
     Column {
         Text(text = "The current foldSize is ${foldSize}px, $foldSizeDp")
         Text(text = "The current foldablePaneWidth is ${foldablePaneWidth}px, $foldablePaneWidthDp")
+        Spacer(modifier = Modifier.height(15.dp))
 
         Text(text = "Is the app in dual screen mode? $isDualScreen")
         Text(text = "Is the app in dual portrait mode? $isDualPortrait")
         Text(text = "Is the app in dual landscape mode? $isDualLandscape")
         Text(text = "Is the app in single portrait mode? $isSinglePortrait")
-        Text(text = "Is the app in single screen mode? $isSingleLandscape")
+        Text(text = "Is the app in single landscape mode? $isSingleLandscape")
+        Spacer(modifier = Modifier.height(15.dp))
 
         Text(text = "What is the current width size class? $widthSizeClass")
         Text(text = "What is the current height size class? $heightSizeClass")

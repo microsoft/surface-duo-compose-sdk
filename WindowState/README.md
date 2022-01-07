@@ -1,12 +1,12 @@
 # WindowState - Surface Duo Compose SDK
 
-**WindowState** is a component for Jetpack Compose, help you easily get details about the window state of the dual-screen, foldable and large screen devices, using the Google [Jetpack WindowManager](https://developer.android.com/jetpack/androidx/releases/window) library.
+**WindowState** is a component for Jetpack Compose that helps you easily get details about the window state of the dual-screen, foldable and large screen devices, using the Google [Jetpack WindowManager](https://developer.android.com/jetpack/androidx/releases/window) library.
 
-The component provides the current window information as a Compose state, including folding position, orientation and window size classes. For the dual-screen and foldable device, combining different folding position and orientation, we introduce four display postures to take advantage of these new form factors, Dual Portrait, Dual Landscape, Single Portrait, Single Landscape. 
+The component provides the current window information as a Compose state, including folding position, orientation and window size classes. For dual-screen and foldable devices, combining different folding positions and orientations, we introduce four display postures to take advantage of these new form factors: Dual Portrait, Dual Landscape, Single Portrait, Single Landscape.
 
 ![postures](screenshots/postures-overview.png)
 
-And the window size classes are measured based on Google [Window size classes](https://developer.android.com/guide/topics/large-screens/support-different-screen-sizes) to help you support different screen sizes of the devices, including large screen and regular single screen devices.
+And the window size classes are measured based on Google [Window size classes](https://developer.android.com/guide/topics/large-screens/support-different-screen-sizes#window_size_classes) to help you support different screen sizes of the devices, including large screen and regular single screen devices.
 
 ```kotlin
 @Composable
@@ -25,10 +25,15 @@ val foldSize: Int
 Returns a pixel value of the width of the hinge of dual-screen device or the folding line of foldable device when the device is in the dual-screen mode. If the device is in the single screen mode, or the device is a regular single screen device, the return value will be 0.
 
 ```kotlin
+val windowMode: WindowMode
+```
+Returns the display posture of the window mode: **SINGLE_PORTRAIT**, **SINGLE_LANDSCAPE**, **DUAL_PORTRAIT**, **DUAL_LANDSCAPE**.
+
+```kotlin
 @Composable
 fun isDualScreen(): Boolean
 ```
-Check if the device window is in the dual screen mode, we called it **spanned** for the dual-screen device or **unfold** for the foldable device.
+Check if the device window is in the dual screen mode, we called it **spanned** for the dual-screen device or **unfolded** for the foldable device.
 
 ```kotlin
 @Composable

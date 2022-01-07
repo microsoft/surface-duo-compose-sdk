@@ -41,14 +41,16 @@ data class WindowState(
         false -> foldBounds.width()
     }
 
+    // Returns a pixel value of the width of a single pane
     val foldablePaneWidth: Int = when (isFoldHorizontal) {
         true -> foldBounds.right
         false -> foldBounds.left
     }
 
+    // Returns a pixel value of the width of the hinge or the folding line
     val foldSize: Int = if (hasFold) foldableFoldSize else 0
 
-    private val windowMode: WindowMode
+    val windowMode: WindowMode
         @Composable get() {
             // REVISIT: should width/height ratio be used instead of orientation?
             val isPortrait =

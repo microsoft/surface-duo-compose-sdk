@@ -5,7 +5,6 @@
 
 package com.microsoft.device.dualscreen.windowstate
 
-import androidx.annotation.VisibleForTesting
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -17,7 +16,6 @@ enum class WindowSizeClass { COMPACT, MEDIUM, EXPANDED }
  * @param dimenDp: size of dimension in Dp
  * @param dimen: which dimension is being measured (width or height)
  */
-@VisibleForTesting
 fun getWindowSizeClass(dimenDp: Dp, dimen: Dimension = Dimension.WIDTH): WindowSizeClass =
     when (dimen) {
         Dimension.WIDTH -> getSizeClass(dimenDp, 600.dp, 840.dp)
