@@ -15,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Dp
 import androidx.window.layout.FoldingFeature
 import androidx.window.layout.WindowInfoTracker.Companion.getOrCreate
 import androidx.window.layout.WindowMetricsCalculator
@@ -53,8 +54,20 @@ fun Activity.rememberWindowState(): WindowState {
         WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(this).bounds
     }
 
-    val windowWidth = with(LocalDensity.current) { windowMetrics.width().toDp() }
-    val windowHeight = with(LocalDensity.current) { windowMetrics.height().toDp() }
+    // Convert pixel fields to dp
+    var windowWidth: Dp
+    var windowHeight: Dp
+    with(LocalDensity.current) {
+        windowWidth = windowMetrics.width().toDp()
+        windowHeight = windowMetrics.height().toDp()
+
+        foldBounds = Rect(
+            foldBounds.left.toDp().value.toInt(),
+            foldBounds.top.toDp().value.toInt(),
+            foldBounds.right.toDp().value.toInt(),
+            foldBounds.bottom.toDp().value.toInt()
+        )
+    }
 
     return WindowState(
         hasFold,

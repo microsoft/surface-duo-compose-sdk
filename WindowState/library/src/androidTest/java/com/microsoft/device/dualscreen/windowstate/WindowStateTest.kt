@@ -12,42 +12,42 @@ import org.junit.Test
 
 class WindowStateTest {
     private val hasFold = true
-    private val foldBounds = Rect(20, 20, 60, 100)
+    private val foldBounds = Rect(20, 100, 60, 200)
     private val foldState = FoldState.HALF_OPENED
     private val foldSeparates = true
     private val foldOccludes = true
-    private val windowWidth = 900.dp
-    private val windowHeight = 500.dp
 
-    private val horizontalFold = WindowState(
+    private val horizontalFoldEqual = WindowState(
         hasFold,
         true,
         foldBounds,
         foldState,
         foldSeparates,
         foldOccludes,
-        windowWidth,
-        windowHeight
+        windowWidthDp = 60.dp,
+        windowHeightDp = 300.dp
     )
-    private val verticalFold = WindowState(
+    private val verticalFoldUnequal = WindowState(
         hasFold,
         false,
         foldBounds,
         foldState,
         foldSeparates,
-        foldOccludes
+        foldOccludes,
+        windowWidthDp = 100.dp,
+        windowHeightDp = 200.dp
     )
     private val noFoldLargeScreen = WindowState(
-        windowWidth = 850.dp,
-        windowHeight = 910.dp
+        windowWidthDp = 850.dp,
+        windowHeightDp = 910.dp
     )
     private val noFoldCompact = WindowState()
 
     @Test
     fun returns_correct_fold_size() {
-        assertEquals(foldBounds.height(), horizontalFold.foldSize)
-        assertEquals(foldBounds.width(), verticalFold.foldSize)
-        assertEquals(0, noFoldLargeScreen.foldSize)
+        assertEquals(foldBounds.height().dp, horizontalFoldEqual.foldSizeDp)
+        assertEquals(foldBounds.width().dp, verticalFoldUnequal.foldSizeDp)
+        assertEquals(0.dp, noFoldLargeScreen.foldSizeDp)
     }
 
     @Test
@@ -72,13 +72,13 @@ class WindowStateTest {
 
     @Test
     fun vertical_fold_returns_dual_port() {
-        assertEquals(WindowMode.DUAL_PORTRAIT, verticalFold.calculateWindowMode(true))
-        assertEquals(WindowMode.DUAL_PORTRAIT, verticalFold.calculateWindowMode(false))
+        assertEquals(WindowMode.DUAL_PORTRAIT, verticalFoldUnequal.calculateWindowMode(true))
+        assertEquals(WindowMode.DUAL_PORTRAIT, verticalFoldUnequal.calculateWindowMode(false))
     }
 
     @Test
     fun horizontal_fold_returns_dual_land() {
-        assertEquals(WindowMode.DUAL_LANDSCAPE, horizontalFold.calculateWindowMode(true))
-        assertEquals(WindowMode.DUAL_LANDSCAPE, horizontalFold.calculateWindowMode(false))
+        assertEquals(WindowMode.DUAL_LANDSCAPE, horizontalFoldEqual.calculateWindowMode(true))
+        assertEquals(WindowMode.DUAL_LANDSCAPE, horizontalFoldEqual.calculateWindowMode(false))
     }
 }

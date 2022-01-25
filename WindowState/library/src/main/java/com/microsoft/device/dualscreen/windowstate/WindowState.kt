@@ -18,43 +18,41 @@ import androidx.compose.ui.unit.dp
  * Window Manager library
  *
  * @param hasFold: true if window contains a FoldingFeature,
- * @param isFoldHorizontal: true if window contains a FoldingFeature with a horizontal orientation
- * @param foldBounds: Rect object that describes the bound of the FoldingFeature
+ * @param foldIsHorizontal: true if window contains a FoldingFeature with a horizontal orientation
+ * @param foldBoundsDp: Rect object that describes the bound of the FoldingFeature
  * @param foldState: state of the fold, based on state property of FoldingFeature
- * @param foldSeparates: based on isSeparating property of FoldingFeature
- * @param foldOccludes: true if FoldingFeature occlusion type is full
- * @param windowWidth: Dp value of the window width
- * @param windowHeight: Dp value of the window height
+ * @param foldIsSeparating: based on isSeparating property of FoldingFeature
+ * @param foldIsOccluding: true if FoldingFeature occlusion type is full
+ * @param windowWidthDp: Dp value of the window width
+ * @param windowHeightDp: Dp value of the window height
  */
 data class WindowState(
     val hasFold: Boolean = false,
-    val isFoldHorizontal: Boolean = false,
-    val foldBounds: Rect = Rect(),
+    val foldIsHorizontal: Boolean = false,
+    val foldBoundsDp: Rect = Rect(),
     val foldState: FoldState = FoldState.FLAT,
-    val foldSeparates: Boolean = false,
-    val foldOccludes: Boolean = false,
-    val windowWidth: Dp = 0.dp,
-    val windowHeight: Dp = 0.dp,
+    val foldIsSeparating: Boolean = false,
+    val foldIsOccluding: Boolean = false,
+    val windowWidthDp: Dp = 0.dp,
+    val windowHeightDp: Dp = 0.dp,
 ) {
-    private val foldableFoldSize = when (isFoldHorizontal) {
-        true -> foldBounds.height()
-        false -> foldBounds.width()
+    private val foldableFoldSizeDp = when (foldIsHorizontal) {
+        true -> foldBoundsDp.height().dp
+        false -> foldBoundsDp.width().dp
     }
 
     // Returns a pixel value of the width of a single pane
     val foldablePaneWidth: Int = when (isFoldHorizontal) {
         true -> foldBounds.right
         false -> foldBounds.left
+    /**
+     * Returns a dp value of the width of the hinge or the folding line
+     */
+    val foldSizeDp: Dp = if (foldIsSeparating) foldableFoldSizeDp else 0.dp
     }
 
-    // Returns a pixel value of the width of the hinge or the folding line
-    val foldSize: Int = if (hasFold) foldableFoldSize else 0
 
-    val windowMode: WindowMode
         @Composable get() {
-            // REVISIT: should width/height ratio be used instead of orientation?
-            val isPortrait =
-                LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
 
             return calculateWindowMode(isPortrait)
         }
@@ -66,26 +64,24 @@ data class WindowState(
         // (which seems necessary for dualscreen apps), but we may want to think about this
         // more and change our approach if we think there are cases where we want an app to
         // know about both properties
-        val widthSizeClass = getWindowSizeClass(windowWidth)
-        val isLargeScreen = !hasFold && widthSizeClass == WindowSizeClass.EXPANDED
+        val widthSizeClass = getWindowSizeClass(windowWidthDp)
+        val isLargeScreen = !foldIsSeparating && widthSizeClass == WindowSizeClass.EXPANDED
 
         return when {
-            hasFold -> {
-                if (isFoldHorizontal)
-                    WindowMode.DUAL_LANDSCAPE
-                else
-                    WindowMode.DUAL_PORTRAIT
-            }
-            isLargeScreen -> {
-                if (isPortrait)
-                    WindowMode.DUAL_LANDSCAPE
-                else
-                    WindowMode.DUAL_PORTRAIT
-            }
-            isPortrait -> WindowMode.SINGLE_PORTRAIT
-            else -> WindowMode.SINGLE_LANDSCAPE
+            foldIsSeparating -> if (foldIsHorizontal) WindowMode.DUAL_LANDSCAPE else WindowMode.DUAL_PORTRAIT
+            isLargeScreen -> if (isPortrait) WindowMode.DUAL_LANDSCAPE else WindowMode.DUAL_PORTRAIT
+            else -> if (isPortrait) WindowMode.SINGLE_PORTRAIT else WindowMode.SINGLE_LANDSCAPE
         }
     }
+
+    val windowMode: WindowMode
+        @Composable get() {
+            // REVISIT: should width/height ratio of the window be used instead of orientation?
+            val isPortrait =
+                LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
+
+            return calculateWindowMode(isPortrait)
+        }
 
     @Composable
     fun isDualScreen(): Boolean {
@@ -115,12 +111,12 @@ data class WindowState(
     // return the size class (compact, medium, or expanded) for window width
     @Composable
     fun widthSizeClass(): WindowSizeClass {
-        return getWindowSizeClass(windowWidth)
+        return getWindowSizeClass(windowWidthDp)
     }
 
     // return the size class (compact, medium, or expanded) for window height
     @Composable
     fun heightSizeClass(): WindowSizeClass {
-        return getWindowSizeClass(windowHeight, Dimension.HEIGHT)
+        return getWindowSizeClass(windowHeightDp, Dimension.HEIGHT)
     }
 }
