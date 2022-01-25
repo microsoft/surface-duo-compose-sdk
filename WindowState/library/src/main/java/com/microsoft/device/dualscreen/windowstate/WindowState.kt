@@ -54,8 +54,7 @@ data class WindowState(
      */
     val windowMode: WindowMode
         @Composable get() {
-            // REVISIT: should width/height ratio of the window be used instead of orientation?
-            val isPortrait = LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
+            val isPortrait = largeScreenIsPortrait()
 
             return calculateWindowMode(isPortrait)
         }
@@ -134,6 +133,13 @@ data class WindowState(
         @Composable get() {
             return getFoldablePaneSizes(LocalLayoutDirection.current).second
         }
+
+    @Composable
+    private fun largeScreenIsPortrait(): Boolean {
+        // REVISIT: should width/height ratio of the window be used instead of orientation?
+        return LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
+    }
+
     @VisibleForTesting
     fun calculateWindowMode(isPortrait: Boolean): WindowMode {
         // REVISIT: should height class also be considered?
