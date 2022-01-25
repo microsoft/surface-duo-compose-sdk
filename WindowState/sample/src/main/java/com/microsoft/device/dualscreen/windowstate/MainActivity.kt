@@ -44,20 +44,20 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun WindowStateDashboard(windowState: WindowState) {
     val foldSize = windowState.foldSizeDp
-    val foldableStartPaneSize = windowState.foldablePane1SizeDp
-    val foldableEndPaneSize = windowState.foldablePane2SizeDp
+    val foldablePane1Size = windowState.foldablePane1SizeDp
+    val foldablePane2Size = windowState.foldablePane2SizeDp
 
     var foldSizePx: Float
-    var foldableStartPaneSizeWidthDp: Dp
-    var foldableStartPaneSizeHeightDp: Dp
-    var foldableEndPaneSizeWidthDp: Dp
-    var foldableEndPaneSizeHeightDp: Dp
+    var foldablePane1WidthPx: Float
+    var foldablePane1HeightPx: Float
+    var foldablePane2WidthPx: Float
+    var foldablePane2HeightPx: Float
     with(LocalDensity.current) {
         foldSizePx = foldSize.toPx()
-        foldableStartPaneSizeWidthDp = foldableStartPaneSize.width.toDp()
-        foldableStartPaneSizeHeightDp = foldableStartPaneSize.height.toDp()
-        foldableEndPaneSizeWidthDp = foldableEndPaneSize.width.toDp()
-        foldableEndPaneSizeHeightDp = foldableEndPaneSize.height.toDp()
+        foldablePane1WidthPx = foldablePane1Size.width.dp.toPx()
+        foldablePane1HeightPx = foldablePane1Size.height.dp.toPx()
+        foldablePane2WidthPx = foldablePane2Size.width.dp.toPx()
+        foldablePane2HeightPx = foldablePane2Size.height.dp.toPx()
     }
 
     val isDualScreen = windowState.isDualScreen()
@@ -69,8 +69,8 @@ fun WindowStateDashboard(windowState: WindowState) {
     Column {
         Text(text = "Foldable properties", style = MaterialTheme.typography.h6)
         Text(text = "The current foldSize is ${foldSizePx}px, $foldSize")
-        Text(text = "The current foldableStartPaneSize is:\n\t[${foldableStartPaneSize.width}px, ${foldableStartPaneSize.height}px], [$foldableStartPaneSizeWidthDp, $foldableStartPaneSizeHeightDp]")
-        Text(text = "The current foldableEndPaneSize is:\n\t[${foldableEndPaneSize.width}px, ${foldableEndPaneSize.height}px], [$foldableEndPaneSizeWidthDp, $foldableEndPaneSizeHeightDp]")
+        Text(text = "The current foldablePane1Size is:\n\t[${foldablePane1WidthPx}px, ${foldablePane1HeightPx}px], [${foldablePane1Size.width.dp}, ${foldablePane1Size.height.dp}]")
+        Text(text = "The current foldablePane2Size is:\n\t[${foldablePane2WidthPx}px, ${foldablePane2HeightPx}px], [${foldablePane2Size.width.dp}, ${foldablePane2Size.height.dp}]")
         Spacer(modifier = Modifier.height(15.dp))
 
         Text(text = "Window mode properties", style = MaterialTheme.typography.h6)

@@ -21,7 +21,7 @@ class WindowStateTest {
 
     private val horizontalFoldEqual = WindowState(
         hasFold,
-        true,
+        foldIsHorizontal = true,
         foldBounds,
         foldState,
         foldSeparates,
@@ -31,11 +31,21 @@ class WindowStateTest {
     )
     private val verticalFoldUnequal = WindowState(
         hasFold,
-        false,
+        foldIsHorizontal = false,
         foldBounds,
         foldState,
         foldSeparates,
         foldOccludes,
+        windowWidthDp = 100.dp,
+        windowHeightDp = 200.dp
+    )
+    private val verticalFoldUnequalNotSeparating = WindowState(
+        hasFold,
+        foldIsHorizontal = false,
+        foldBounds,
+        FoldState.FLAT,
+        foldIsSeparating = false,
+        foldIsOccluding = false,
         windowWidthDp = 100.dp,
         windowHeightDp = 200.dp
     )
@@ -132,6 +142,45 @@ class WindowStateTest {
         assertEquals(Size(0f, 0f), paneSizesLtr.second)
         assertEquals(Size(0f, 0f), paneSizesRtl.first)
         assertEquals(Size(0f, 0f), paneSizesRtl.second)
+    }
+
+    @Test
+    fun non_separating_fold_returns_foldable_pane_size_0() {
+        val paneSizesLtr = verticalFoldUnequalNotSeparating.getFoldablePaneSizes(LayoutDirection.Ltr)
+        val paneSizesRtl = verticalFoldUnequalNotSeparating.getFoldablePaneSizes(LayoutDirection.Rtl)
+
+        assertEquals(Size(0f, 0f), paneSizesLtr.first)
+        assertEquals(Size(0f, 0f), paneSizesLtr.second)
+        assertEquals(Size(0f, 0f), paneSizesRtl.first)
+        assertEquals(Size(0f, 0f), paneSizesRtl.second)
+    }
+
+    @Test
+    fun large_screen_returns_equal_panes_by_default() {
+        val paneSizesPortrait = noFoldLargeScreen.getLargeScreenPaneSizes(true)
+        val paneSizesLandscape = noFoldLargeScreen.getLargeScreenPaneSizes(false)
+
+        // Assert that default portrait pane size is half the window - 425 x 910 dp
+        assertEquals(Size(425f, 910f), paneSizesPortrait.first)
+        assertEquals(Size(425f, 910f), paneSizesPortrait.second)
+
+        // Assert that default landscape pane size is half the window - 850 x 455 dp
+        assertEquals(Size(850f, 455f), paneSizesLandscape.first)
+        assertEquals(Size(850f, 455f), paneSizesLandscape.second)
+    }
+
+    @Test
+    fun large_screen_returns_weighted_panes() {
+        val paneSizesPortrait = noFoldLargeScreen.getLargeScreenPaneSizes(true, 0.25f)
+        val paneSizesLandscape = noFoldLargeScreen.getLargeScreenPaneSizes(false, 0.25f)
+
+        // Assert that the portrait pane sizes are split 25/75
+        assertEquals(Size(212.5f, 910f), paneSizesPortrait.first)
+        assertEquals(Size(637.5f, 910f), paneSizesPortrait.second)
+
+        // Assert that the landscape pane sizes are split 25/75
+        assertEquals(Size(850f, 227.5f), paneSizesLandscape.first)
+        assertEquals(Size(850f, 682.5f), paneSizesLandscape.second)
     }
 
 }
