@@ -9,8 +9,11 @@ import android.content.res.Configuration
 import android.graphics.Rect
 import androidx.annotation.VisibleForTesting
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 
 /**
@@ -113,6 +116,24 @@ data class WindowState(
     fun heightSizeClass(): WindowSizeClass {
         return getWindowSizeClass(windowHeightDp, Dimension.HEIGHT)
     }
+
+    /**
+     * Returns the dp size of pane 1 (top and left or right pane depending on local layout direction) when a fold
+     * is separating, otherwise the returned size is zero
+     */
+    val foldablePane1SizeDp: Size
+        @Composable get() {
+            return getFoldablePaneSizes(LocalLayoutDirection.current).first
+        }
+
+    /**
+     * Returns the dp size of pane 2 (bottom and left or right pane depending on local layout direction) when a
+     * fold is separating, otherwise the returned size is zero
+     */
+    val foldablePane2SizeDp: Size
+        @Composable get() {
+            return getFoldablePaneSizes(LocalLayoutDirection.current).second
+        }
     @VisibleForTesting
     fun calculateWindowMode(isPortrait: Boolean): WindowMode {
         // REVISIT: should height class also be considered?
@@ -127,6 +148,34 @@ data class WindowState(
             foldIsSeparating -> if (foldIsHorizontal) WindowMode.DUAL_LANDSCAPE else WindowMode.DUAL_PORTRAIT
             isLargeScreen -> if (isPortrait) WindowMode.DUAL_LANDSCAPE else WindowMode.DUAL_PORTRAIT
             else -> if (isPortrait) WindowMode.SINGLE_PORTRAIT else WindowMode.SINGLE_LANDSCAPE
+        }
+    }
+
+    @VisibleForTesting
+    fun getFoldablePaneSizes(layoutDir: LayoutDirection): Pair<Size, Size> {
+        if (foldIsHorizontal) {
+            val paneWidth = if (foldIsSeparating) windowWidthDp.value else 0f
+
+            val topPaneHeight = foldBoundsDp.top.toFloat()
+            val bottomPaneHeight = if (foldIsSeparating) windowHeightDp.value - foldBoundsDp.bottom else 0f
+
+            val topPaneSize = Size(paneWidth, topPaneHeight)
+            val bottomPaneSize = Size(paneWidth, bottomPaneHeight)
+
+            return Pair(topPaneSize, bottomPaneSize)
+        } else {
+            val paneHeight = if (foldIsSeparating) windowHeightDp.value else 0f
+
+            val leftPaneWidth = foldBoundsDp.left.toFloat()
+            val rightPaneWidth = if (foldIsSeparating) windowWidthDp.value - foldBoundsDp.right else 0f
+
+            val leftPaneSize = Size(leftPaneWidth, paneHeight)
+            val rightPaneSize = Size(rightPaneWidth, paneHeight)
+
+            return when (layoutDir) {
+                LayoutDirection.Ltr -> Pair(leftPaneSize, rightPaneSize)
+                LayoutDirection.Rtl -> Pair(rightPaneSize, leftPaneSize)
+            }
         }
     }
 }

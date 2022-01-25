@@ -6,6 +6,8 @@
 package com.microsoft.device.dualscreen.windowstate
 
 import android.graphics.Rect
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import org.junit.Assert.assertEquals
 import org.junit.Test
@@ -81,4 +83,55 @@ class WindowStateTest {
         assertEquals(WindowMode.DUAL_LANDSCAPE, horizontalFoldEqual.calculateWindowMode(true))
         assertEquals(WindowMode.DUAL_LANDSCAPE, horizontalFoldEqual.calculateWindowMode(false))
     }
+
+    @Test
+    fun equal_panes_returns_same_foldable_pane_size() {
+        val paneSizesLtr = horizontalFoldEqual.getFoldablePaneSizes(LayoutDirection.Ltr)
+        val paneSizesRtl = horizontalFoldEqual.getFoldablePaneSizes(LayoutDirection.Rtl)
+
+        // Assert that top pane size is 60 x 100 dp
+        assertEquals(Size(60f, 100f), paneSizesLtr.first)
+        assertEquals(Size(60f, 100f), paneSizesRtl.first)
+
+        // Assert that bottom pane size is also 60 x 100 dp
+        assertEquals(Size(60f, 100f), paneSizesLtr.second)
+        assertEquals(Size(60f, 100f), paneSizesRtl.second)
+    }
+
+    @Test
+    fun unequal_panes_return_different_foldable_pane_sizes() {
+        val paneSizesLtr = verticalFoldUnequal.getFoldablePaneSizes(LayoutDirection.Ltr)
+        val paneSizesRtl = verticalFoldUnequal.getFoldablePaneSizes(LayoutDirection.Rtl)
+
+        // Assert that left pane size is 20 x 200 dp
+        assertEquals(Size(20f, 200f), paneSizesLtr.first)
+        assertEquals(Size(20f, 200f), paneSizesRtl.second)
+
+        // Assert that right pane size is 40 x 200 dp
+        assertEquals(Size(40f, 200f), paneSizesLtr.second)
+        assertEquals(Size(40f, 200f), paneSizesRtl.first)
+    }
+
+    @Test
+    fun no_fold_compact_returns_foldable_pane_size_0() {
+        val paneSizesLtr = noFoldCompact.getFoldablePaneSizes(LayoutDirection.Ltr)
+        val paneSizesRtl = noFoldCompact.getFoldablePaneSizes(LayoutDirection.Rtl)
+
+        assertEquals(Size(0f, 0f), paneSizesLtr.first)
+        assertEquals(Size(0f, 0f), paneSizesLtr.second)
+        assertEquals(Size(0f, 0f), paneSizesRtl.first)
+        assertEquals(Size(0f, 0f), paneSizesRtl.second)
+    }
+
+    @Test
+    fun no_fold_large_screen_returns_foldable_pane_size_0() {
+        val paneSizesLtr = noFoldLargeScreen.getFoldablePaneSizes(LayoutDirection.Ltr)
+        val paneSizesRtl = noFoldLargeScreen.getFoldablePaneSizes(LayoutDirection.Rtl)
+
+        assertEquals(Size(0f, 0f), paneSizesLtr.first)
+        assertEquals(Size(0f, 0f), paneSizesLtr.second)
+        assertEquals(Size(0f, 0f), paneSizesRtl.first)
+        assertEquals(Size(0f, 0f), paneSizesRtl.second)
+    }
+
 }

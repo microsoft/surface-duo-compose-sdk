@@ -43,12 +43,21 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun WindowStateDashboard(windowState: WindowState) {
-    val foldablePaneWidth = windowState.foldablePaneWidth
-    val foldablePaneWidthDp = with(LocalDensity.current) { foldablePaneWidth.toDp() }
     val foldSize = windowState.foldSizeDp
+    val foldableStartPaneSize = windowState.foldablePane1SizeDp
+    val foldableEndPaneSize = windowState.foldablePane2SizeDp
+
     var foldSizePx: Float
+    var foldableStartPaneSizeWidthDp: Dp
+    var foldableStartPaneSizeHeightDp: Dp
+    var foldableEndPaneSizeWidthDp: Dp
+    var foldableEndPaneSizeHeightDp: Dp
     with(LocalDensity.current) {
         foldSizePx = foldSize.toPx()
+        foldableStartPaneSizeWidthDp = foldableStartPaneSize.width.toDp()
+        foldableStartPaneSizeHeightDp = foldableStartPaneSize.height.toDp()
+        foldableEndPaneSizeWidthDp = foldableEndPaneSize.width.toDp()
+        foldableEndPaneSizeHeightDp = foldableEndPaneSize.height.toDp()
     }
 
     val isDualScreen = windowState.isDualScreen()
@@ -58,9 +67,10 @@ fun WindowStateDashboard(windowState: WindowState) {
     val heightSizeClass = windowState.heightSizeClass()
 
     Column {
-        Text(text = "The current foldablePaneWidth is ${foldablePaneWidth}px, $foldablePaneWidthDp")
         Text(text = "Foldable properties", style = MaterialTheme.typography.h6)
         Text(text = "The current foldSize is ${foldSizePx}px, $foldSize")
+        Text(text = "The current foldableStartPaneSize is:\n\t[${foldableStartPaneSize.width}px, ${foldableStartPaneSize.height}px], [$foldableStartPaneSizeWidthDp, $foldableStartPaneSizeHeightDp]")
+        Text(text = "The current foldableEndPaneSize is:\n\t[${foldableEndPaneSize.width}px, ${foldableEndPaneSize.height}px], [$foldableEndPaneSizeWidthDp, $foldableEndPaneSizeHeightDp]")
         Spacer(modifier = Modifier.height(15.dp))
 
         Text(text = "Window mode properties", style = MaterialTheme.typography.h6)
