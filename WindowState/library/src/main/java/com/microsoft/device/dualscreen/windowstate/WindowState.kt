@@ -36,27 +36,83 @@ data class WindowState(
     val windowWidthDp: Dp = 0.dp,
     val windowHeightDp: Dp = 0.dp,
 ) {
-    private val foldableFoldSizeDp = when (foldIsHorizontal) {
-        true -> foldBoundsDp.height().dp
-        false -> foldBoundsDp.width().dp
-    }
-
-    // Returns a pixel value of the width of a single pane
-    val foldablePaneWidth: Int = when (isFoldHorizontal) {
-        true -> foldBounds.right
-        false -> foldBounds.left
     /**
-     * Returns a dp value of the width of the hinge or the folding line
+     * Returns a dp value of the width of the hinge or the folding line if it is separating, otherwise 0
      */
-    val foldSizeDp: Dp = if (foldIsSeparating) foldableFoldSizeDp else 0.dp
-    }
+    val foldSizeDp: Dp =
+        if (foldIsSeparating) {
+            if (foldIsHorizontal) foldBoundsDp.height().dp else foldBoundsDp.width().dp
+        } else {
+            0.dp
+        }
 
-
+    /**
+     * Returns the current window mode (single portrait, single landscape, dual portrait, or dual landscape)
+     */
+    val windowMode: WindowMode
         @Composable get() {
+            // REVISIT: should width/height ratio of the window be used instead of orientation?
+            val isPortrait = LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
 
             return calculateWindowMode(isPortrait)
         }
 
+    /**
+     * Returns whether the current window is in a dual screen mode or not
+     *
+     * A window is considered dual screen if it's a large screen ("expanded" width size class) or a foldable
+     * (folding feature is present and is separating)
+     */
+    @Composable
+    fun isDualScreen(): Boolean {
+        return windowMode.isDualScreen
+    }
+
+    /**
+     * Returns whether the current window is in dual portrait mode or not
+     */
+    @Composable
+    fun isDualPortrait(): Boolean {
+        return windowMode == WindowMode.DUAL_PORTRAIT
+    }
+
+    /**
+     * Returns whether the current window is in dual landscape mode or not
+     */
+    @Composable
+    fun isDualLandscape(): Boolean {
+        return windowMode == WindowMode.DUAL_LANDSCAPE
+    }
+
+    /**
+     * Returns whether the current window is in single portrait mode or not
+     */
+    @Composable
+    fun isSinglePortrait(): Boolean {
+        return windowMode == WindowMode.SINGLE_PORTRAIT
+    }
+
+    /**
+     * Returns whether the current window is in single landscape mode or not
+     */
+    @Composable
+    fun isSingleLandscape(): Boolean {
+        return windowMode == WindowMode.SINGLE_LANDSCAPE
+    }
+
+    /**
+     * Returns the size class (compact, medium, or expanded) for the window width
+     */
+    fun widthSizeClass(): WindowSizeClass {
+        return getWindowSizeClass(windowWidthDp)
+    }
+
+    /**
+     * Returns the size class (compact, medium, or expanded) for the window height
+     */
+    fun heightSizeClass(): WindowSizeClass {
+        return getWindowSizeClass(windowHeightDp, Dimension.HEIGHT)
+    }
     @VisibleForTesting
     fun calculateWindowMode(isPortrait: Boolean): WindowMode {
         // REVISIT: should height class also be considered?
@@ -72,51 +128,5 @@ data class WindowState(
             isLargeScreen -> if (isPortrait) WindowMode.DUAL_LANDSCAPE else WindowMode.DUAL_PORTRAIT
             else -> if (isPortrait) WindowMode.SINGLE_PORTRAIT else WindowMode.SINGLE_LANDSCAPE
         }
-    }
-
-    val windowMode: WindowMode
-        @Composable get() {
-            // REVISIT: should width/height ratio of the window be used instead of orientation?
-            val isPortrait =
-                LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
-
-            return calculateWindowMode(isPortrait)
-        }
-
-    @Composable
-    fun isDualScreen(): Boolean {
-        return windowMode.isDualScreen
-    }
-
-    @Composable
-    fun isDualPortrait(): Boolean {
-        return windowMode == WindowMode.DUAL_PORTRAIT
-    }
-
-    @Composable
-    fun isDualLandscape(): Boolean {
-        return windowMode == WindowMode.DUAL_LANDSCAPE
-    }
-
-    @Composable
-    fun isSinglePortrait(): Boolean {
-        return windowMode == WindowMode.SINGLE_PORTRAIT
-    }
-
-    @Composable
-    fun isSingleLandscape(): Boolean {
-        return windowMode == WindowMode.SINGLE_LANDSCAPE
-    }
-
-    // return the size class (compact, medium, or expanded) for window width
-    @Composable
-    fun widthSizeClass(): WindowSizeClass {
-        return getWindowSizeClass(windowWidthDp)
-    }
-
-    // return the size class (compact, medium, or expanded) for window height
-    @Composable
-    fun heightSizeClass(): WindowSizeClass {
-        return getWindowSizeClass(windowHeightDp, Dimension.HEIGHT)
     }
 }
