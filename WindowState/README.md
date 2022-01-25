@@ -8,6 +8,43 @@ The component provides the current window information as a Compose state, includ
 
 And the window size classes are measured based on Google [Window size classes](https://developer.android.com/guide/topics/large-screens/support-different-screen-sizes#window_size_classes) to help you support different screen sizes of the devices, including large screen and regular single screen devices.
 
+
+## Add to your project
+
+1. Make sure you have **mavenCentral()** repository in your top level **build.gradle** file:
+
+    ```gradle
+    allprojects {
+        repositories {
+            google()
+            mavenCentral()
+         }
+    }
+    ```
+
+2. Add dependencies to the module-level **build.gradle** file (current version may be different from what's shown here).
+
+    ```gradle
+    implementation "com.microsoft.device.dualscreen:windowstate:1.0.0-alpha1"
+    ```
+
+3. Also ensure the compileSdkVersion and targetSdkVersion are set to API 31 or newer in the module-level build.gradle file.
+
+    ```gradle
+    android { 
+        compileSdkVersion 31
+        
+        defaultConfig { 
+            targetSdkVersion 31
+        } 
+        ... 
+    }
+    ```
+
+4. Access the info about the window state from **WindowState** to build or adjust your UI. Please refer to the [sample](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/WindowState/sample) for more details.
+
+## API reference
+
 ```kotlin
 @Composable
 fun Activity.rememberWindowState(): WindowState
@@ -70,40 +107,6 @@ Returns the width window size class: **Compact**, **Medium**, **Expanded**, base
 fun heightSizeClass(): WindowSizeClass
 ```
 Returns the height window size class: **Compact**, **Medium**, **Expanded**, based on the height of the window.
-
-## Add to your project
-
-1. Make sure you have **mavenCentral()** repository in your top level **build.gradle** file:
-
-    ```gradle
-    allprojects {
-        repositories {
-            google()
-            mavenCentral()
-         }
-    }
-    ```
-
-2. Add dependencies to the module-level **build.gradle** file (current version may be different from what's shown here).
-
-    ```gradle
-    implementation "com.microsoft.device.dualscreen:windowstate:1.0.0-alpha1"
-    ```
-
-3. Also ensure the compileSdkVersion and targetSdkVersion are set to API 31 or newer in the module-level build.gradle file.
-
-    ```gradle
-    android { 
-        compileSdkVersion 31
-        
-        defaultConfig { 
-            targetSdkVersion 31
-        } 
-        ... 
-    }
-    ```
-
-4. Access the info about the window state from **WindowState** to build or adjust your UI. Please refer to the [sample](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/WindowState/sample) for more details.
 
 ## Contributing
 
