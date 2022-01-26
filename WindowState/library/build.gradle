@@ -82,4 +82,9 @@ dependencies {
     androidTestImplementation testDependencies.androidxTestRules
     androidTestImplementation testDependencies.androidxTestRunner
     androidTestImplementation testDependencies.espressoCore
+    androidTestImplementation testDependencies.composeUITest
+    androidTestImplementation testDependencies.composeJunit
+    androidTestImplementation testDependencies.uiAutomator
+
+    debugImplementation testDependencies.composeUITestManifest
 }

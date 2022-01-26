@@ -210,13 +210,13 @@ class WindowStateTest {
         val paneSizesPortrait = noFoldLargeScreen.getLargeScreenPaneSizes(true)
         val paneSizesLandscape = noFoldLargeScreen.getLargeScreenPaneSizes(false)
 
-        // Assert that default portrait pane size is half the window - 425 x 910 dp
-        assertEquals(Size(425f, 910f), paneSizesPortrait.first)
-        assertEquals(Size(425f, 910f), paneSizesPortrait.second)
+        // Assert that default portrait pane size (dual landscape) is half the window - 850 x 455 dp
+        assertEquals(Size(850f, 455f), paneSizesPortrait.first)
+        assertEquals(Size(850f, 455f), paneSizesPortrait.second)
 
-        // Assert that default landscape pane size is half the window - 850 x 455 dp
-        assertEquals(Size(850f, 455f), paneSizesLandscape.first)
-        assertEquals(Size(850f, 455f), paneSizesLandscape.second)
+        // Assert that default landscape pane size (dual portrait) is half the window - 425 x 910 dp
+        assertEquals(Size(425f, 910f), paneSizesLandscape.first)
+        assertEquals(Size(425f, 910f), paneSizesLandscape.second)
     }
 
     @Test
@@ -224,12 +224,12 @@ class WindowStateTest {
         val paneSizesPortrait = noFoldLargeScreen.getLargeScreenPaneSizes(true, 0.25f)
         val paneSizesLandscape = noFoldLargeScreen.getLargeScreenPaneSizes(false, 0.25f)
 
-        // Assert that the portrait pane sizes are split 25/75
-        assertEquals(Size(212.5f, 910f), paneSizesPortrait.first)
-        assertEquals(Size(637.5f, 910f), paneSizesPortrait.second)
+        // Assert that the portrait pane sizes (dual landscape) are split 25/75
+        assertEquals(Size(850f, 227.5f), paneSizesPortrait.first)
+        assertEquals(Size(850f, 682.5f), paneSizesPortrait.second)
 
-        // Assert that the landscape pane sizes are split 25/75
-        assertEquals(Size(850f, 227.5f), paneSizesLandscape.first)
-        assertEquals(Size(850f, 682.5f), paneSizesLandscape.second)
+        // Assert that the landscape pane sizes (dual portrait) are split 25/75
+        assertEquals(Size(212.5f, 910f), paneSizesLandscape.first)
+        assertEquals(Size(637.5f, 910f), paneSizesLandscape.second)
     }
 }

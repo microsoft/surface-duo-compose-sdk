@@ -226,7 +226,17 @@ data class WindowState(
 
     @VisibleForTesting
     fun getLargeScreenPaneSizes(isPortrait: Boolean, pane1Weight: Float = 0.5f): Pair<Size, Size> {
+        if (pane1Weight < 0f || pane1Weight > 1f)
+            throw IllegalArgumentException("Pane 1 weight must be between 0 and 1")
+
         if (isPortrait) {
+            val paneWidth = windowWidthDp.value
+
+            val pane1Height = windowHeightDp.value * pane1Weight
+            val pane2Height = windowHeightDp.value - pane1Height
+
+            return Pair(Size(paneWidth, pane1Height), Size(paneWidth, pane2Height))
+        } else {
             val paneHeight = windowHeightDp.value
 
             // REVISIT: do we want to add an option for padding between the panes?
@@ -234,13 +244,6 @@ data class WindowState(
             val pane2Width = windowWidthDp.value - pane1Width
 
             return Pair(Size(pane1Width, paneHeight), Size(pane2Width, paneHeight))
-        } else {
-            val paneWidth = windowWidthDp.value
-
-            val pane1Height = windowHeightDp.value * pane1Weight
-            val pane2Height = windowHeightDp.value - pane1Height
-
-            return Pair(Size(paneWidth, pane1Height), Size(paneWidth, pane2Height))
         }
     }
 
