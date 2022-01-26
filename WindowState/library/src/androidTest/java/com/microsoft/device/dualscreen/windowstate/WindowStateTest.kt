@@ -5,7 +5,7 @@
 
 package com.microsoft.device.dualscreen.windowstate
 
-import android.graphics.Rect
+import android.graphics.RectF
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -14,7 +14,7 @@ import org.junit.Test
 
 class WindowStateTest {
     private val hasFold = true
-    private val foldBounds = Rect(20, 100, 60, 200)
+    private val foldBounds = RectF(20f, 100f, 60f, 200f)
     private val foldState = FoldState.HALF_OPENED
     private val foldSeparates = true
     private val foldOccludes = true
@@ -28,6 +28,16 @@ class WindowStateTest {
         foldOccludes,
         windowWidthDp = 60.dp,
         windowHeightDp = 300.dp
+    )
+    private val horizontalFoldEqualNotSeparating = WindowState(
+        hasFold,
+        foldIsHorizontal = true,
+        RectF(0f, 699f, 1000f, 701f),
+        FoldState.FLAT,
+        foldIsSeparating = false,
+        foldIsOccluding = false,
+        windowWidthDp = 1000.dp,
+        windowHeightDp = 1700.dp
     )
     private val verticalFoldUnequal = WindowState(
         hasFold,
@@ -54,6 +64,34 @@ class WindowStateTest {
         windowHeightDp = 910.dp
     )
     private val noFoldCompact = WindowState()
+
+    @Test
+    fun default_constructor_assigns_correct_values() {
+        val windowState = WindowState()
+
+        assertEquals(false, windowState.hasFold)
+        assertEquals(false, windowState.foldIsHorizontal)
+        assertEquals(RectF(), windowState.foldBoundsDp)
+        assertEquals(FoldState.FLAT, windowState.foldState)
+        assertEquals(false, windowState.foldIsSeparating)
+        assertEquals(false, windowState.foldIsOccluding)
+        assertEquals(0.dp, windowState.windowWidthDp)
+        assertEquals(0.dp, windowState.windowHeightDp)
+    }
+
+    @Test
+    fun parameterized_constructor_assigns_correct_values() {
+        val windowState = verticalFoldUnequalNotSeparating
+
+        assertEquals(hasFold, windowState.hasFold)
+        assertEquals(false, windowState.foldIsHorizontal)
+        assertEquals(foldBounds, windowState.foldBoundsDp)
+        assertEquals(FoldState.FLAT, windowState.foldState)
+        assertEquals(false, windowState.foldIsSeparating)
+        assertEquals(false, windowState.foldIsOccluding)
+        assertEquals(100.dp, windowState.windowWidthDp)
+        assertEquals(200.dp, windowState.windowHeightDp)
+    }
 
     @Test
     fun returns_correct_fold_size() {
@@ -92,6 +130,18 @@ class WindowStateTest {
     fun horizontal_fold_returns_dual_land() {
         assertEquals(WindowMode.DUAL_LANDSCAPE, horizontalFoldEqual.calculateWindowMode(true))
         assertEquals(WindowMode.DUAL_LANDSCAPE, horizontalFoldEqual.calculateWindowMode(false))
+    }
+
+    @Test
+    fun non_separating_compact_fold_returns_single_modes() {
+        assertEquals(WindowMode.SINGLE_PORTRAIT, verticalFoldUnequalNotSeparating.calculateWindowMode(true))
+        assertEquals(WindowMode.SINGLE_LANDSCAPE, verticalFoldUnequalNotSeparating.calculateWindowMode(false))
+    }
+
+    @Test
+    fun non_separating_expanded_fold_returns_dual_modes() {
+        assertEquals(WindowMode.DUAL_LANDSCAPE, horizontalFoldEqualNotSeparating.calculateWindowMode(true))
+        assertEquals(WindowMode.DUAL_PORTRAIT, horizontalFoldEqualNotSeparating.calculateWindowMode(false))
     }
 
     @Test
@@ -182,5 +232,4 @@ class WindowStateTest {
         assertEquals(Size(850f, 227.5f), paneSizesLandscape.first)
         assertEquals(Size(850f, 682.5f), paneSizesLandscape.second)
     }
-
 }

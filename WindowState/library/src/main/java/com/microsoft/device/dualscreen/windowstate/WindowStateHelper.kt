@@ -29,7 +29,7 @@ fun Activity.rememberWindowState(): WindowState {
     var hasFold by remember { mutableStateOf(false) }
     var isFoldHorizontal by remember { mutableStateOf(false) }
     var foldBoundsDp by remember { mutableStateOf(RectF()) }
-    var foldBoundsPx by remember { mutableStateOf(Rect())}
+    var foldBoundsPx by remember { mutableStateOf(Rect()) }
     var foldState by remember { mutableStateOf(FoldState.FLAT) }
     var foldSeparates by remember { mutableStateOf(false) }
     var foldOccludes by remember { mutableStateOf(false) }
