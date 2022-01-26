@@ -6,7 +6,6 @@
 package com.microsoft.device.dualscreen.windowstate
 
 import android.content.res.Configuration
-import android.graphics.Rect
 import android.graphics.RectF
 import androidx.annotation.VisibleForTesting
 import androidx.compose.runtime.Composable
@@ -55,7 +54,7 @@ data class WindowState(
      */
     val windowMode: WindowMode
         @Composable get() {
-            val isPortrait = largeScreenIsPortrait()
+            val isPortrait = windowIsPortrait()
 
             return calculateWindowMode(isPortrait)
         }
@@ -150,7 +149,7 @@ data class WindowState(
      */
     @Composable
     fun pane1SizeDp(pane1Weight: Float = 0.5f): Size {
-        return getPaneSizes(largeScreenIsPortrait(), LocalLayoutDirection.current, pane1Weight).first
+        return getPaneSizes(windowIsPortrait(), LocalLayoutDirection.current, pane1Weight).first
     }
 
     /**
@@ -159,7 +158,7 @@ data class WindowState(
      */
     @Composable
     fun pane2SizeDp(pane1Weight: Float = 0.5f): Size {
-        return getPaneSizes(largeScreenIsPortrait(), LocalLayoutDirection.current, pane1Weight).second
+        return getPaneSizes(windowIsPortrait(), LocalLayoutDirection.current, pane1Weight).second
     }
 
     /**
@@ -168,11 +167,11 @@ data class WindowState(
      */
     @Composable
     fun paneSizesDp(pane1Weight: Float = 0.5f): Pair<Size, Size> {
-        return getPaneSizes(largeScreenIsPortrait(), LocalLayoutDirection.current, pane1Weight)
+        return getPaneSizes(windowIsPortrait(), LocalLayoutDirection.current, pane1Weight)
     }
 
     @Composable
-    private fun largeScreenIsPortrait(): Boolean {
+    private fun windowIsPortrait(): Boolean {
         // REVISIT: should width/height ratio of the window be used instead of orientation?
         return LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
     }
