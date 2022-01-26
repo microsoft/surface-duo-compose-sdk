@@ -7,6 +7,7 @@ package com.microsoft.device.dualscreen.windowstate
 
 import android.content.res.Configuration
 import android.graphics.Rect
+import android.graphics.RectF
 import androidx.annotation.VisibleForTesting
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.geometry.Size
@@ -22,7 +23,7 @@ import androidx.compose.ui.unit.dp
  *
  * @param hasFold: true if window contains a FoldingFeature,
  * @param foldIsHorizontal: true if window contains a FoldingFeature with a horizontal orientation
- * @param foldBoundsDp: Rect object that describes the bound of the FoldingFeature
+ * @param foldBoundsDp: RectF object that describes the bound of the FoldingFeature in Dp
  * @param foldState: state of the fold, based on state property of FoldingFeature
  * @param foldIsSeparating: based on isSeparating property of FoldingFeature
  * @param foldIsOccluding: true if FoldingFeature occlusion type is full
@@ -32,7 +33,7 @@ import androidx.compose.ui.unit.dp
 data class WindowState(
     val hasFold: Boolean = false,
     val foldIsHorizontal: Boolean = false,
-    val foldBoundsDp: Rect = Rect(),
+    val foldBoundsDp: RectF = RectF(),
     val foldState: FoldState = FoldState.FLAT,
     val foldIsSeparating: Boolean = false,
     val foldIsOccluding: Boolean = false,
