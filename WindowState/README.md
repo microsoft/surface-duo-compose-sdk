@@ -25,7 +25,7 @@ And the window size classes are measured based on Google [Window size classes](h
 2. Add dependencies to the module-level **build.gradle** file (current version may be different from what's shown here).
 
     ```gradle
-    implementation "com.microsoft.device.dualscreen:windowstate:1.0.0-alpha1"
+    implementation "com.microsoft.device.dualscreen:windowstate:1.0.0-alpha02"
     ```
 
 3. Also ensure the compileSdkVersion and targetSdkVersion are set to API 31 or newer in the module-level build.gradle file.
