@@ -54,52 +54,6 @@ An interface to provide all the relevant info about the device window.
 ### Fold properties
 
 ```kotlin
-val hasFold: Boolean = false
-```
-
-Returns true if a [FoldingFeature](https://developer.android.com/reference/androidx/window/layout/FoldingFeature) is detected, otherwise returns false.
-
-```kotlin
-val foldIsHorizontal: Boolean = false
-```
-
-Returns true if a [FoldingFeature](https://developer.android.com/reference/androidx/window/layout/FoldingFeature) is present and in the horizontal orientation, otherwise returns false when a fold is vertical. If no fold is detected, the return value will be false.
-
-Based on the [orientation field](https://developer.android.com/reference/androidx/window/layout/FoldingFeature#orientation()) in [FoldingFeature](https://developer.android.com/reference/androidx/window/layout/FoldingFeature).
-
-```kotlin
-val foldBoundsDp: RectF = RectF()
-```
-
-Returns the bounding rectangle of a fold in units of Dp. If no fold is present, the returned rectangle will contain all zeroes.
-
-Based on the [bounds](https://developer.android.com/reference/androidx/window/layout/DisplayFeature#bounds()) field in [DisplayFeature](https://developer.android.com/reference/androidx/window/layout/DisplayFeature).
-
-```kotlin
-val foldState: FoldState = FoldState.FLAT
-```
-
-Returns the state of a fold: **FLAT** or **HALF_OPENED**. If no fold is present, the returned state is flat.
-
-Based on the [state](https://developer.android.com/reference/androidx/window/layout/FoldingFeature#state()) field in [FoldingFeature](https://developer.android.com/reference/androidx/window/layout/FoldingFeature).
-
-```kotlin
-val foldIsSeparating: Boolean = false
-```
-
-Returns whether a fold should be thought of as separating the window into distinct sections.
-
-Based on the [isSeparating](https://developer.android.com/reference/androidx/window/layout/FoldingFeature#isSeparating()) field in [FoldingFeature](https://developer.android.com/reference/androidx/window/layout/FoldingFeature).
-
-```kotlin
-val foldIsOccluding: Boolean = false
-```
-
-Returns whether a fold occludes content in the window.
-
-Based on the [occlusionType](https://developer.android.com/reference/androidx/window/layout/FoldingFeature#occlusionType()) field in [FoldingFeature](https://developer.android.com/reference/androidx/window/layout/FoldingFeature).
-
-```kotlin
 val foldSizeDp: Dp
 ```
 
@@ -122,20 +76,20 @@ Returns the dp size of the secondary pane of the dual-screen or foldable device 
 The secondary pane is always the bottom pane and the left/right pane, depending on the local language layout direction.
 
 ```kotlin
-val pane1SizeDp(pane1Weight: Float = 0.5f): Size
+fun pane1SizeDp(pane1Weight: Float = 0.5f): Size
 ```
 
-Returns the dp size of the primary pane of the dual-screen, foldable, or large screen device when the device is in dual-screen mode. If the device is in single screen mode, or the device is a regular single screen device, the return value will be 0.
+Returns the dp size of the primary pane of any device. This is the recommended value to use when creating dualscreen layouts, as it supports both large screens and foldables. If the device is in single screen mode, or the device is a regular single screen device, the return value will be 0.
 
 The primary pane is always the top pane and the left/right pane, depending on the local language layout direction.
 
 `pane1Weight` is an optional parameter that applies only to large screens and can be used to create panes of unequal proportions. The weight must be between 0 and 1.
 
 ```kotlin
-val pane2SizeDp(pane1Weight: Float = 0.5f): Size
+fun pane2SizeDp(pane1Weight: Float = 0.5f): Size
 ```
 
-Returns the dp size of the secondary pane of the dual-screen, foldable, or large screen device when the device is in dual-screen mode. If the device is in single screen mode, or the device is a regular single screen device, the return value will be 0.
+Returns the dp size of the primary pane of any device. This is the recommended value to use when creating dualscreen layouts, as it supports both large screens and foldables. If the device is in single screen mode, or the device is a regular single screen device, the return value will be 0.
 
 The secondary pane is always the bottom pane and the left/right pane, depending on the local language layout direction.
 
@@ -187,18 +141,6 @@ Check if the device window is in the single landscape posture, with which the de
 ### Window size properties
 
 ```kotlin
-val windowWidthDp: Dp = 0.dp
-```
-
-Returns the window width in Dp.
-
-```kotlin
-val windowHeightDp: Dp = 0.dp
-```
-
-Returns the window height in Dp.
-
-```kotlin
 @Composable
 fun widthSizeClass(): WindowSizeClass
 ```
@@ -211,6 +153,66 @@ fun heightSizeClass(): WindowSizeClass
 ```
 
 Returns the height window size class: **Compact**, **Medium**, **Expanded**, based on the height of the window.
+
+### Other properties
+
+```kotlin
+val hasFold: Boolean = false
+```
+
+Returns true if a [FoldingFeature](https://developer.android.com/reference/androidx/window/layout/FoldingFeature) is detected, otherwise returns false.
+
+```kotlin
+val foldIsHorizontal: Boolean = false
+```
+
+Returns true if a [FoldingFeature](https://developer.android.com/reference/androidx/window/layout/FoldingFeature) is present and in the horizontal orientation, otherwise returns false when a fold is vertical. If no fold is detected, the return value will be false.
+
+Based on the [orientation field](https://developer.android.com/reference/androidx/window/layout/FoldingFeature#orientation()) in [FoldingFeature](https://developer.android.com/reference/androidx/window/layout/FoldingFeature).
+
+```kotlin
+val foldBoundsDp: RectF = RectF()
+```
+
+Returns the bounding rectangle of a fold in units of Dp. If no fold is present, the returned rectangle will contain all zeroes.
+
+Based on the [bounds](https://developer.android.com/reference/androidx/window/layout/DisplayFeature#bounds()) field in [DisplayFeature](https://developer.android.com/reference/androidx/window/layout/DisplayFeature).
+
+```kotlin
+val foldState: FoldState = FoldState.FLAT
+```
+
+Returns the state of a fold: **FLAT** or **HALF_OPENED**. If no fold is present, the returned state is flat.
+
+Based on the [state](https://developer.android.com/reference/androidx/window/layout/FoldingFeature#state()) field in [FoldingFeature](https://developer.android.com/reference/androidx/window/layout/FoldingFeature).
+
+```kotlin
+val foldIsSeparating: Boolean = false
+```
+
+Returns whether a fold should be thought of as separating the window into distinct sections.
+
+Based on the [isSeparating](https://developer.android.com/reference/androidx/window/layout/FoldingFeature#isSeparating()) field in [FoldingFeature](https://developer.android.com/reference/androidx/window/layout/FoldingFeature).
+
+```kotlin
+val foldIsOccluding: Boolean = false
+```
+
+Returns whether a fold occludes content in the window.
+
+Based on the [occlusionType](https://developer.android.com/reference/androidx/window/layout/FoldingFeature#occlusionType()) field in [FoldingFeature](https://developer.android.com/reference/androidx/window/layout/FoldingFeature).
+
+```kotlin
+val windowWidthDp: Dp = 0.dp
+```
+
+Returns the window width in Dp.
+
+```kotlin
+val windowHeightDp: Dp = 0.dp
+```
+
+Returns the window height in Dp.
 
 ## Contributing
 

@@ -217,7 +217,7 @@ data class WindowState(
      * @return current window mode
      */
     @VisibleForTesting
-    fun calculateWindowMode(isPortrait: Boolean): WindowMode {
+    internal fun calculateWindowMode(isPortrait: Boolean): WindowMode {
         return when {
             foldIsSeparating -> if (foldIsHorizontal) WindowMode.DUAL_LANDSCAPE else WindowMode.DUAL_PORTRAIT
             windowIsLarge() -> if (isPortrait) WindowMode.DUAL_LANDSCAPE else WindowMode.DUAL_PORTRAIT
@@ -234,7 +234,7 @@ data class WindowState(
      * @return pair of sizes, with pane 1 being the first size and pane 2 being the second
      */
     @VisibleForTesting
-    fun getFoldablePaneSizes(layoutDir: LayoutDirection): Pair<Size, Size> {
+    internal fun getFoldablePaneSizes(layoutDir: LayoutDirection): Pair<Size, Size> {
         // If a separating fold is not present, return size zero
         if (!foldIsSeparating)
             return Pair(Size(0f, 0f), Size(0f, 0f))
@@ -279,7 +279,7 @@ data class WindowState(
      * @return pair of sizes, with pane 1 being the first size and pane 2 being the second
      */
     @VisibleForTesting
-    fun getLargeScreenPaneSizes(isPortrait: Boolean, pane1Weight: Float = 0.5f): Pair<Size, Size> {
+    internal fun getLargeScreenPaneSizes(isPortrait: Boolean, pane1Weight: Float = 0.5f): Pair<Size, Size> {
         // Check that 0 < weight < 1
         if (pane1Weight <= 0f || pane1Weight >= 1f)
             throw IllegalArgumentException("Pane 1 weight must be between 0 and 1")
@@ -322,7 +322,7 @@ data class WindowState(
      * @return pair of sizes, with pane 1 being the first size and pane 2 being the second
      */
     @VisibleForTesting
-    fun getPaneSizes(isPortrait: Boolean, layoutDir: LayoutDirection, pane1Weight: Float): Pair<Size, Size> {
+    internal fun getPaneSizes(isPortrait: Boolean, layoutDir: LayoutDirection, pane1Weight: Float): Pair<Size, Size> {
         return when {
             foldIsSeparating -> getFoldablePaneSizes(layoutDir)
             windowIsLarge() -> getLargeScreenPaneSizes(isPortrait, pane1Weight)

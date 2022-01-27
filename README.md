@@ -10,7 +10,7 @@ Please read the [code of conduct](CODE_OF_CONDUCT.md) and [contribution guidelin
 
 - Jetpack Compose version: `1.0.5`
 - Jetpack Window Manager version: `1.0.0`
-- Android Studio version: Bumblebee
+- Android Studio version: Bumblebee `2021.1.1`
 
 ## Getting Started
 
