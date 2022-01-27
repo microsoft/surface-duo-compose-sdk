@@ -22,8 +22,6 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode rootProject.ext.windowStateVersionCode
-        versionName rootProject.ext.windowStateVersionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -54,11 +52,12 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion composeVersion
     }
-
     packagingOptions {
-        exclude 'META-INF/LGPL2.1'
-        exclude 'META-INF/AL2.0'
+        resources {
+            excludes += ['META-INF/LGPL2.1', 'META-INF/AL2.0']
+        }
     }
+
 }
 
 dependencies {
