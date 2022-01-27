@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import java.lang.IllegalArgumentException
 
 class WindowStateTest {
     private val hasFold = true
@@ -65,6 +66,11 @@ class WindowStateTest {
     )
     private val noFoldCompact = WindowState()
 
+    /**
+     * constructor tests
+     * -----------------
+     */
+
     @Test
     fun default_constructor_assigns_correct_values() {
         val windowState = WindowState()
@@ -93,12 +99,22 @@ class WindowStateTest {
         assertEquals(200.dp, windowState.windowHeightDp)
     }
 
+    /**
+     * foldSizeDp tests
+     * ----------------
+     */
+
     @Test
     fun returns_correct_fold_size() {
         assertEquals(foldBounds.height().dp, horizontalFoldEqual.foldSizeDp)
         assertEquals(foldBounds.width().dp, verticalFoldUnequal.foldSizeDp)
         assertEquals(0.dp, noFoldLargeScreen.foldSizeDp)
     }
+
+    /**
+     * calculateWindowMode() tests
+     * ---------------------------
+     */
 
     @Test
     fun portrait_large_screen_returns_dual_land() {
@@ -143,6 +159,11 @@ class WindowStateTest {
         assertEquals(WindowMode.DUAL_LANDSCAPE, horizontalFoldEqualNotSeparating.calculateWindowMode(true))
         assertEquals(WindowMode.DUAL_PORTRAIT, horizontalFoldEqualNotSeparating.calculateWindowMode(false))
     }
+
+    /**
+     * getFoldablePaneSizes() tests
+     * ----------------------------
+     */
 
     @Test
     fun equal_panes_returns_same_foldable_pane_size() {
@@ -205,6 +226,11 @@ class WindowStateTest {
         assertEquals(Size(0f, 0f), paneSizesRtl.second)
     }
 
+    /**
+     * getLargeScreenPaneSizes() tests
+     * -------------------------------
+     */
+
     @Test
     fun large_screen_returns_equal_panes_by_default() {
         val paneSizesPortrait = noFoldLargeScreen.getLargeScreenPaneSizes(true)
@@ -231,5 +257,25 @@ class WindowStateTest {
         // Assert that the landscape pane sizes (dual portrait) are split 25/75
         assertEquals(Size(212.5f, 910f), paneSizesLandscape.first)
         assertEquals(Size(637.5f, 910f), paneSizesLandscape.second)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun weight_less_than_0_throws_exception() {
+        noFoldLargeScreen.getLargeScreenPaneSizes(true, -1f)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun weight_0_throws_exception() {
+        noFoldLargeScreen.getLargeScreenPaneSizes(true, 0.00f)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun weight_greater_than_1_throws_exception() {
+        noFoldLargeScreen.getLargeScreenPaneSizes(true, 1.01f)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun weight_1_throws_exception() {
+        noFoldLargeScreen.getLargeScreenPaneSizes(true, 1.00f)
     }
 }

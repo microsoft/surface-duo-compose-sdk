@@ -226,7 +226,7 @@ data class WindowState(
 
     @VisibleForTesting
     fun getLargeScreenPaneSizes(isPortrait: Boolean, pane1Weight: Float = 0.5f): Pair<Size, Size> {
-        if (pane1Weight < 0f || pane1Weight > 1f)
+        if (pane1Weight <= 0f || pane1Weight >= 1f)
             throw IllegalArgumentException("Pane 1 weight must be between 0 and 1")
 
         if (isPortrait) {
