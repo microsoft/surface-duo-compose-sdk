@@ -122,12 +122,6 @@ Returns the dp size of the secondary pane of the dual-screen or foldable device 
 The secondary pane is always the bottom pane and the left/right pane, depending on the local language layout direction.
 
 ```kotlin
-val foldablePaneSizesDp: Pair<Size, Size>
-```
-
-Returns the dp sizes of the primary and secondary panes of the dual-screen or foldable device when the device is in dual-screen mode. If the device is in single screen mode, or the device is a regular single screen device, the return value will be 0.
-
-```kotlin
 val pane1SizeDp(pane1Weight: Float = 0.5f): Size
 ```
 
@@ -144,14 +138,6 @@ val pane2SizeDp(pane1Weight: Float = 0.5f): Size
 Returns the dp size of the secondary pane of the dual-screen, foldable, or large screen device when the device is in dual-screen mode. If the device is in single screen mode, or the device is a regular single screen device, the return value will be 0.
 
 The secondary pane is always the bottom pane and the left/right pane, depending on the local language layout direction.
-
-`pane1Weight` is an optional parameter that applies only to large screens and can be used to create panes of unequal proportions. The weight must be between 0 and 1.
-
-```kotlin
-val foldablePaneSizesDp(pane1Weight: Float = 0.5f): Pair<Size, Size>
-```
-
-Returns the dp sizes of the primary and secondary panes of the dual-screen, foldable, or large screen device when the device is in dual-screen mode. If the device is in single screen mode, or the device is a regular single screen device, the return value will be 0.
 
 `pane1Weight` is an optional parameter that applies only to large screens and can be used to create panes of unequal proportions. The weight must be between 0 and 1.
 

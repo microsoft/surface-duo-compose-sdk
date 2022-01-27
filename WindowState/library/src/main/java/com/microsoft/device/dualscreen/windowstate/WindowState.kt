@@ -155,14 +155,6 @@ data class WindowState(
         }
 
     /**
-     * Dp sizes of pane 1 and pane 2 in a pair when a fold is separating, otherwise the sizes are zero
-     */
-    val foldablePaneSizesDp: Pair<Size, Size>
-        @Composable get() {
-            return getFoldablePaneSizes(LocalLayoutDirection.current)
-        }
-
-    /**
      * Returns the dp size of pane 1 (top and left or right pane depending on local layout direction) when a fold
      * is separating or the window is large, otherwise the returned size is zero. If a separating fold is present,
      * then the pane1Weight parameter is ignored and the panes are split according to the fold boundaries.
@@ -188,20 +180,6 @@ data class WindowState(
     @Composable
     fun pane2SizeDp(pane1Weight: Float = 0.5f): Size {
         return getPaneSizes(windowIsPortrait(), LocalLayoutDirection.current, pane1Weight).second
-    }
-
-    /**
-     * Returns the dp sizes of pane 1 and pane 2 in a pair when a fold is separating or a window is large,
-     * otherwise the returned sizes are zero. If a separating fold is present,
-     * then the pane1Weight parameter is ignored and the panes are split according to the fold boundaries.
-     *
-     * @param pane1Weight: the proportion of the window that pane 1 should occupy (must be between 0 and 1),
-     * default weight is 0.5 to make equal panes
-     * @return dp sizes of panes 1 and 2
-     */
-    @Composable
-    fun paneSizesDp(pane1Weight: Float = 0.5f): Pair<Size, Size> {
-        return getPaneSizes(windowIsPortrait(), LocalLayoutDirection.current, pane1Weight)
     }
 
     /**

@@ -220,23 +220,15 @@ class WindowStateComposeTest {
         pane1Weight: Float? = null,
         checkFoldable: Boolean = false
     ) {
-        // Check individual pane sizes
+        // Check pane sizes
         assertEquals(pane1, if (pane1Weight == null) pane1SizeDp() else pane1SizeDp(pane1Weight))
         assertEquals(pane2, if (pane1Weight == null) pane2SizeDp() else pane2SizeDp(pane1Weight))
-
-        // Check grouped pane sizes
-        assertEquals(pane1, if (pane1Weight == null) paneSizesDp().first else paneSizesDp(pane1Weight).first)
-        assertEquals(pane2, if (pane1Weight == null) paneSizesDp().second else paneSizesDp(pane1Weight).second)
 
         val foldablePane1 = if (checkFoldable) pane1 else sizeZero
         val foldablePane2 = if (checkFoldable) pane2 else sizeZero
 
-        // Check individual foldable pane sizes
+        // Check foldable pane sizes
         assertEquals(foldablePane1, foldablePane1SizeDp)
         assertEquals(foldablePane2, foldablePane2SizeDp)
-
-        // Check grouped foldable pane sizes
-        assertEquals(foldablePane1, foldablePaneSizesDp.first)
-        assertEquals(foldablePane2, foldablePaneSizesDp.second)
     }
 }
