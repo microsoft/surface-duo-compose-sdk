@@ -6,6 +6,12 @@ This repo contains components built with Jetpack Compose for the Microsoft Surfa
 
 Please read the [code of conduct](CODE_OF_CONDUCT.md) and [contribution guidelines](CONTRIBUTING.md).
 
+## Prerequisites
+
+- Jetpack Compose version: `1.0.5`
+- Jetpack Window Manager version: `1.0.0`
+- Android Studio version: Bumblebee
+
 ## Getting Started
 
 When importing the component source code into Android Studio, use the specific component folder (ex: **TwoPaneLayout**) as the base directory of the project.
