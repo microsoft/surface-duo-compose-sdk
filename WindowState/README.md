@@ -60,28 +60,14 @@ val foldSizeDp: Dp
 Returns a dp value of the thickness of the hinge of dual-screen device or the folding line of foldable device when the device is in dual-screen mode. If the device is in single screen mode, or the device is a regular single screen device, the return value will be 0.
 
 ```kotlin
-val foldablePane1SizeDp: Size
-```
-
-Returns the dp size of the primary pane of the dual-screen or foldable device when the device is in dual-screen mode. If the device is in single screen mode, or the device is a regular single screen device, the return value will be 0.
-
-The primary pane is always the top pane and the left/right pane, depending on the local language layout direction.
-
-```kotlin
-val foldablePane2SizeDp: Size
-```
-
-Returns the dp size of the secondary pane of the dual-screen or foldable device when the device is in dual-screen mode. If the device is in single screen mode, or the device is a regular single screen device, the return value will be 0.
-
-The secondary pane is always the bottom pane and the left/right pane, depending on the local language layout direction.
-
-```kotlin
 fun pane1SizeDp(pane1Weight: Float = 0.5f): Size
 ```
 
-Returns the dp size of the primary pane of any device. This is the recommended value to use when creating dualscreen layouts, as it supports both large screens and foldables. If the device is in single screen mode, or the device is a regular single screen device, the return value will be 0.
+Returns the dp size of the primary pane of any device, including dual-screen, foldable, and large screen devices. This is the recommended value to use when creating dualscreen layouts.
 
-The primary pane is always the top pane and the left/right pane, depending on the local language layout direction.
+The primary pane is either the top pane or the left/right pane, depending on device orientation and local language layout direction.
+
+If the device is in single screen mode, or the device is a regular single screen device, the return value will be 0.
 
 `pane1Weight` is an optional parameter that applies only to large screens and can be used to create panes of unequal proportions. The weight must be between 0 and 1.
 
@@ -89,11 +75,33 @@ The primary pane is always the top pane and the left/right pane, depending on th
 fun pane2SizeDp(pane1Weight: Float = 0.5f): Size
 ```
 
-Returns the dp size of the primary pane of any device. This is the recommended value to use when creating dualscreen layouts, as it supports both large screens and foldables. If the device is in single screen mode, or the device is a regular single screen device, the return value will be 0.
+Returns the dp size of the primary pane of any device, including dual-screen, foldable, and large screen devices. This is the recommended value to use when creating dualscreen layouts.
 
-The secondary pane is always the bottom pane and the left/right pane, depending on the local language layout direction.
+The secondary pane is either the bottom pane or the left/right pane, depending on device orientation and local language layout direction.
+
+If the device is in single screen mode, or the device is a regular single screen device, the return value will be 0.
 
 `pane1Weight` is an optional parameter that applies only to large screens and can be used to create panes of unequal proportions. The weight must be between 0 and 1.
+
+```kotlin
+val foldablePane1SizeDp: Size
+```
+
+Returns the dp size of the primary pane of the dual-screen or foldable device when the device is in dual-screen mode - note that this does NOT include large screen devices.
+
+The primary pane is either the top pane or the left/right pane, depending on device orientation and local language layout direction.
+
+If the device is in single screen mode, or the device is a regular single screen device, the return value will be 0.
+
+```kotlin
+val foldablePane2SizeDp: Size
+```
+
+Returns the dp size of the secondary pane of the dual-screen or foldable device when the device is in dual-screen mode - note that this does NOT include large screen devices.
+
+The secondary pane is either the bottom pane or the left/right pane, depending on device orientation and local language layout direction.
+
+If the device is in single screen mode, or the device is a regular single screen device, the return value will be 0.
 
 ### Window mode properties
 
