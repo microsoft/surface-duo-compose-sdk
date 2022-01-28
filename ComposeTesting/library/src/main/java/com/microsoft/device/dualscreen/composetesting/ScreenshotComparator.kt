@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.microsoft.device.dualscreen.testutils
+package com.microsoft.device.dualscreen.composetesting
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory

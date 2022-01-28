@@ -1,0 +1,55 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        applicationId "com.microsoft.device.display.composetesting"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation project(path: ':library')
+
+    implementation kotlinDependencies.kotlinStdlib
+    implementation androidxDependencies.ktxCore
+    implementation androidxDependencies.appCompat
+    implementation androidxDependencies.window
+    implementation composeDependencies.composeUI
+    implementation composeDependencies.composeMaterial
+    implementation composeDependencies.composeUITooling
+    implementation composeDependencies.activityCompose
+
+    implementation googleDependencies.material
+
+    implementation microsoftDependencies.windowState
+
+    androidTestImplementation(testDependencies.androidxTestCore)
+    androidTestImplementation(testDependencies.androidxTestRules)
+    androidTestImplementation(testDependencies.androidxTestRunner)
+    androidTestImplementation(testDependencies.composeUITest)
+    androidTestImplementation(testDependencies.composeJunit)
+
+    debugImplementation(testDependencies.composeUITestManifest)
+}
