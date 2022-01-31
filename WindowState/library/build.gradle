@@ -26,7 +26,7 @@ android {
         versionCode rootProject.ext.windowStateVersionCode
         versionName rootProject.ext.windowStateVersionName
         buildConfigField("int", "VERSION_CODE", "${defaultConfig.versionCode}")
-        buildConfigField("String", "VERSION_NAME", "\"${defaultConfig.versionCode}\"")
+        buildConfigField("String", "VERSION_NAME", "\"${defaultConfig.versionName}\"")
 
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
