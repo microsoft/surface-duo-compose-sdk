@@ -321,8 +321,7 @@ data class WindowState(
      * default weight is 0.5 to make equal panes
      * @return pair of sizes, with pane 1 being the first size and pane 2 being the second
      */
-    @VisibleForTesting
-    internal fun getPaneSizes(isPortrait: Boolean, layoutDir: LayoutDirection, pane1Weight: Float): Pair<Size, Size> {
+    fun getPaneSizes(isPortrait: Boolean, layoutDir: LayoutDirection, pane1Weight: Float): Pair<Size, Size> {
         return when {
             foldIsSeparating -> getFoldablePaneSizes(layoutDir)
             windowIsLarge() -> getLargeScreenPaneSizes(isPortrait, pane1Weight)
