@@ -7,12 +7,8 @@ package com.microsoft.device.dualscreen.composetesting
 
 import android.util.Log
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.test.GestureScope
-import androidx.compose.ui.test.bottom
-import androidx.compose.ui.test.left
+import androidx.compose.ui.test.TouchInjectionScope
 import androidx.compose.ui.test.pinch
-import androidx.compose.ui.test.right
-import androidx.compose.ui.test.top
 
 /**
  * ZOOM HELPER
@@ -27,7 +23,7 @@ const val PINCH_MILLIS: Long = 500
  *
  * @param pinchMillis: number of milliseconds it takes to perform the pinch (default 500)
  */
-fun GestureScope.zoomIn(pinchMillis: Long = PINCH_MILLIS) {
+fun TouchInjectionScope.zoomIn(pinchMillis: Long = PINCH_MILLIS) {
     val coords = setupZoomCoords()
     Log.d("ZoomHelper", "Zooming in: $coords")
     pinch(coords.leftInner, coords.leftOuter, coords.rightInner, coords.rightOuter, pinchMillis)
@@ -38,7 +34,7 @@ fun GestureScope.zoomIn(pinchMillis: Long = PINCH_MILLIS) {
  *
  * @param pinchMillis: number of milliseconds it takes to perform the pinch (default 500)
  */
-fun GestureScope.zoomOut(pinchMillis: Long = PINCH_MILLIS) {
+fun TouchInjectionScope.zoomOut(pinchMillis: Long = PINCH_MILLIS) {
     val coords = setupZoomCoords()
     Log.d("ZoomHelper", "Zooming out: $coords")
     pinch(coords.leftOuter, coords.leftInner, coords.rightOuter, coords.rightInner, pinchMillis)
@@ -47,7 +43,7 @@ fun GestureScope.zoomOut(pinchMillis: Long = PINCH_MILLIS) {
 /**
  * Calculates starting and ending zoom coordinates based on GestureScope properties
  */
-private fun GestureScope.setupZoomCoords(): ZoomCoordinates {
+private fun TouchInjectionScope.setupZoomCoords(): ZoomCoordinates {
     // Get height and width of node
     val width = (right - left).toLong()
     val height = (bottom - top).toLong()

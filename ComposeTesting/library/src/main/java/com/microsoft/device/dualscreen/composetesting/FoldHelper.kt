@@ -12,6 +12,7 @@ import androidx.window.layout.FoldingFeature
 import androidx.window.testing.layout.FoldingFeature
 import androidx.window.testing.layout.TestWindowLayoutInfo
 import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
+import org.junit.rules.TestRule
 
 /**
  * FOLD HELPER
@@ -19,6 +20,15 @@ import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
  * These functions can be used in foldable UI tests to simulate the present of vertical and
  * horizontal folds/hinges. The folds are simulated using TestWindowLayoutInfo.
  */
+
+/**
+ * Return WindowLayoutInfoPublisherRule which allows you to push through different WindowLayoutInfo
+ * values on demand from Window.testing to test
+ *
+ */
+fun createWindowLayoutInfoPublisherRule(): TestRule {
+    return WindowLayoutInfoPublisherRule()
+}
 
 /**
  * Simulate a vertical fold

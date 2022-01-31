@@ -55,7 +55,7 @@ ext {
     ]
 
     // Compose dependencies
-    composeVersion = "1.0.5"
+    composeVersion = "1.1.0-rc03"
     activityComposeVersion = "1.4.0"
     navigationComposeVersion = "2.4.0-beta02"
 
@@ -98,7 +98,9 @@ ext {
 
     // Microsoft dependencies
     windowStateVersion = "1.0.0-alpha1"
+    twoPaneLayoutVersion = "1.0.0-alpha10"
     microsoftDependencies = [
-            windowState: "com.microsoft.device.dualscreen:windowstate:$windowStateVersion",
+            twoPaneLayout: "com.microsoft.device.dualscreen:twopanelayout:$twoPaneLayoutVersion",
+            windowState: "com.microsoft.device.dualscreen:windowstate:$windowStateVersion"
     ]
 }

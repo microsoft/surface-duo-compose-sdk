@@ -1,7 +1,12 @@
-plugins {
-    id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
-}
+/*
+ *
+ *  * Copyright (c) Microsoft Corporation. All rights reserved.
+ *  * Licensed under the MIT License.
+ *
+ */
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -12,6 +17,9 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
     }
 
     buildTypes {
@@ -26,6 +34,14 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion composeVersion
+    }
+    packagingOptions {
+        resources {
+            excludes += ['META-INF/LGPL2.1', 'META-INF/AL2.0']
+        }
     }
 }
 
@@ -43,7 +59,8 @@ dependencies {
 
     implementation googleDependencies.material
 
-    implementation microsoftDependencies.windowState
+    implementation microsoftDependencies.twoPaneLayout
+    implementation 'androidx.window:window-testing:1.0.0-alpha09'
 
     androidTestImplementation(testDependencies.androidxTestCore)
     androidTestImplementation(testDependencies.androidxTestRules)
