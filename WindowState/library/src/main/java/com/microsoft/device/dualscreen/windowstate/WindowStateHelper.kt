@@ -24,7 +24,7 @@ import kotlinx.coroutines.flow.collect
 
 @Composable
 fun Activity.rememberWindowState(): WindowState {
-    val windowLayoutInfo = getOrCreate(this).windowLayoutInfo(this)
+    val windowLayoutInfo = remember { getOrCreate(this).windowLayoutInfo(this) }
 
     var hasFold by remember { mutableStateOf(false) }
     var isFoldHorizontal by remember { mutableStateOf(false) }
