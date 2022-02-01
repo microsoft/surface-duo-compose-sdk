@@ -6,70 +6,7 @@ The component provides the current window information as a Compose state, includ
 
 ![postures](screenshots/postures-overview.png)
 
-And the window size classes are measured based on Google [Window size classes](https://developer.android.com/guide/topics/large-screens/support-different-screen-sizes#window_size_classes) to help you support different screen sizes of the devices, including large screen and regular single screen devices.
-
-```kotlin
-@Composable
-fun Activity.rememberWindowState(): WindowState
-```
-An interface to provide all the relevant info about the device window.
-
-```kotlin
-val foldablePaneWidth: Int
-```
-Returns a pixel value of the width of a single pane of the dual-screen or foldable device when the device is in the dual-screen mode. If the device is in the single screen mode, or the device is a regular single screen device, the return value will be 0.
-
-```kotlin
-val foldSize: Int
-```
-Returns a pixel value of the width of the hinge of dual-screen device or the folding line of foldable device when the device is in the dual-screen mode. If the device is in the single screen mode, or the device is a regular single screen device, the return value will be 0.
-
-```kotlin
-val windowMode: WindowMode
-```
-Returns the display posture of the window mode: **SINGLE_PORTRAIT**, **SINGLE_LANDSCAPE**, **DUAL_PORTRAIT**, **DUAL_LANDSCAPE**.
-
-```kotlin
-@Composable
-fun isDualScreen(): Boolean
-```
-Check if the device window is in the dual screen mode, we called it **spanned** for the dual-screen device or **unfolded** for the foldable device.
-
-```kotlin
-@Composable
-fun isDualPortrait(): Boolean
-```
-Check if the device window is in the dual portrait posture, with which the hinge or folding line is vertical.
-
-```kotlin
-@Composable
-fun isDualLandscape(): Boolean
-```
-Check if the device window is in the dual portrait posture, with which the hinge or folding line is horizontal.
-
-```kotlin
-@Composable
-fun isSinglePortrait(): Boolean
-```
-Check if the device window is in the single portrait posture, with which the device is in the single screen mode or the device is a single screen device with the portrait orientation.
-
-```kotlin
-@Composable
-fun isSingleLandscape(): Boolean
-```
-Check if the device window is in the single landscape posture, with which the device is in the single screen mode or the device is a single screen device with the landscape orientation.
-
-```kotlin
-@Composable
-fun widthSizeClass(): WindowSizeClass
-```
-Returns the width window size class: **Compact**, **Medium**, **Expanded**, based on the width of the window.
-
-```kotlin
-@Composable
-fun heightSizeClass(): WindowSizeClass
-```
-Returns the height window size class: **Compact**, **Medium**, **Expanded**, based on the height of the window.
+And the window size classes are measured based on Google's [Window size classes](https://developer.android.com/guide/topics/large-screens/support-different-screen-sizes#window_size_classes) to help you support different screen sizes of devices, including large screen and regular single screen devices.
 
 ## Add to your project
 
@@ -87,7 +24,7 @@ Returns the height window size class: **Compact**, **Medium**, **Expanded**, bas
 2. Add dependencies to the module-level **build.gradle** file (current version may be different from what's shown here).
 
     ```gradle
-    implementation "com.microsoft.device.dualscreen:windowstate:1.0.0-alpha1"
+    implementation "com.microsoft.device.dualscreen:windowstate:1.0.0-alpha02"
     ```
 
 3. Also ensure the compileSdkVersion and targetSdkVersion are set to API 31 or newer in the module-level build.gradle file.
@@ -104,6 +41,186 @@ Returns the height window size class: **Compact**, **Medium**, **Expanded**, bas
     ```
 
 4. Access the info about the window state from **WindowState** to build or adjust your UI. Please refer to the [sample](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/WindowState/sample) for more details.
+
+## API reference
+
+```kotlin
+@Composable
+fun Activity.rememberWindowState(): WindowState
+```
+
+An interface to provide all the relevant info about the device window.
+
+### Fold properties
+
+```kotlin
+val foldSizeDp: Dp
+```
+
+Returns a dp value of the thickness of the hinge of dual-screen device or the folding line of foldable device when the device is in dual-screen mode. If the device is in single screen mode, or the device is a regular single screen device, the return value will be 0.
+
+```kotlin
+fun pane1SizeDp(pane1Weight: Float = 0.5f): Size
+```
+
+Returns the dp size of the primary pane of any device, including dual-screen, foldable, and large screen devices. This is the recommended value to use when creating dualscreen layouts.
+
+The primary pane is either the top pane or the left/right pane, depending on device orientation and local language layout direction.
+
+If the device is in single screen mode, or the device is a regular single screen device, the return value will be 0.
+
+`pane1Weight` is an optional parameter that applies only to large screens and can be used to create panes of unequal proportions. The weight must be between 0 and 1.
+
+```kotlin
+fun pane2SizeDp(pane1Weight: Float = 0.5f): Size
+```
+
+Returns the dp size of the primary pane of any device, including dual-screen, foldable, and large screen devices. This is the recommended value to use when creating dualscreen layouts.
+
+The secondary pane is either the bottom pane or the left/right pane, depending on device orientation and local language layout direction.
+
+If the device is in single screen mode, or the device is a regular single screen device, the return value will be 0.
+
+`pane1Weight` is an optional parameter that applies only to large screens and can be used to create panes of unequal proportions. The weight must be between 0 and 1.
+
+```kotlin
+val foldablePane1SizeDp: Size
+```
+
+Returns the dp size of the primary pane of the dual-screen or foldable device when the device is in dual-screen mode - note that this does NOT include large screen devices.
+
+The primary pane is either the top pane or the left/right pane, depending on device orientation and local language layout direction.
+
+If the device is in single screen mode, or the device is a regular single screen device, the return value will be 0.
+
+```kotlin
+val foldablePane2SizeDp: Size
+```
+
+Returns the dp size of the secondary pane of the dual-screen or foldable device when the device is in dual-screen mode - note that this does NOT include large screen devices.
+
+The secondary pane is either the bottom pane or the left/right pane, depending on device orientation and local language layout direction.
+
+If the device is in single screen mode, or the device is a regular single screen device, the return value will be 0.
+
+### Window mode properties
+
+```kotlin
+val windowMode: WindowMode
+```
+
+Returns the display posture of the window mode: **SINGLE_PORTRAIT**, **SINGLE_LANDSCAPE**, **DUAL_PORTRAIT**, **DUAL_LANDSCAPE**.
+
+```kotlin
+@Composable
+fun isDualScreen(): Boolean
+```
+
+Check if the device window is in the dual screen mode, we called it **spanned** for the dual-screen device or **unfolded** for the foldable device.
+
+```kotlin
+@Composable
+fun isDualPortrait(): Boolean
+```
+
+Check if the device window is in the dual portrait posture, with which the hinge or folding line is vertical.
+
+```kotlin
+@Composable
+fun isDualLandscape(): Boolean
+```
+
+Check if the device window is in the dual portrait posture, with which the hinge or folding line is horizontal.
+
+```kotlin
+@Composable
+fun isSinglePortrait(): Boolean
+```
+
+Check if the device window is in the single portrait posture, with which the device is in the single screen mode or the device is a single screen device with the portrait orientation.
+
+```kotlin
+@Composable
+fun isSingleLandscape(): Boolean
+```
+
+Check if the device window is in the single landscape posture, with which the device is in the single screen mode or the device is a single screen device with the landscape orientation.
+
+### Window size properties
+
+```kotlin
+@Composable
+fun widthSizeClass(): WindowSizeClass
+```
+
+Returns the width window size class: **Compact**, **Medium**, **Expanded**, based on the width of the window.
+
+```kotlin
+@Composable
+fun heightSizeClass(): WindowSizeClass
+```
+
+Returns the height window size class: **Compact**, **Medium**, **Expanded**, based on the height of the window.
+
+### Other properties
+
+```kotlin
+val hasFold: Boolean = false
+```
+
+Returns true if a [FoldingFeature](https://developer.android.com/reference/androidx/window/layout/FoldingFeature) is detected, otherwise returns false.
+
+```kotlin
+val foldIsHorizontal: Boolean = false
+```
+
+Returns true if a [FoldingFeature](https://developer.android.com/reference/androidx/window/layout/FoldingFeature) is present and in the horizontal orientation, otherwise returns false when a fold is vertical. If no fold is detected, the return value will be false.
+
+Based on the [orientation field](https://developer.android.com/reference/androidx/window/layout/FoldingFeature#orientation()) in [FoldingFeature](https://developer.android.com/reference/androidx/window/layout/FoldingFeature).
+
+```kotlin
+val foldBoundsDp: RectF = RectF()
+```
+
+Returns the bounding rectangle of a fold in units of Dp. If no fold is present, the returned rectangle will contain all zeroes.
+
+Based on the [bounds](https://developer.android.com/reference/androidx/window/layout/DisplayFeature#bounds()) field in [DisplayFeature](https://developer.android.com/reference/androidx/window/layout/DisplayFeature).
+
+```kotlin
+val foldState: FoldState = FoldState.FLAT
+```
+
+Returns the state of a fold: **FLAT** or **HALF_OPENED**. If no fold is present, the returned state is flat.
+
+Based on the [state](https://developer.android.com/reference/androidx/window/layout/FoldingFeature#state()) field in [FoldingFeature](https://developer.android.com/reference/androidx/window/layout/FoldingFeature).
+
+```kotlin
+val foldIsSeparating: Boolean = false
+```
+
+Returns whether a fold should be thought of as separating the window into distinct sections.
+
+Based on the [isSeparating](https://developer.android.com/reference/androidx/window/layout/FoldingFeature#isSeparating()) field in [FoldingFeature](https://developer.android.com/reference/androidx/window/layout/FoldingFeature).
+
+```kotlin
+val foldIsOccluding: Boolean = false
+```
+
+Returns whether a fold occludes content in the window.
+
+Based on the [occlusionType](https://developer.android.com/reference/androidx/window/layout/FoldingFeature#occlusionType()) field in [FoldingFeature](https://developer.android.com/reference/androidx/window/layout/FoldingFeature).
+
+```kotlin
+val windowWidthDp: Dp = 0.dp
+```
+
+Returns the window width in Dp.
+
+```kotlin
+val windowHeightDp: Dp = 0.dp
+```
+
+Returns the window height in Dp.
 
 ## Contributing
 

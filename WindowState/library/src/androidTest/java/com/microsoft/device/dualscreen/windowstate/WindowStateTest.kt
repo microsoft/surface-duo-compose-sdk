@@ -5,50 +5,116 @@
 
 package com.microsoft.device.dualscreen.windowstate
 
-import android.graphics.Rect
+import android.graphics.RectF
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import java.lang.IllegalArgumentException
 
 class WindowStateTest {
     private val hasFold = true
-    private val foldBounds = Rect(20, 20, 60, 100)
+    private val foldBounds = RectF(20f, 100f, 60f, 200f)
     private val foldState = FoldState.HALF_OPENED
     private val foldSeparates = true
     private val foldOccludes = true
-    private val windowWidth = 900.dp
-    private val windowHeight = 500.dp
 
-    private val horizontalFold = WindowState(
+    private val horizontalFoldEqual = WindowState(
         hasFold,
-        true,
+        foldIsHorizontal = true,
         foldBounds,
         foldState,
         foldSeparates,
         foldOccludes,
-        windowWidth,
-        windowHeight
+        windowWidthDp = 60.dp,
+        windowHeightDp = 300.dp
     )
-    private val verticalFold = WindowState(
+    private val horizontalFoldEqualNotSeparating = WindowState(
         hasFold,
-        false,
+        foldIsHorizontal = true,
+        RectF(0f, 699f, 1000f, 701f),
+        FoldState.FLAT,
+        foldIsSeparating = false,
+        foldIsOccluding = false,
+        windowWidthDp = 1000.dp,
+        windowHeightDp = 1700.dp
+    )
+    private val verticalFoldUnequal = WindowState(
+        hasFold,
+        foldIsHorizontal = false,
         foldBounds,
         foldState,
         foldSeparates,
-        foldOccludes
+        foldOccludes,
+        windowWidthDp = 100.dp,
+        windowHeightDp = 200.dp
+    )
+    private val verticalFoldUnequalNotSeparating = WindowState(
+        hasFold,
+        foldIsHorizontal = false,
+        foldBounds,
+        FoldState.FLAT,
+        foldIsSeparating = false,
+        foldIsOccluding = false,
+        windowWidthDp = 100.dp,
+        windowHeightDp = 200.dp
     )
     private val noFoldLargeScreen = WindowState(
-        windowWidth = 850.dp,
-        windowHeight = 910.dp
+        windowWidthDp = 850.dp,
+        windowHeightDp = 910.dp
     )
     private val noFoldCompact = WindowState()
 
+    /**
+     * constructor tests
+     * -----------------
+     */
+
+    @Test
+    fun default_constructor_assigns_correct_values() {
+        val windowState = WindowState()
+
+        assertEquals(false, windowState.hasFold)
+        assertEquals(false, windowState.foldIsHorizontal)
+        assertEquals(RectF(), windowState.foldBoundsDp)
+        assertEquals(FoldState.FLAT, windowState.foldState)
+        assertEquals(false, windowState.foldIsSeparating)
+        assertEquals(false, windowState.foldIsOccluding)
+        assertEquals(0.dp, windowState.windowWidthDp)
+        assertEquals(0.dp, windowState.windowHeightDp)
+    }
+
+    @Test
+    fun parameterized_constructor_assigns_correct_values() {
+        val windowState = verticalFoldUnequalNotSeparating
+
+        assertEquals(hasFold, windowState.hasFold)
+        assertEquals(false, windowState.foldIsHorizontal)
+        assertEquals(foldBounds, windowState.foldBoundsDp)
+        assertEquals(FoldState.FLAT, windowState.foldState)
+        assertEquals(false, windowState.foldIsSeparating)
+        assertEquals(false, windowState.foldIsOccluding)
+        assertEquals(100.dp, windowState.windowWidthDp)
+        assertEquals(200.dp, windowState.windowHeightDp)
+    }
+
+    /**
+     * foldSizeDp tests
+     * ----------------
+     */
+
     @Test
     fun returns_correct_fold_size() {
-        assertEquals(foldBounds.height(), horizontalFold.foldSize)
-        assertEquals(foldBounds.width(), verticalFold.foldSize)
-        assertEquals(0, noFoldLargeScreen.foldSize)
+        assertEquals(foldBounds.height().dp, horizontalFoldEqual.foldSizeDp)
+        assertEquals(foldBounds.width().dp, verticalFoldUnequal.foldSizeDp)
+        assertEquals(0.dp, noFoldLargeScreen.foldSizeDp)
     }
+
+    /**
+     * calculateWindowMode() tests
+     * ---------------------------
+     */
 
     @Test
     fun portrait_large_screen_returns_dual_land() {
@@ -72,13 +138,144 @@ class WindowStateTest {
 
     @Test
     fun vertical_fold_returns_dual_port() {
-        assertEquals(WindowMode.DUAL_PORTRAIT, verticalFold.calculateWindowMode(true))
-        assertEquals(WindowMode.DUAL_PORTRAIT, verticalFold.calculateWindowMode(false))
+        assertEquals(WindowMode.DUAL_PORTRAIT, verticalFoldUnequal.calculateWindowMode(true))
+        assertEquals(WindowMode.DUAL_PORTRAIT, verticalFoldUnequal.calculateWindowMode(false))
     }
 
     @Test
     fun horizontal_fold_returns_dual_land() {
-        assertEquals(WindowMode.DUAL_LANDSCAPE, horizontalFold.calculateWindowMode(true))
-        assertEquals(WindowMode.DUAL_LANDSCAPE, horizontalFold.calculateWindowMode(false))
+        assertEquals(WindowMode.DUAL_LANDSCAPE, horizontalFoldEqual.calculateWindowMode(true))
+        assertEquals(WindowMode.DUAL_LANDSCAPE, horizontalFoldEqual.calculateWindowMode(false))
+    }
+
+    @Test
+    fun non_separating_compact_fold_returns_single_modes() {
+        assertEquals(WindowMode.SINGLE_PORTRAIT, verticalFoldUnequalNotSeparating.calculateWindowMode(true))
+        assertEquals(WindowMode.SINGLE_LANDSCAPE, verticalFoldUnequalNotSeparating.calculateWindowMode(false))
+    }
+
+    @Test
+    fun non_separating_expanded_fold_returns_dual_modes() {
+        assertEquals(WindowMode.DUAL_LANDSCAPE, horizontalFoldEqualNotSeparating.calculateWindowMode(true))
+        assertEquals(WindowMode.DUAL_PORTRAIT, horizontalFoldEqualNotSeparating.calculateWindowMode(false))
+    }
+
+    /**
+     * getFoldablePaneSizes() tests
+     * ----------------------------
+     */
+
+    @Test
+    fun equal_panes_returns_same_foldable_pane_size() {
+        val paneSizesLtr = horizontalFoldEqual.getFoldablePaneSizes(LayoutDirection.Ltr)
+        val paneSizesRtl = horizontalFoldEqual.getFoldablePaneSizes(LayoutDirection.Rtl)
+
+        // Assert that top pane size is 60 x 100 dp
+        assertEquals(Size(60f, 100f), paneSizesLtr.first)
+        assertEquals(Size(60f, 100f), paneSizesRtl.first)
+
+        // Assert that bottom pane size is also 60 x 100 dp
+        assertEquals(Size(60f, 100f), paneSizesLtr.second)
+        assertEquals(Size(60f, 100f), paneSizesRtl.second)
+    }
+
+    @Test
+    fun unequal_panes_return_different_foldable_pane_sizes() {
+        val paneSizesLtr = verticalFoldUnequal.getFoldablePaneSizes(LayoutDirection.Ltr)
+        val paneSizesRtl = verticalFoldUnequal.getFoldablePaneSizes(LayoutDirection.Rtl)
+
+        // Assert that left pane size is 20 x 200 dp
+        assertEquals(Size(20f, 200f), paneSizesLtr.first)
+        assertEquals(Size(20f, 200f), paneSizesRtl.second)
+
+        // Assert that right pane size is 40 x 200 dp
+        assertEquals(Size(40f, 200f), paneSizesLtr.second)
+        assertEquals(Size(40f, 200f), paneSizesRtl.first)
+    }
+
+    @Test
+    fun no_fold_compact_returns_foldable_pane_size_0() {
+        val paneSizesLtr = noFoldCompact.getFoldablePaneSizes(LayoutDirection.Ltr)
+        val paneSizesRtl = noFoldCompact.getFoldablePaneSizes(LayoutDirection.Rtl)
+
+        assertEquals(Size(0f, 0f), paneSizesLtr.first)
+        assertEquals(Size(0f, 0f), paneSizesLtr.second)
+        assertEquals(Size(0f, 0f), paneSizesRtl.first)
+        assertEquals(Size(0f, 0f), paneSizesRtl.second)
+    }
+
+    @Test
+    fun no_fold_large_screen_returns_foldable_pane_size_0() {
+        val paneSizesLtr = noFoldLargeScreen.getFoldablePaneSizes(LayoutDirection.Ltr)
+        val paneSizesRtl = noFoldLargeScreen.getFoldablePaneSizes(LayoutDirection.Rtl)
+
+        assertEquals(Size(0f, 0f), paneSizesLtr.first)
+        assertEquals(Size(0f, 0f), paneSizesLtr.second)
+        assertEquals(Size(0f, 0f), paneSizesRtl.first)
+        assertEquals(Size(0f, 0f), paneSizesRtl.second)
+    }
+
+    @Test
+    fun non_separating_fold_returns_foldable_pane_size_0() {
+        val paneSizesLtr = verticalFoldUnequalNotSeparating.getFoldablePaneSizes(LayoutDirection.Ltr)
+        val paneSizesRtl = verticalFoldUnequalNotSeparating.getFoldablePaneSizes(LayoutDirection.Rtl)
+
+        assertEquals(Size(0f, 0f), paneSizesLtr.first)
+        assertEquals(Size(0f, 0f), paneSizesLtr.second)
+        assertEquals(Size(0f, 0f), paneSizesRtl.first)
+        assertEquals(Size(0f, 0f), paneSizesRtl.second)
+    }
+
+    /**
+     * getLargeScreenPaneSizes() tests
+     * -------------------------------
+     */
+
+    @Test
+    fun large_screen_returns_equal_panes_by_default() {
+        val paneSizesPortrait = noFoldLargeScreen.getLargeScreenPaneSizes(true)
+        val paneSizesLandscape = noFoldLargeScreen.getLargeScreenPaneSizes(false)
+
+        // Assert that default portrait pane size (dual landscape) is half the window - 850 x 455 dp
+        assertEquals(Size(850f, 455f), paneSizesPortrait.first)
+        assertEquals(Size(850f, 455f), paneSizesPortrait.second)
+
+        // Assert that default landscape pane size (dual portrait) is half the window - 425 x 910 dp
+        assertEquals(Size(425f, 910f), paneSizesLandscape.first)
+        assertEquals(Size(425f, 910f), paneSizesLandscape.second)
+    }
+
+    @Test
+    fun large_screen_returns_weighted_panes() {
+        val paneSizesPortrait = noFoldLargeScreen.getLargeScreenPaneSizes(true, 0.25f)
+        val paneSizesLandscape = noFoldLargeScreen.getLargeScreenPaneSizes(false, 0.25f)
+
+        // Assert that the portrait pane sizes (dual landscape) are split 25/75
+        assertEquals(Size(850f, 227.5f), paneSizesPortrait.first)
+        assertEquals(Size(850f, 682.5f), paneSizesPortrait.second)
+
+        // Assert that the landscape pane sizes (dual portrait) are split 25/75
+        assertEquals(Size(212.5f, 910f), paneSizesLandscape.first)
+        assertEquals(Size(637.5f, 910f), paneSizesLandscape.second)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun weight_less_than_0_throws_exception() {
+        noFoldLargeScreen.getLargeScreenPaneSizes(true, -1f)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun weight_0_throws_exception() {
+        noFoldLargeScreen.getLargeScreenPaneSizes(true, 0.00f)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun weight_greater_than_1_throws_exception() {
+        noFoldLargeScreen.getLargeScreenPaneSizes(true, 1.01f)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun weight_1_throws_exception() {
+        noFoldLargeScreen.getLargeScreenPaneSizes(true, 1.00f)
     }
 }

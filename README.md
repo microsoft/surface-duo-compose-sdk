@@ -6,6 +6,12 @@ This repo contains components built with Jetpack Compose for the Microsoft Surfa
 
 Please read the [code of conduct](CODE_OF_CONDUCT.md) and [contribution guidelines](CONTRIBUTING.md).
 
+## Prerequisites
+
+- Jetpack Compose version: `1.0.5`
+- Jetpack Window Manager version: `1.0.0`
+- Android Studio version: Bumblebee `2021.1.1`
+
 ## Getting Started
 
 When importing the component source code into Android Studio, use the specific component folder (ex: **TwoPaneLayout**) as the base directory of the project.
@@ -26,7 +32,11 @@ A utility component that helps you easily get details about the window state of 
 
 ## Social links
 
-- [video: NavigationRail Compose sample Twitch](https://www.twitch.tv/videos/1196858313)
+- [video: Jetpack Compose WindowState preview](https://www.twitch.tv/videos/1271211220)
+- [blog: Jetpack Compose WindowState preview](https://devblogs.microsoft.com/surface-duo/jetpack-compose-windowstate-preview/)
+- [video: Get started with Jetpack Compose Twitch](https://www.youtube.com/watch?v=ijXDWDtdiIE)
+- [blog: Get started with Jetpack Compose](https://devblogs.microsoft.com/surface-duo/get-started-with-jetpack-compose/)
+- [video: NavigationRail Compose sample Twitch](https://www.youtube.com/watch?v=pdoIyOU7Suk)
 - [blog: NavigationRail Compose sample](https://devblogs.microsoft.com/surface-duo/jetpack-compose-navigation-rail/)
 - [video: TwoPaneLayout Compose library Twitch](https://www.youtube.com/watch?v=Q66bR2jKdrg)
 - [blog: New TwoPaneLayout Compose library preview](https://devblogs.microsoft.com/surface-duo/jetpack-compose-twopanelayout-preview/)

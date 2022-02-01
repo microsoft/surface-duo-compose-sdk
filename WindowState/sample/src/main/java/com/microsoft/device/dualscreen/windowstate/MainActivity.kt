@@ -42,32 +42,42 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun WindowStateDashboard(windowState: WindowState) {
-    val foldSize = windowState.foldSize
-    val foldablePaneWidth = windowState.foldablePaneWidth
-    val foldSizeDp = with(LocalDensity.current) { foldSize.toDp() }
-    val foldablePaneWidthDp = with(LocalDensity.current) { foldablePaneWidth.toDp() }
+    val foldSizeDp = windowState.foldSizeDp
+    val pane1Size = windowState.pane1SizeDp()
+    val pane2Size = windowState.pane2SizeDp()
+
+    var foldSizePx: Float
+    var pane1WidthPx: Float
+    var pane1HeightPx: Float
+    var pane2WidthPx: Float
+    var pane2HeightPx: Float
+    with(LocalDensity.current) {
+        foldSizePx = foldSizeDp.toPx()
+        pane1WidthPx = pane1Size.width.dp.toPx()
+        pane1HeightPx = pane1Size.height.dp.toPx()
+        pane2WidthPx = pane2Size.width.dp.toPx()
+        pane2HeightPx = pane2Size.height.dp.toPx()
+    }
 
     val isDualScreen = windowState.isDualScreen()
-    val isDualPortrait = windowState.isDualPortrait()
-    val isDualLandscape = windowState.isDualLandscape()
-    val isSinglePortrait = windowState.isSinglePortrait()
-    val isSingleLandscape = windowState.isSingleLandscape()
+    val windowMode = windowState.windowMode
 
     val widthSizeClass = windowState.widthSizeClass()
     val heightSizeClass = windowState.heightSizeClass()
 
     Column {
-        Text(text = "The current foldSize is ${foldSize}px, $foldSizeDp")
-        Text(text = "The current foldablePaneWidth is ${foldablePaneWidth}px, $foldablePaneWidthDp")
+        Text(text = "Foldable properties", style = MaterialTheme.typography.h6)
+        Text(text = "The current foldSizeDp is ${foldSizePx}px, $foldSizeDp")
+        Text(text = "The current pane1SizeDp is:\n\t[${pane1WidthPx}px, ${pane1HeightPx}px], [${pane1Size.width.dp}, ${pane1Size.height.dp}]")
+        Text(text = "The current pane2SizeDp is:\n\t[${pane2WidthPx}px, ${pane2HeightPx}px], [${pane2Size.width.dp}, ${pane2Size.height.dp}]")
         Spacer(modifier = Modifier.height(15.dp))
 
+        Text(text = "Window mode properties", style = MaterialTheme.typography.h6)
         Text(text = "Is the app in dual screen mode? $isDualScreen")
-        Text(text = "Is the app in dual portrait mode? $isDualPortrait")
-        Text(text = "Is the app in dual landscape mode? $isDualLandscape")
-        Text(text = "Is the app in single portrait mode? $isSinglePortrait")
-        Text(text = "Is the app in single landscape mode? $isSingleLandscape")
+        Text(text = "The current window mode is $windowMode")
         Spacer(modifier = Modifier.height(15.dp))
 
+        Text(text = "Window size properties", style = MaterialTheme.typography.h6)
         Text(text = "What is the current width size class? $widthSizeClass")
         Text(text = "What is the current height size class? $heightSizeClass")
     }
