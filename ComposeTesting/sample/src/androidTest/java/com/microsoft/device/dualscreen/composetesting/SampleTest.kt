@@ -27,13 +27,13 @@ class SampleTest {
     }
 
     @Test
-    fun app_verticalFold_showTwoPanes() {
+    fun app_deviceOpenVertically_showTwoPanes() {
         composeTestRule.setContent {
             ComposeTestingTheme {
                 ComposeTestingApp()
             }
         }
-        // Simulate vertical fold
-        publisherRule.simulateVerticalFold(composeTestRule)
+        // Simulate vertical foldingFeature
+        publisherRule.simulateVerticalFoldingFeature(composeTestRule)
     }
 }

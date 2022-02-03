@@ -16,10 +16,10 @@ import org.junit.rules.TestRule
 import java.lang.ClassCastException
 
 /**
- * FOLD HELPER
+ * FOLDINGFEATURE HELPER
  * -----------------------------------------------------------------------------------------------
  * These functions can be used in foldable UI tests to simulate the present of vertical and
- * horizontal folds/hinges. The folds are simulated using TestWindowLayoutInfo.
+ * horizontal foldingFeatures(folds/hinges). The foldingFeatures are simulated using TestWindowLayoutInfo.
  */
 
 /**
@@ -32,49 +32,49 @@ fun createWindowLayoutInfoPublisherRule(): TestRule {
 }
 
 /**
- * Simulate a vertical fold
+ * Simulate a vertical foldingFeature
  *
  * @param activityRule: test activity rule
- * @param center: location of center of fold
- * @param size: size of fold
- * @param state: state of fold
+ * @param center: location of center of foldingFeature
+ * @param size: size of foldingFeature
+ * @param state: state of foldingFeature
  */
-fun <A : ComponentActivity> TestRule.simulateVerticalFold(
+fun <A : ComponentActivity> TestRule.simulateVerticalFoldingFeature(
     activityRule: ActivityScenarioRule<A>,
     center: Int = -1,
     size: Int = 0,
     state: FoldingFeature.State = FoldingFeature.State.HALF_OPENED
 ) {
-    simulateFold(activityRule, center, size, state, FoldingFeature.Orientation.VERTICAL)
+    simulateFoldingFeature(activityRule, center, size, state, FoldingFeature.Orientation.VERTICAL)
 }
 
 /**
- * Simulate a horizontal fold
+ * Simulate a horizontal foldingFeature
  *
  * @param activityRule: test activity rule
- * @param center: location of center of fold
- * @param size: size of fold
- * @param state: state of fold
+ * @param center: location of center of foldingFeature
+ * @param size: size of foldingFeature
+ * @param state: state of foldingFeature
  */
-fun <A : ComponentActivity> TestRule.simulateHorizontalFold(
+fun <A : ComponentActivity> TestRule.simulateHorizontalFoldingFeature(
     activityRule: ActivityScenarioRule<A>,
     center: Int = -1,
     size: Int = 0,
     state: FoldingFeature.State = FoldingFeature.State.HALF_OPENED
 ) {
-    simulateFold(activityRule, center, size, state, FoldingFeature.Orientation.HORIZONTAL)
+    simulateFoldingFeature(activityRule, center, size, state, FoldingFeature.Orientation.HORIZONTAL)
 }
 
 /**
- * Simulate a fold with the given properties
+ * Simulate a foldingFeature with the given properties
  *
  * @param activityRule: test activity rule
- * @param center: location of center of fold
- * @param size: size of fold
- * @param state: state of fold
- * @param orientation: orientation of fold
+ * @param center: location of center of foldingFeature
+ * @param size: size of foldingFeature
+ * @param state: state of foldingFeature
+ * @param orientation: orientation of foldingFeature
  */
-fun <A : ComponentActivity> TestRule.simulateFold(
+fun <A : ComponentActivity> TestRule.simulateFoldingFeature(
     activityRule: ActivityScenarioRule<A>,
     center: Int,
     size: Int,
@@ -105,47 +105,47 @@ fun <A : ComponentActivity> TestRule.simulateFold(
  * @param size: size of fold
  * @param state: state of fold
  */
-fun <A : ComponentActivity> TestRule.simulateVerticalFold(
+fun <A : ComponentActivity> TestRule.simulateVerticalFoldingFeature(
     composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>,
     center: Int = -1,
     size: Int = 0,
     state: FoldingFeature.State = FoldingFeature.State.HALF_OPENED
 ) {
-    simulateVerticalFold(composeTestRule.activityRule, center, size, state)
+    simulateVerticalFoldingFeature(composeTestRule.activityRule, center, size, state)
 }
 
 /**
- * Simulate a horizontal fold in a Compose test
+ * Simulate a horizontal foldingFeature in a Compose test
  *
  * @param composeTestRule: Compose android test rule
- * @param center: location of center of fold
- * @param size: size of fold
- * @param state: state of fold
+ * @param center: location of center of foldingFeature
+ * @param size: size of foldingFeature
+ * @param state: state of foldingFeature
  */
-fun <A : ComponentActivity> TestRule.simulateHorizontalFold(
+fun <A : ComponentActivity> TestRule.simulateHorizontalFoldingFeature(
     composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>,
     center: Int = -1,
     size: Int = 0,
     state: FoldingFeature.State = FoldingFeature.State.HALF_OPENED
 ) {
-    simulateHorizontalFold(composeTestRule.activityRule, center, size, state)
+    simulateHorizontalFoldingFeature(composeTestRule.activityRule, center, size, state)
 }
 
 /**
- * Simulate a fold with the given properties in a Compose test
+ * Simulate a foldingFeature with the given properties in a Compose test
  *
  * @param composeTestRule: Compose android test rule
- * @param center: location of center of fold
- * @param size: size of fold
- * @param state: state of fold
- * @param orientation: orientation of fold
+ * @param center: location of center of foldingFeature
+ * @param size: size of foldingFeature
+ * @param state: state of foldingFeature
+ * @param orientation: orientation of foldingFeature
  */
-fun <A : ComponentActivity> TestRule.simulateFold(
+fun <A : ComponentActivity> TestRule.simulateFoldingFeature(
     composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>,
     center: Int,
     size: Int,
     state: FoldingFeature.State,
     orientation: FoldingFeature.Orientation,
 ) {
-    simulateFold(composeTestRule.activityRule, center, size, state, orientation)
+    simulateFoldingFeature(composeTestRule.activityRule, center, size, state, orientation)
 }
