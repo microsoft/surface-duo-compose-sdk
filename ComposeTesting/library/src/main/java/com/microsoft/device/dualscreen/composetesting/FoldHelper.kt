@@ -13,6 +13,7 @@ import androidx.window.testing.layout.FoldingFeature
 import androidx.window.testing.layout.TestWindowLayoutInfo
 import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
 import org.junit.rules.TestRule
+import java.lang.ClassCastException
 
 /**
  * FOLD HELPER
@@ -38,7 +39,7 @@ fun createWindowLayoutInfoPublisherRule(): TestRule {
  * @param size: size of fold
  * @param state: state of fold
  */
-fun <A : ComponentActivity> WindowLayoutInfoPublisherRule.simulateVerticalFold(
+fun <A : ComponentActivity> TestRule.simulateVerticalFold(
     activityRule: ActivityScenarioRule<A>,
     center: Int = -1,
     size: Int = 0,
@@ -55,7 +56,7 @@ fun <A : ComponentActivity> WindowLayoutInfoPublisherRule.simulateVerticalFold(
  * @param size: size of fold
  * @param state: state of fold
  */
-fun <A : ComponentActivity> WindowLayoutInfoPublisherRule.simulateHorizontalFold(
+fun <A : ComponentActivity> TestRule.simulateHorizontalFold(
     activityRule: ActivityScenarioRule<A>,
     center: Int = -1,
     size: Int = 0,
@@ -73,13 +74,16 @@ fun <A : ComponentActivity> WindowLayoutInfoPublisherRule.simulateHorizontalFold
  * @param state: state of fold
  * @param orientation: orientation of fold
  */
-fun <A : ComponentActivity> WindowLayoutInfoPublisherRule.simulateFold(
+fun <A : ComponentActivity> TestRule.simulateFold(
     activityRule: ActivityScenarioRule<A>,
     center: Int,
     size: Int,
     state: FoldingFeature.State,
     orientation: FoldingFeature.Orientation,
 ) {
+    this as? WindowLayoutInfoPublisherRule
+        ?: throw ClassCastException("Test rule is not of type WindowLayoutInfoPublisherRule")
+
     activityRule.scenario.onActivity { activity ->
         val fold = FoldingFeature(
             activity = activity,
@@ -101,7 +105,7 @@ fun <A : ComponentActivity> WindowLayoutInfoPublisherRule.simulateFold(
  * @param size: size of fold
  * @param state: state of fold
  */
-fun <A : ComponentActivity> WindowLayoutInfoPublisherRule.simulateVerticalFold(
+fun <A : ComponentActivity> TestRule.simulateVerticalFold(
     composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>,
     center: Int = -1,
     size: Int = 0,
@@ -118,7 +122,7 @@ fun <A : ComponentActivity> WindowLayoutInfoPublisherRule.simulateVerticalFold(
  * @param size: size of fold
  * @param state: state of fold
  */
-fun <A : ComponentActivity> WindowLayoutInfoPublisherRule.simulateHorizontalFold(
+fun <A : ComponentActivity> TestRule.simulateHorizontalFold(
     composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>,
     center: Int = -1,
     size: Int = 0,
@@ -136,7 +140,7 @@ fun <A : ComponentActivity> WindowLayoutInfoPublisherRule.simulateHorizontalFold
  * @param state: state of fold
  * @param orientation: orientation of fold
  */
-fun <A : ComponentActivity> WindowLayoutInfoPublisherRule.simulateFold(
+fun <A : ComponentActivity> TestRule.simulateFold(
     composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>,
     center: Int,
     size: Int,
