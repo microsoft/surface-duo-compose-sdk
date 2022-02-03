@@ -7,7 +7,9 @@
 
 package com.microsoft.device.dualscreen.composetesting
 
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithText
 import com.microsoft.device.dualscreen.composetesting.ui.theme.ComposeTestingTheme
 import org.junit.Rule
 import org.junit.Test
@@ -35,5 +37,9 @@ class SampleTest {
         }
         // Simulate vertical foldingFeature
         publisherRule.simulateVerticalFoldingFeature(composeTestRule)
+
+        // Assert both panes are being shown
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane1_text)).assertIsDisplayed()
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane2_text)).assertIsDisplayed()
     }
 }

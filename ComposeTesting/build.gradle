@@ -2,6 +2,11 @@
 buildscript {
     apply from: 'dependencies.gradle'
 
+    repositories {
+        google()
+        mavenCentral()
+    }
+
     dependencies {
         classpath config.gradlePlugin
         classpath config.kotlinGradlePlugin
@@ -9,10 +14,12 @@ buildscript {
     }
 }
 
-plugins {
-    id 'com.android.application' version '7.1.0' apply false
-    id 'com.android.library' version '7.1.0' apply false
-    id 'org.jetbrains.kotlin.android' version '1.6.10' apply false
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    apply from: "$rootDir/ktlint.gradle"
 }
 
 task clean(type: Delete) {
