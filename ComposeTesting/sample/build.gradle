@@ -46,8 +46,6 @@ android {
 }
 
 dependencies {
-    implementation project(path: ':library')
-
     implementation kotlinDependencies.kotlinStdlib
     implementation androidxDependencies.ktxCore
     implementation androidxDependencies.appCompat
@@ -60,7 +58,7 @@ dependencies {
     implementation googleDependencies.material
 
     implementation microsoftDependencies.twoPaneLayout
-    implementation 'androidx.window:window-testing:1.0.0-alpha09'
+    implementation project(path: ':library')
 
     androidTestImplementation(testDependencies.androidxTestCore)
     androidTestImplementation(testDependencies.androidxTestRules)
