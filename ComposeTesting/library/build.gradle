@@ -15,7 +15,6 @@ ext {
 }
 apply from: "${rootProject.projectDir}/publishing.gradle"
 
-
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
@@ -51,6 +50,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion composeVersion
     }
+
     packagingOptions {
         resources {
             excludes += ['META-INF/LGPL2.1', 'META-INF/AL2.0']
