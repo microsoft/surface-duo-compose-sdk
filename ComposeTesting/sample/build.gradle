@@ -12,7 +12,7 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        applicationId "com.microsoft.device.display.composetesting"
+        applicationId "com.microsoft.device.dualscreen.composetesting"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
 
