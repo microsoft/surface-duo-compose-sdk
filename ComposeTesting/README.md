@@ -1,6 +1,6 @@
 # ComposeTesting - Surface Duo Compose SDK
 
-**ComposeTesting** provides some helper functions that help you easily test your application on the dual-screen, foldable and large screen devices, by simulating the device gestures, foldingFeatures(fold/hinge), screenshot comparing and zooming.
+**ComposeTesting** provides some helper functions that help you easily test your application on the dual-screen, foldable and large screen devices, by simulating the foldingFeatures(fold/hinge), device gestures, screenshot comparing and zooming.
 
 ## Add to your project
 
