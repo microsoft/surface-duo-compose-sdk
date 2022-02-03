@@ -35,6 +35,9 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    buildFeatures {
+        compose true
+    }
     composeOptions {
         kotlinCompilerExtensionVersion composeVersion
     }
@@ -46,6 +49,7 @@ android {
 }
 
 dependencies {
+    implementation project(path: ':library')
     implementation kotlinDependencies.kotlinStdlib
     implementation androidxDependencies.ktxCore
     implementation androidxDependencies.appCompat
@@ -58,7 +62,6 @@ dependencies {
     implementation googleDependencies.material
 
     implementation microsoftDependencies.twoPaneLayout
-    implementation project(path: ':library')
 
     androidTestImplementation(testDependencies.androidxTestCore)
     androidTestImplementation(testDependencies.androidxTestRules)

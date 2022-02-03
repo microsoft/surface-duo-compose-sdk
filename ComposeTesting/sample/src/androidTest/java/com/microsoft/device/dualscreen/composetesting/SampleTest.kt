@@ -8,10 +8,7 @@
 package com.microsoft.device.dualscreen.composetesting
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.window.testing.layout.WindowLayoutInfoPublisherRule
 import com.microsoft.device.dualscreen.composetesting.ui.theme.ComposeTestingTheme
-import com.microsoft.device.dualscreen.composetesting.simulateHorizontalFold
-import com.microsoft.device.dualscreen.composetesting.simulateVerticalFold
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
