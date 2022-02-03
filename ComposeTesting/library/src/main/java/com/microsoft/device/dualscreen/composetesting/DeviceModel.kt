@@ -69,14 +69,14 @@ fun UiDevice.isSurfaceDuo(): Boolean {
 }
 
 /**
- * Returns the hinge/fold size of a device in pixels
+ * Returns a pixel value of the hinge/fold size of a foldable or dual-screen device
  */
 fun UiDevice.getFoldSize(): Int {
     return getDeviceModel().foldWidth
 }
 
 /**
- * Determines the model of a device based on display width and height (in pixels)
+ * Returns the model of a device based on display width and height (in pixels)
  */
 fun UiDevice.getDeviceModel(): DeviceModel {
     Log.d(
