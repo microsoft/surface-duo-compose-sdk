@@ -19,7 +19,7 @@ on:
         required: false
 
 jobs:
-  publish-WindowState-MavenCentral:
+  publish-ComposeTesting-MavenCentral:
     runs-on: ubuntu-latest
     defaults:
       run:
