@@ -29,7 +29,7 @@ class FoldingFeatureHelperTest {
     }
 
     @Test
-    fun app_deviceOpenVertically_showTwoPanes() {
+    fun deviceOpenVertically_showsTwoPanes() {
         composeTestRule.setContent {
             ComposeTestingTheme {
                 ComposeTestingApp()
@@ -41,5 +41,34 @@ class FoldingFeatureHelperTest {
         // Assert both panes are being shown
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane1_text)).assertIsDisplayed()
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane2_text)).assertIsDisplayed()
+    }
+
+    @Test
+    fun deviceOpenHorizontally_showsTwoPanes() {
+        composeTestRule.setContent {
+            ComposeTestingTheme {
+                ComposeTestingApp()
+            }
+        }
+        // Simulate vertical foldingFeature
+        publisherRule.simulateHorizontalFoldingFeature(composeTestRule)
+
+        // Assert both panes are being shown
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane1_text)).assertIsDisplayed()
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane2_text)).assertIsDisplayed()
+    }
+
+    @Test
+    fun deviceNotOpen_showsOnePane() {
+        composeTestRule.setContent {
+            ComposeTestingTheme {
+                ComposeTestingApp()
+            }
+        }
+
+        // Assert the first is being shown
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane1_text)).assertIsDisplayed()
+        // Assert the second is not being shown
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane2_text)).assertDoesNotExist()
     }
 }
