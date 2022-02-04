@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ComposeTestingSample</string>
+    <string name="pane1_text">TwoPaneLayout: A UI component that helps you build two-pane layout for dual-screen, foldable, and large-screen devices.</string>
+    <string name="pane2_text">WindowState: A utility component that helps you easily get details about the window state of dual-screen, foldable, and large-screen devices.</string>
+</resources>

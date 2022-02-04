@@ -1,0 +1,77 @@
+# This workflow will build a Java project with Gradle
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+
+name: publish-ComposeTesting-ado
+# This workflow builds and publishes in ADO the ComposeTesting Compose artifact.
+
+on:
+  push:
+    tags:
+      - 'composetesting*'
+
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Triggers publication to ADO - ComposeTesting Compose'
+      home:
+        description: 'location'
+        required: false
+
+jobs:
+  publish-ComposeTesting-ADO:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./ComposeTesting
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: ${{ runner.os }}-gradle
+
+      # Base64 decodes and pipes the GPG key content into the secret file
+      - name: Prepare environment
+        env:
+          SIGNING_SECRET_KEY: ${{ secrets.SIGNING_SECRET_KEY }}
+          SIGNING_SECRET_FILE: ${{ secrets.SIGNING_SECRET_FILE }}
+        run: |
+          git fetch --unshallow
+          sudo bash -c "echo '$SIGNING_SECRET_KEY' | base64 -d > '$SIGNING_SECRET_FILE'"
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: clean
+        run: ./gradlew :library:clean --info
+
+        # Builds the release artifacts of the library
+      - name: Release build
+        run: ./gradlew :library:assembleRelease
+
+        # Generates other artifacts
+      - name: Source jar
+        run: ./gradlew :library:androidSourcesJar
+
+        # Generates docs artifact
+      - name: Docs jar
+        run: ./gradlew :library:dokkaHtmlJar
+
+        # Runs upload to ADO
+      - name: Publish to ADO
+        run: ./gradlew  :library:publishSurfaceDuoComposePublicationToADORepository --max-workers 1
+        env:
+          ADO_URL: ${{ secrets.ADO_URL }}
+          ADO_USER: ${{ secrets.ADO_USER }}
+          ADO_PASSWD: ${{ secrets.ADO_PASSWD }}
+          SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
+          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+          SIGNING_SECRET_FILE: ${{ secrets.SIGNING_SECRET_FILE }}

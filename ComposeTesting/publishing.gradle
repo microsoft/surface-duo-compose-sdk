@@ -1,0 +1,128 @@
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+apply plugin: 'org.jetbrains.dokka'
+
+//Every module defines its own values
+group = PUBLISH_GROUP_ID
+version = LIBRARY_VERSION
+description = LIBRARY_DESCRIPTION
+
+//Signing key-value pairs (used for the publication no matter the target (ADO or MavenCentral))
+ext["signing.keyId"] = getPropertyValue("SIGNING_KEY_ID")
+ext["signing.password"] = getPropertyValue("SIGNING_PASSWORD")
+ext["signing.secretKeyRingFile"] = getPropertyValue("SIGNING_SECRET_FILE")
+
+//Maven central key-value pairs
+ext["mavenUser"] = getPropertyValue("MAVEN_USER")
+ext["mavenPassword"] = getPropertyValue("MAVEN_PASSWORD")
+
+//ADO key-value pairs
+ext["ado_url"] = getPropertyValue("ADO_URL")
+ext["ado_user"] = getPropertyValue("ADO_USER")
+ext["ado_passwd"] = getPropertyValue("ADO_PASSWD")
+
+
+task androidSourcesJar(type: Jar) {
+    archiveClassifier.set('sources')
+    from android.sourceSets.main.java.srcDirs
+    from android.sourceSets.main.kotlin.srcDirs
+}
+
+dokkaHtml.configure {
+    dokkaSourceSets {
+        named("main") {
+            noAndroidSdkLink.set(false)
+        }
+    }
+}
+
+task dokkaHtmlJar(type: Jar, dependsOn: dokkaHtml) {
+    archiveClassifier.set('html-doc')
+    from dokkaHtml.outputDirectory
+}
+
+publishing {
+    publications {
+        SurfaceDuoCompose(MavenPublication) {
+            //Define library main info. Each build.gradle library file define its own data.
+            groupId PUBLISH_GROUP_ID
+            artifactId PUBLISH_ARTIFACT_ID
+            version it.version
+
+            //Set the artifact files
+            artifact("$buildDir/outputs/aar/${project.getName()}-release.aar")
+            artifact(androidSourcesJar)
+            artifact(dokkaHtmlJar)
+
+            pom {
+                name = PUBLISH_ARTIFACT_ID
+                description = LIBRARY_DESCRIPTION
+                url = 'https://github.com/microsoft/surface-duo-compose-sdk'
+                licenses {
+                    license {
+                        name = 'MIT'
+                        url = 'https://opensource.org/licenses/MIT'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'MicrosoftSurfaceDuoDevX'
+                        name = 'Microsoft Surface Duo DevX team'
+                        email = 'surfaceduo-devx-libs@microsoft.com'
+                    }
+                }
+                // Version control info
+                scm {
+                    connection = 'scm:git:github.com/microsoft/surface-duo-compose-sdk.git'
+                    developerConnection = 'scm:git:ssh://github.com/microsoft/surface-duo-compose-sdk.git'
+                    url = 'https://github.com/microsoft/surface-duo-compose-sdk/tree/main'
+                }
+                // A slightly hacky fix so that your POM will include any transitive dependencies
+                // that your library builds upon
+                withXml {
+                    def dependenciesNode = asNode().appendNode('dependencies')
+                    project.configurations.implementation.allDependencies.each {
+                        def dependencyNode = dependenciesNode.appendNode('dependency')
+                        dependencyNode.appendNode('groupId', it.group)
+                        dependencyNode.appendNode('artifactId', it.name)
+                        dependencyNode.appendNode('version', it.version)
+                    }
+                }
+            }
+        }
+    }
+    // Public: This is used to upload the artifact to the public repository.
+    //You can use it by doing: ./gradlew :module:publishSurfaceDuoComposePublicationToMavencentralRepository
+    //being :module the specific module you want to create the artifact from
+    repositories {
+        maven {
+            name = "MavenCentral"
+            def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+            def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+            credentials {
+                username mavenUser
+                password mavenPassword
+            }
+        }
+    }
+
+    // Public/and for test purposes: This is used to upload the artifact to internal repository
+    // for testing purposes You can use it by doing:
+    // ./gradlew :module:publishSurfaceDuoSDKPublicationToADORepository
+    //being :module the specific module you want to create the artifact from
+    repositories {
+        maven {
+            name 'ADO'
+            url ado_url
+            credentials {
+                username ado_user
+                password ado_passwd
+            }
+        }
+    }
+}
+
+signing {
+    sign publishing.publications
+}

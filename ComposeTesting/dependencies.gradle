@@ -1,0 +1,99 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
+ext {
+
+    //---- Important -------------------
+    // We have to update following versionName and versionCode groups in order to
+    // publish correctly a new version of each of our libraries.
+    // e.g. ComposeTesting library, you could have as a current version
+    // 1.0.0-beta1, if you want to publish a new version you will have to increase in one the
+    //composeTestingVersionCode and to bump the composeTestingVersionName.
+
+    // ComposeTesting library version code:
+    // If you want to publish a new version, bump in one (1) the specific line(s)
+    composeTestingVersionCode = 1
+
+    // ComposeTesting library version name:
+    // If you want to publish a new version, bump the specific line
+    composeTestingVersionName = '1.0.0-alpha01'
+
+    // ----------------------------------
+
+    gradlePluginVersion = '7.1.0'
+    kotlinVersion = "1.6.10"
+    compileSdkVersion = 31
+    targetSdkVersion = compileSdkVersion
+    minSdkVersion = 23
+    dokkaVersion = "1.6.0"
+
+    config = [
+            gradlePlugin             : "com.android.tools.build:gradle:$gradlePluginVersion",
+            kotlinGradlePlugin       : "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion",
+            testInstrumentationRunner: "androidx.test.runner.AndroidJUnitRunner"
+    ]
+
+    kotlinDependencies = [
+            kotlinStdlib: "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    ]
+
+    dokkaDependencies = [
+            dokkaGradlePlugin: "org.jetbrains.dokka:dokka-gradle-plugin:$dokkaVersion"
+    ]
+
+    // AndroidX dependencies
+    appCompatVersion = '1.4.1'
+    ktxCoreVersion = '1.7.0'
+    androidxDependencies = [
+            appCompat         : "androidx.appcompat:appcompat:$appCompatVersion",
+            ktxCore           : "androidx.core:core-ktx:$ktxCoreVersion",
+    ]
+
+    // Compose dependencies
+    composeVersion = "1.1.0-rc03"
+    activityComposeVersion = "1.4.0"
+    navigationComposeVersion = "2.4.0"
+    composeDependencies = [
+            composeMaterial         : "androidx.compose.material:material:$composeVersion",
+            composeRuntime          : "androidx.compose.runtime:runtime-livedata:$composeVersion",
+            composeUI               : "androidx.compose.ui:ui:$composeVersion",
+            composeUITooling        : "androidx.compose.ui:ui-tooling:$composeVersion",
+            activityCompose         : "androidx.activity:activity-compose:$activityComposeVersion",
+            navigationCompose       : "androidx.navigation:navigation-compose:$navigationComposeVersion"
+    ]
+
+    // Testing versions
+    windowVersion = "1.0.0"
+    androidxTestVersion = "1.3.0"
+    uiAutomatorVersion = "2.2.0"
+    espressoVersion = "3.4.0"
+    junitVersion = "4.12"
+    mockitoVersion = "4.1.0"
+    testDependencies = [
+            androidxTestCore        : "androidx.test:core:$androidxTestVersion",
+            androidxTestRules       : "androidx.test:rules:$androidxTestVersion",
+            androidxTestRunner      : "androidx.test:runner:$androidxTestVersion",
+            composeUITest           : "androidx.compose.ui:ui-test:$composeVersion",
+            composeJunit            : "androidx.compose.ui:ui-test-junit4:$composeVersion",
+            composeUITestManifest   : "androidx.compose.ui:ui-test-manifest:$composeVersion",
+            uiAutomator             : "androidx.test.uiautomator:uiautomator:$uiAutomatorVersion",
+            windowTest              : "androidx.window:window-testing:$windowVersion",
+            espressoCore            : "androidx.test.espresso:espresso-core:$espressoVersion",
+            androidJunit            : "junit:junit:$junitVersion",
+            mockitoCore             : "org.mockito:mockito-core:$mockitoVersion",
+    ]
+
+    // Google dependencies
+    materialVersion = "1.5.0"
+    googleDependencies = [
+            material: "com.google.android.material:material:$materialVersion"
+    ]
+
+    // Microsoft dependencies
+    twoPaneLayoutVersion = "1.0.0-alpha10"
+    microsoftDependencies = [
+            twoPaneLayout: "com.microsoft.device.dualscreen:twopanelayout:$twoPaneLayoutVersion",
+    ]
+}

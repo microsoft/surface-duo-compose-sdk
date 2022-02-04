@@ -1,0 +1,2 @@
+rootProject.name = "ComposeTesting"
+include ':library', ':sample'
