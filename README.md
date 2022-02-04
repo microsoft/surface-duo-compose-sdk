@@ -1,4 +1,4 @@
-![build-test-check](https://github.com/microsoft/surface-duo-compose-sdk/actions/workflows/build_test_check.yml/badge.svg) ![Compose Version](https://img.shields.io/badge/Jetpack%20Compose-1.1.0rc03-brightgreen)
+![build-test-check](https://github.com/microsoft/surface-duo-compose-sdk/actions/workflows/build_test_check.yml/badge.svg) ![Compose Version](https://img.shields.io/badge/Jetpack%20Compose-1.1.0--rc03-brightgreen)
 
 # Surface Duo Jetpack Compose SDK
 

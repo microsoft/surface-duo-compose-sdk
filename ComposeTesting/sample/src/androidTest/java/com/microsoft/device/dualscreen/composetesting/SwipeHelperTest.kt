@@ -34,7 +34,11 @@ class SwipeHelperTest {
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane2_text)).assertDoesNotExist()
 
         // Span the app from start
-        device.spanFromStart()
+        if (device.isSurfaceDuo()) {
+            device.spanFromStart()
+        } else {
+            return
+        }
 
         // Assert that both panes are now shown
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane1_text)).assertIsDisplayed()
@@ -48,16 +52,23 @@ class SwipeHelperTest {
                 ComposeTestingApp()
             }
         }
-
-        // Span the app from start
-        device.spanFromStart()
+        if (device.isSurfaceDuo()) {
+            // Span the app from start
+            device.spanFromStart()
+        } else {
+            return
+        }
 
         // Assert that both panes are shown
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane1_text)).assertIsDisplayed()
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane2_text)).assertIsDisplayed()
 
         // Unspan the app to the end
-        device.unspanToEnd()
+        if (device.isSurfaceDuo()) {
+            device.unspanToEnd()
+        } else {
+            return
+        }
 
         // Assert that only pane 1 is now shown
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane1_text)).assertIsDisplayed()

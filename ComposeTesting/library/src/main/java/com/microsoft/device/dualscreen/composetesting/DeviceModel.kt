@@ -26,7 +26,7 @@ import androidx.test.uiautomator.UiDevice
  *
  * @param paneWidth: width of device panes in pixels in dual portrait mode (assumed to have panes of equal size)
  * @param paneHeight: height of device panes in pixels in dual portrait mode (assumed to have panes of equal size)
- * @param foldWidth: width of device fold in pixels in dual portrait mode
+ * @param foldWidth: width of device foldingFeature in pixels in dual portrait mode
  * @param leftX: x-coordinate of the center of the left pane in dual portrait mode
  * @param rightX: x-coordinate of the center of the right pane in dual portrait mode
  * @param middleX: x-coordinate of the center of the device in dual portrait mode

@@ -16,7 +16,7 @@ import org.junit.Test
 import org.junit.rules.RuleChain
 import org.junit.rules.TestRule
 
-class SampleTest {
+class FoldingFeatureHelperTest {
     private val composeTestRule = createAndroidComposeRule<MainActivity>()
     private val publisherRule = createWindowLayoutInfoPublisherRule()
 

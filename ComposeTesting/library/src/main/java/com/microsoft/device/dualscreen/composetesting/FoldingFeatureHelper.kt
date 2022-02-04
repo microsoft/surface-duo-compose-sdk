@@ -32,12 +32,12 @@ fun createWindowLayoutInfoPublisherRule(): TestRule {
 }
 
 /**
- * Simulate a vertical fold in a Compose test
+ * Simulate a vertical foldingFeature in a Compose test
  *
  * @param composeTestRule: Compose android test rule
- * @param center: location of center of fold
- * @param size: size of fold
- * @param state: state of fold
+ * @param center: location of center of foldingFeature
+ * @param size: size of foldingFeature
+ * @param state: state of foldingFeature
  */
 fun <A : ComponentActivity> TestRule.simulateVerticalFoldingFeature(
     composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>,
@@ -138,14 +138,14 @@ private fun <A : ComponentActivity> TestRule.simulateFoldingFeature(
         ?: throw ClassCastException("Test rule is not of type WindowLayoutInfoPublisherRule")
 
     activityRule.scenario.onActivity { activity ->
-        val fold = FoldingFeature(
+        val foldingFeature = FoldingFeature(
             activity = activity,
             center = center,
-            size = size,
             state = state,
+            size = size,
             orientation = orientation
         )
-        val windowLayoutInfo = TestWindowLayoutInfo(listOf(fold))
+        val windowLayoutInfo = TestWindowLayoutInfo(listOf(foldingFeature))
         overrideWindowLayoutInfo(windowLayoutInfo)
     }
 }

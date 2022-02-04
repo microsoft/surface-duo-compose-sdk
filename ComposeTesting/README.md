@@ -37,7 +37,6 @@
 ## API reference
 
 
-
 ### FoldingFeature Helper
 
 These functions can be used in foldable UI tests to simulate the present of vertical and
@@ -85,9 +84,9 @@ Simulate a foldingFeature with the given properties in a Compose test
 
 ### Swipe Helper
 
-These functions can be used in dualscreen UI tests to simulate swipe gestures that affect
+These functions can be used in dual-screen UI tests to simulate swipe gestures that affect
 app display. The swipes are simulated using UiDevice, and the coordinates are calculated based
-on the display width/height of the testing device.
+on the display width/height of the testing device. They can be used only on dual-screen devices, not foldable devices or large screen devices.
 
 ```kotlin
 fun UiDevice.spanFromStart()
@@ -137,31 +136,37 @@ fun UiDevice.closeEnd()
 
 Close app from bottom/right pane
 
+### String Helper
 
-### Device model
-
- The DeviceModel class and related helper functions can be used in dualscreen UI tests to help
-calculate coordinates for simulated swipe gestures. Device properties are determined using
-UiDevice.
+These functions can be used for string operations in UI tests to simplify testing code.
 
 ```kotlin
-fun UiDevice.isSurfaceDuo(): Boolean
+fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.getString(@StringRes id: Int): String
 ```
 
-Checks whether a device is a Surface Duo model
+Get resource string inside Compose test with resource id
 
 ```kotlin
-fun UiDevice.getFoldSize(): Int
+fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.getString(@StringRes id: Int, vararg formatArgs: Any): String
 ```
 
-Returns a pixel value of the hinge/fold size of a foldable or dual-screen device
+Get resource string inside Compose test with resource id and arguments
+
+### Zoom Helper
+
+These functions can be used to perform zooming gestures during Compose UI tests.
 
 ```kotlin
-fun UiDevice.getDeviceModel(): DeviceModel
+fun TouchInjectionScope.zoomIn(pinchMillis: Long = PINCH_MILLIS)
 ```
 
-Returns the model of a device based on display width and height
+Performs a zoom in gesture (swipes start towards center then move outwards)
 
+```kotlin
+fun TouchInjectionScope.zoomOut(pinchMillis: Long = PINCH_MILLIS)
+```
+
+Performs a zoom out gesture (swipes start towards center then move outwards)
 
 ## Contributing
 
