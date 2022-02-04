@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.microsoft.device.dualscreen.composetesting
+package com.microsoft.device.dualscreen.testing
 
 import androidx.activity.ComponentActivity
 import androidx.annotation.StringRes

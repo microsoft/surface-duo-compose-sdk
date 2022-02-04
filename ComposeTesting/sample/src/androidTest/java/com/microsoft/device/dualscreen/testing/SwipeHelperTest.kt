@@ -5,14 +5,14 @@
  *
  */
 
-package com.microsoft.device.dualscreen.composetesting
+package com.microsoft.device.dualscreen.testing
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
-import com.microsoft.device.dualscreen.composetesting.ui.theme.ComposeTestingTheme
+import com.microsoft.device.dualscreen.testing.ui.theme.ComposeTestingTheme
 import org.junit.Rule
 import org.junit.Test
 

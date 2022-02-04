@@ -1,4 +1,4 @@
-package com.microsoft.device.dualscreen.composetesting.ui.theme
+package com.microsoft.device.dualscreen.testing.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
