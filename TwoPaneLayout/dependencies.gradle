@@ -84,7 +84,7 @@ ext {
     ]
 
     // Microsoft dependencies
-    windowStateVersion = "1.0.0-alpha1"
+    windowStateVersion = "1.0.0-alpha02"
     microsoftDependencies = [
             windowState         : "com.microsoft.device.dualscreen:windowstate:$windowStateVersion",
     ]

@@ -6,18 +6,20 @@
 package com.microsoft.device.dualscreen.twopanelayout
 
 import android.graphics.Rect
+import android.graphics.RectF
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInRoot
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Constraints
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.microsoft.device.dualscreen.twopanelayout.screenState.DeviceType
-import com.microsoft.device.dualscreen.twopanelayout.screenState.LayoutOrientation
-import com.microsoft.device.dualscreen.twopanelayout.screenState.LayoutState
-import com.microsoft.device.dualscreen.twopanelayout.screenState.ScreenState
+import com.microsoft.device.dualscreen.windowstate.WindowMode
+import com.microsoft.device.dualscreen.windowstate.WindowMode.DUAL_LANDSCAPE
+import com.microsoft.device.dualscreen.windowstate.WindowMode.DUAL_PORTRAIT
+import com.microsoft.device.dualscreen.windowstate.WindowState
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
@@ -30,31 +32,55 @@ import kotlin.math.roundToInt
 @RunWith(AndroidJUnit4::class)
 class TwoPaneTest : LayoutTest() {
 
+    /**
+     * Check that isSinglePane returns the correct value for all postures when in TwoPane mode
+     */
     @Test
-    fun isSinglePaneCheck_withSinglePane() {
-        val layoutState = LayoutState.Fold
+    fun isSinglePaneCheck_withTwoPaneMode() {
         val paneMode = TwoPaneMode.TwoPane
-        val orientation = LayoutOrientation.Horizontal
-        val isSinglePane = isSinglePaneLayout(layoutState, paneMode, orientation)
-        assertTrue(isSinglePane)
+
+        for (windowMode in WindowMode.values()) {
+            val isSinglePane = isSinglePaneLayout(paneMode, windowMode)
+
+            when {
+                windowMode.isDualScreen -> assert(!isSinglePane)
+                else -> assert(isSinglePane)
+            }
+        }
     }
 
+    /**
+     * Check that isSinglePane returns the correct value for all postures when in HorizontalSingle mode
+     */
     @Test
     fun isSinglePaneCheck_withHorizontalSingleMode() {
-        val layoutState = LayoutState.Open
         val paneMode = TwoPaneMode.HorizontalSingle
-        val orientation = LayoutOrientation.Horizontal
-        val isSinglePane = isSinglePaneLayout(layoutState, paneMode, orientation)
-        assertTrue(isSinglePane)
+
+        for (windowMode in WindowMode.values()) {
+            val isSinglePane = isSinglePaneLayout(paneMode, windowMode)
+
+            when (windowMode) {
+                DUAL_PORTRAIT -> assert(!isSinglePane)
+                else -> assert(isSinglePane)
+            }
+        }
     }
 
+    /**
+     * Check that isSinglePane returns the correct value for all postures when in VerticalSingle mode
+     */
     @Test
-    fun isSinglePaneCheck_withDualPane() {
-        val layoutState = LayoutState.Open
+    fun isSinglePaneCheck_withVerticalSingleMode() {
         val paneMode = TwoPaneMode.VerticalSingle
-        val orientation = LayoutOrientation.Horizontal
-        val isSinglePane = isSinglePaneLayout(layoutState, paneMode, orientation)
-        assertTrue(!isSinglePane)
+
+        for (windowMode in WindowMode.values()) {
+            val isSinglePane = isSinglePaneLayout(paneMode, windowMode)
+
+            when (windowMode) {
+                DUAL_LANDSCAPE -> assert(!isSinglePane)
+                else -> assert(isSinglePane)
+            }
+        }
     }
 
     @Test
@@ -110,21 +136,36 @@ class TwoPaneTest : LayoutTest() {
         val height = 600
         val hingeBounds = Rect(390, 0, 410, 600)
         val constraints = Constraints(width, width, height, height)
-        val screenState = ScreenState(
-            deviceType = DeviceType.Dual,
-            screenSize = Size(width.toFloat(), height.toFloat()),
-            hingeBounds = hingeBounds,
-            orientation = LayoutOrientation.Vertical,
-            layoutState = LayoutState.Open
-        )
+        var widthDp: Dp
+        var heightDp: Dp
+        var hingeBoundsDp: RectF
 
         val drawLatch = CountDownLatch(2)
         val childSize = arrayOfNulls<IntSize>(2)
         val childPosition = arrayOfNulls<Offset>(2)
         activityTestRule.setContent {
+            with(LocalDensity.current) {
+                widthDp = width.toDp()
+                heightDp = height.toDp()
+
+                val left = hingeBounds.left.toDp().value
+                val top = hingeBounds.top.toDp().value
+                val right = hingeBounds.right.toDp().value
+                val bottom = hingeBounds.bottom.toDp().value
+
+                hingeBoundsDp = RectF(left, top, right, bottom)
+            }
+
             Container(width = width, height = height) {
                 MockTwoPaneLayout(
-                    screenState = screenState,
+                    windowState = WindowState(
+                        hasFold = true,
+                        foldIsHorizontal = false,
+                        foldBoundsDp = hingeBoundsDp,
+                        foldIsSeparating = true,
+                        windowWidthDp = widthDp,
+                        windowHeightDp = heightDp,
+                    ),
                     constraints = constraints,
                     firstPane = {
                         Container(
@@ -163,25 +204,28 @@ class TwoPaneTest : LayoutTest() {
 
     @Test
     fun tablet_withWeight() {
-        val width = 800
-        val height = 1200
-        val hingeBounds = Rect()
+        val width = 3300
+        val height = 4000
         val constraints = Constraints(width, width, height, height)
-        val screenState = ScreenState(
-            deviceType = DeviceType.Big,
-            screenSize = Size(width.toFloat(), height.toFloat()),
-            hingeBounds = hingeBounds,
-            orientation = LayoutOrientation.Horizontal,
-            layoutState = LayoutState.Open
-        )
+
+        var widthDp: Dp
+        var heightDp: Dp
 
         val drawLatch = CountDownLatch(2)
         val childSize = arrayOfNulls<IntSize>(2)
         val childPosition = arrayOfNulls<Offset>(2)
         activityTestRule.setContent {
+            with(LocalDensity.current) {
+                widthDp = width.toDp()
+                heightDp = height.toDp()
+            }
+
             Container(width = width, height = height) {
                 MockTwoPaneLayout(
-                    screenState = screenState,
+                    windowState = WindowState(
+                        windowWidthDp = widthDp,
+                        windowHeightDp = heightDp,
+                    ),
                     constraints = constraints,
                     firstPane = {
                         Container(

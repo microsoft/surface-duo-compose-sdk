@@ -17,6 +17,7 @@
 package com.microsoft.device.dualscreen.twopanelayout
 
 import android.app.Activity
+import android.content.res.Configuration
 import android.os.Handler
 import android.os.Looper
 import android.view.View
@@ -27,11 +28,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.ViewRootForTest
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.IntSize
-import com.microsoft.device.dualscreen.twopanelayout.screenState.ScreenState
+import com.microsoft.device.dualscreen.windowstate.WindowState
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
@@ -98,16 +102,22 @@ open class LayoutTest {
 
     @Composable
     internal fun MockTwoPaneLayout(
-        screenState: ScreenState,
+        windowState: WindowState,
         constraints: Constraints,
         firstPane: @Composable TwoPaneScope.() -> Unit,
         secondPane: @Composable TwoPaneScope.() -> Unit
     ) {
+        val isPortrait = LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT
+        val layoutDirection = LocalLayoutDirection.current
+
         val measurePolicy = twoPaneMeasurePolicy(
-            orientation = screenState.orientation,
-            paneSize = screenState.paneSize,
+            windowMode = windowState.windowMode,
+            foldSizePx = with(LocalDensity.current) { windowState.foldSizeDp.toPx() },
+            density = LocalDensity.current,
+            getPaneSizes = { pane1Weight -> windowState.getPaneSizes(isPortrait, layoutDirection, pane1Weight) },
             mockConstraints = constraints
         )
+
         Layout(
             content = {
                 TwoPaneScopeInstance.firstPane()
