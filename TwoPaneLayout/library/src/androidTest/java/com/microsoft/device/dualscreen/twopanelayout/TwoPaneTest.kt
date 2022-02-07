@@ -208,23 +208,16 @@ class TwoPaneTest : LayoutTest() {
         val height = 4000
         val constraints = Constraints(width, width, height, height)
 
-        var widthDp: Dp
-        var heightDp: Dp
-
         val drawLatch = CountDownLatch(2)
         val childSize = arrayOfNulls<IntSize>(2)
         val childPosition = arrayOfNulls<Offset>(2)
         activityTestRule.setContent {
-            with(LocalDensity.current) {
-                widthDp = width.toDp()
-                heightDp = height.toDp()
-            }
 
             Container(width = width, height = height) {
                 MockTwoPaneLayout(
                     windowState = WindowState(
-                        windowWidthDp = widthDp,
-                        windowHeightDp = heightDp,
+                        windowWidthDp = with(LocalDensity.current) { width.toDp() },
+                        windowHeightDp = with(LocalDensity.current) { height.toDp() },
                     ),
                     constraints = constraints,
                     firstPane = {

@@ -5,6 +5,7 @@
 
 package com.microsoft.device.dualscreen.twopanelayout
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.IntrinsicMeasurable
@@ -66,14 +67,13 @@ internal fun twoPaneMeasurePolicy(
         }
 
         val paneSizesPx = arrayOf(pane1SizePx, pane2SizePx)
-        val placeables = measureTwoPanes(windowMode, childrenConstraints, paneSizesPx, measurables)
+        val placeables = measureTwoPanes(childrenConstraints, paneSizesPx, measurables)
 
         layout(childrenConstraints.maxWidth, childrenConstraints.maxHeight) {
             placeTwoPanes(
                 windowMode = windowMode,
                 placeables = placeables,
                 foldSizePx = foldSizePx,
-                pane1SizePx = paneSizesPx[0],
             )
         }
     }
@@ -83,13 +83,11 @@ internal fun twoPaneMeasurePolicy(
  * To measure the two panes for dual-screen/foldable/large-screen with and without weight
  */
 private fun measureTwoPanes(
-    windowMode: WindowMode,
     constraints: Constraints,
     paneSizesPx: Array<Size>,
     measurables: List<Measurable>,
 ): List<Placeable> {
     val placeables = emptyList<Placeable>().toMutableList()
-    val constrainWidth = windowMode == WindowMode.DUAL_PORTRAIT
     val minWidth = constraints.minWidth
     val maxWidth = constraints.maxWidth
     val minHeight = constraints.minHeight
@@ -99,10 +97,10 @@ private fun measureTwoPanes(
         val paneWidth = paneSizesPx[i].width.roundToInt()
         val paneHeight = paneSizesPx[i].height.roundToInt()
         val childConstraints = Constraints(
-            minWidth = if (constrainWidth) minWidth.coerceAtMost(paneWidth) else minWidth,
-            minHeight = if (!constrainWidth) minHeight.coerceAtMost(paneHeight) else minHeight,
-            maxWidth = if (constrainWidth) maxWidth.coerceAtMost(paneWidth) else maxWidth,
-            maxHeight = if (!constrainWidth) maxHeight.coerceAtMost(paneHeight) else maxHeight
+            minWidth = minWidth.coerceAtMost(paneWidth),
+            minHeight = minHeight.coerceAtMost(paneHeight),
+            maxWidth = maxWidth.coerceAtMost(paneWidth),
+            maxHeight = maxHeight.coerceAtMost(paneHeight)
         )
 
         val placeable = measurables[i].measure(childConstraints)
@@ -115,19 +113,21 @@ private fun Placeable.PlacementScope.placeTwoPanes(
     windowMode: WindowMode,
     placeables: List<Placeable>,
     foldSizePx: Float,
-    pane1SizePx: Size,
 ) {
     when (windowMode) {
         WindowMode.DUAL_PORTRAIT -> {
             placeables[0].place(x = 0, y = 0)
-            placeables[1].place(x = (pane1SizePx.width + foldSizePx).roundToInt(), y = 0)
+            placeables[1].place(x = (placeables[0].width + foldSizePx).roundToInt(), y = 0)
         }
         WindowMode.DUAL_LANDSCAPE -> {
             placeables[0].place(x = 0, y = 0)
-            placeables[1].place(x = 0, y = (pane1SizePx.height + foldSizePx).roundToInt())
+            placeables[1].place(x = 0, y = (placeables[0].height + foldSizePx).roundToInt())
         }
         else -> {
-            // unexpected
+            Log.e(
+                "TwoPaneLayoutImpl",
+                "Error: using TwoPaneContainer when in a single pane window mode ($windowMode)"
+            )
         }
     }
 }

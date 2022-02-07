@@ -58,19 +58,21 @@ fun MainPage() {
                 pane1 = {
                     Text(
                         text = stringResource(R.string.first_pane_text),
-                        modifier = Modifier.fillMaxSize().background(color = Color.Cyan)
-                            .clickable {
-                                navigateToPane2()
-                            }
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(color = Color.Cyan)
+                            .clickable { navigateToPane2() },
+                        color = Color.Black
                     )
                 },
                 pane2 = {
                     Text(
                         text = stringResource(R.string.second_pane_text),
-                        modifier = Modifier.fillMaxSize().background(color = Color.Magenta)
-                            .clickable {
-                                navigateToPane1()
-                            }
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(color = Color.Magenta)
+                            .clickable { navigateToPane1() },
+                        color = Color.Black
                     )
                 }
             )
