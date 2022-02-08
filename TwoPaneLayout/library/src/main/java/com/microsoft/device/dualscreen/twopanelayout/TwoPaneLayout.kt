@@ -5,27 +5,24 @@
 
 package com.microsoft.device.dualscreen.twopanelayout
 
-import android.graphics.Rect
+import android.app.Activity
 import androidx.compose.foundation.layout.LayoutScopeMarker
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.debugInspectorInfo
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.microsoft.device.dualscreen.twopanelayout.screenState.ConfigScreenState
-import com.microsoft.device.dualscreen.twopanelayout.screenState.DeviceType
-import com.microsoft.device.dualscreen.twopanelayout.screenState.LayoutOrientation
-import com.microsoft.device.dualscreen.twopanelayout.screenState.LayoutState
-import com.microsoft.device.dualscreen.twopanelayout.screenState.ScreenState
+import com.microsoft.device.dualscreen.windowstate.WindowMode
+import com.microsoft.device.dualscreen.windowstate.WindowState
+import com.microsoft.device.dualscreen.windowstate.rememberWindowState
 
 /**
  * TwoPaneMode
@@ -61,24 +58,10 @@ fun TwoPaneLayout(
     pane1: @Composable TwoPaneScope.() -> Unit,
     pane2: @Composable TwoPaneScope.() -> Unit
 ) {
-    var screenState by remember {
-        mutableStateOf(
-            ScreenState(
-                deviceType = DeviceType.Single,
-                screenSize = Size.Zero,
-                hingeBounds = Rect(),
-                orientation = LayoutOrientation.Horizontal,
-                layoutState = LayoutState.Fold
-            )
-        )
-    }
-    ConfigScreenState(onStateChange = { screenState = it })
+    // REVISIT: not sure if this cast is safe
+    val windowState = (LocalContext.current as Activity).rememberWindowState()
 
-    val isSinglePane = isSinglePaneLayout(
-        layoutState = screenState.layoutState,
-        paneMode = paneMode,
-        orientation = screenState.orientation
-    )
+    val isSinglePane = isSinglePaneLayout(windowState.windowMode, paneMode)
 
     if (isSinglePane) {
         SinglePaneContainer(
@@ -87,7 +70,7 @@ fun TwoPaneLayout(
         )
     } else {
         TwoPaneContainer(
-            screenState = screenState,
+            windowState = windowState,
             modifier = modifier,
             pane1 = pane1,
             pane2 = pane2
@@ -156,14 +139,23 @@ internal fun SinglePaneContainer(
  */
 @Composable
 private fun TwoPaneContainer(
-    screenState: ScreenState,
+    windowState: WindowState,
     modifier: Modifier,
     pane1: @Composable TwoPaneScope.() -> Unit,
     pane2: @Composable TwoPaneScope.() -> Unit
 ) {
+    val pane1SizePx: Size
+    val pane2SizePx: Size
+    with(LocalDensity.current) {
+        val pane1SizeDp = windowState.pane1SizeDp()
+        val pane2SizeDp = windowState.pane2SizeDp()
+        pane1SizePx = Size(pane1SizeDp.width.dp.toPx(), pane1SizeDp.height.dp.toPx())
+        pane2SizePx = Size(pane2SizeDp.width.dp.toPx(), pane2SizeDp.height.dp.toPx())
+    }
+
     val measurePolicy = twoPaneMeasurePolicy(
-        orientation = screenState.orientation,
-        paneSize = screenState.paneSize,
+        windowMode = windowState.windowMode,
+        paneSizes = arrayOf(pane1SizePx, pane2SizePx),
     )
     Layout(
         content = {
@@ -176,13 +168,12 @@ private fun TwoPaneContainer(
 }
 
 internal fun isSinglePaneLayout(
-    layoutState: LayoutState,
+    windowMode: WindowMode,
     paneMode: TwoPaneMode,
-    orientation: LayoutOrientation
 ): Boolean {
-    return layoutState == LayoutState.Fold ||
-        paneMode == TwoPaneMode.VerticalSingle && orientation == LayoutOrientation.Vertical ||
-        paneMode == TwoPaneMode.HorizontalSingle && orientation == LayoutOrientation.Horizontal
+    return !windowMode.isDualScreen ||
+        paneMode == TwoPaneMode.VerticalSingle && windowMode == WindowMode.DUAL_PORTRAIT ||
+        paneMode == TwoPaneMode.HorizontalSingle && windowMode == WindowMode.DUAL_LANDSCAPE
 }
 
 @LayoutScopeMarker
