@@ -84,7 +84,9 @@ ext {
 
     // Microsoft dependencies
     windowStateVersion = '1.0.0-alpha02'
+    composeTestingVersion = '1.0.0-alpha01'
     microsoftDependencies = [
             windowState         : "com.microsoft.device.dualscreen:windowstate:$windowStateVersion",
+            composeTesting      : "com.microsoft.device.dualscreen.testing:testing-compose:$composeTestingVersion",
     ]
 }
