@@ -26,12 +26,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.ViewRootForTest
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.IntSize
-import com.microsoft.device.dualscreen.twopanelayout.screenState.ScreenState
+import androidx.compose.ui.unit.dp
+import com.microsoft.device.dualscreen.windowstate.WindowState
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
@@ -98,14 +101,23 @@ open class LayoutTest {
 
     @Composable
     internal fun MockTwoPaneLayout(
-        screenState: ScreenState,
+        windowState: WindowState,
         constraints: Constraints,
         firstPane: @Composable TwoPaneScope.() -> Unit,
         secondPane: @Composable TwoPaneScope.() -> Unit
     ) {
+        val pane1SizePx: Size
+        val pane2SizePx: Size
+        with(LocalDensity.current) {
+            val pane1SizeDp = windowState.pane1SizeDp()
+            val pane2SizeDp = windowState.pane2SizeDp()
+            pane1SizePx = Size(pane1SizeDp.width.dp.toPx(), pane1SizeDp.height.dp.toPx())
+            pane2SizePx = Size(pane2SizeDp.width.dp.toPx(), pane2SizeDp.height.dp.toPx())
+        }
+
         val measurePolicy = twoPaneMeasurePolicy(
-            orientation = screenState.orientation,
-            paneSize = screenState.paneSize,
+            windowMode = windowState.windowMode,
+            paneSizes = arrayOf(pane1SizePx, pane2SizePx),
             mockConstraints = constraints
         )
         Layout(
