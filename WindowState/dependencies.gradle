@@ -14,16 +14,16 @@ ext {
 
     // WindowState library version code:
     // If you want to publish a new version, bump in one (1) the specific line(s)
-    windowStateVersionCode = 2
+    windowStateVersionCode = 3
 
     // WindowState library version name:
     // If you want to publish a new version, bump the specific line
-    windowStateVersionName = '1.0.0-alpha02'
+    windowStateVersionName = '1.0.0-alpha03'
 
     // ----------------------------------
 
     gradlePluginVersion = '7.1.0'
-    kotlinVersion = "1.5.31"
+    kotlinVersion = "1.6.10"
     compileSdkVersion = 31
     targetSdkVersion = compileSdkVersion
     minSdkVersion = 23
@@ -44,8 +44,8 @@ ext {
     ]
 
     // AndroidX dependencies
-    appCompatVersion = "1.3.0"
-    ktxCoreVersion = "1.5.0"
+    appCompatVersion = '1.4.1'
+    ktxCoreVersion = "1.7.0"
     windowVersion = "1.0.0"
 
     androidxDependencies = [
@@ -55,9 +55,9 @@ ext {
     ]
 
     // Compose dependencies
-    composeVersion = "1.0.5"
+    composeVersion = "1.1.0-rc03"
     activityComposeVersion = "1.4.0"
-    navigationComposeVersion = "2.4.0-beta02"
+    navigationComposeVersion = "2.4.0"
 
     composeDependencies = [
             composeMaterial         : "androidx.compose.material:material:$composeVersion",
@@ -69,10 +69,10 @@ ext {
     ]
 
     // Test dependencies
-    androidxTestVersion = "1.4.0"
+    androidxTestVersion = '1.4.0'
     espressoVersion = "3.4.0"
-    junitVersion = "4.12"
-    mockitoVersion = "4.1.0"
+    junitVersion = '4.13.2'
+    mockitoVersion = '4.3.1'
     uiAutomatorVersion = "2.2.0"
     testDependencies = [
             androidxTestCore        : "androidx.test:core:$androidxTestVersion",
@@ -88,8 +88,7 @@ ext {
     ]
 
     // Google dependencies
-    materialVersion = "1.5.0-alpha01"
-
+    materialVersion = "1.5.0"
     googleDependencies = [
             material: "com.google.android.material:material:$materialVersion"
     ]
