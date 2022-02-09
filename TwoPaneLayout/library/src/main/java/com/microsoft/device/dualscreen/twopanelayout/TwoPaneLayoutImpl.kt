@@ -182,7 +182,7 @@ private fun Placeable.PlacementScope.placeTwoPaneEqually(
         WindowMode.DUAL_PORTRAIT -> {
             var xPosition = 0 // for the first pane
             if (index != 0) { // for the second pane
-                val lastPaneWidth = lastPaneSize.width.toInt()
+                val lastPaneWidth = lastPaneSize.width.roundToInt()
                 val firstPaneWidth = constraints.maxWidth - lastPaneWidth
                 xPosition += firstPaneWidth
             }
@@ -191,7 +191,7 @@ private fun Placeable.PlacementScope.placeTwoPaneEqually(
         WindowMode.DUAL_LANDSCAPE -> {
             var yPosition = 0
             if (index != 0) {
-                val lastPaneHeight = lastPaneSize.height.toInt()
+                val lastPaneHeight = lastPaneSize.height.roundToInt()
                 val firstPaneHeight = constraints.maxHeight - lastPaneHeight
                 yPosition += firstPaneHeight
             }
