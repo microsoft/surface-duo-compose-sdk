@@ -23,6 +23,8 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode rootProject.ext.twoPaneLayoutVersionCode
         versionName rootProject.ext.twoPaneLayoutVersionName
+        buildConfigField("int", "VERSION_CODE", "${defaultConfig.versionCode}")
+        buildConfigField("String", "VERSION_NAME", "\"${defaultConfig.versionName}\"")
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -53,23 +55,27 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion composeVersion
     }
-
     packagingOptions {
-        exclude 'META-INF/LGPL2.1'
-        exclude 'META-INF/AL2.0'
+        resources {
+            excludes += ['META-INF/LGPL2.1', 'META-INF/AL2.0']
+        }
     }
+
 }
 
 dependencies {
     implementation kotlinDependencies.kotlinStdlib
+
     implementation androidxDependencies.ktxCore
     implementation androidxDependencies.appCompat
-    implementation androidxDependencies.window
+
     implementation composeDependencies.composeUI
     implementation composeDependencies.composeMaterial
     implementation composeDependencies.composeUITooling
     implementation composeDependencies.activityCompose
     implementation composeDependencies.navigationCompose
+
+    implementation microsoftDependencies.windowState
 
     androidTestImplementation(testDependencies.androidxTestCore)
     androidTestImplementation(testDependencies.androidxTestRules)

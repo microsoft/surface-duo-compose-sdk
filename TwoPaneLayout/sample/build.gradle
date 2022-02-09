@@ -36,11 +36,12 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion composeVersion
     }
-
     packagingOptions {
-        exclude 'META-INF/LGPL2.1'
-        exclude 'META-INF/AL2.0'
+        resources {
+            excludes += ['META-INF/LGPL2.1', 'META-INF/AL2.0']
+        }
     }
+
 }
 
 dependencies {
@@ -62,6 +63,7 @@ dependencies {
     androidTestImplementation(testDependencies.androidxTestRunner)
     androidTestImplementation(testDependencies.composeUITest)
     androidTestImplementation(testDependencies.composeJunit)
+    androidTestImplementation(microsoftDependencies.composeTesting)
 
     debugImplementation(testDependencies.composeUITestManifest)
 }

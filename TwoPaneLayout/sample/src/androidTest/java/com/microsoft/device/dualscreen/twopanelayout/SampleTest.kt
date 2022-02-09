@@ -9,14 +9,27 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import com.microsoft.device.dualscreen.testing.createWindowLayoutInfoPublisherRule
+import com.microsoft.device.dualscreen.testing.getString
+import com.microsoft.device.dualscreen.testing.simulateHorizontalFoldingFeature
+import com.microsoft.device.dualscreen.testing.simulateVerticalFoldingFeature
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.RuleChain
+import org.junit.rules.TestRule
 
 class SampleTest {
+    private val publisherRule = createWindowLayoutInfoPublisherRule()
+    private val composeTestRule = createAndroidComposeRule<MainActivity>()
 
-    @get:Rule
-    val composeTestRule = createAndroidComposeRule<MainActivity>()
+    @get: Rule
+    val testRule: TestRule
+
+    init {
+        testRule = RuleChain.outerRule(publisherRule).around(composeTestRule)
+        RuleChain.outerRule(composeTestRule)
+    }
 
     @Before
     fun setUp() {
@@ -25,25 +38,37 @@ class SampleTest {
         }
     }
 
-    private val appName = "TwoPaneLayoutSample"
-    private val firstPaneText = "First pane: TwoPaneLayout is a UI component for Jetpack Compose, which contains the layouts that help you create UI for dual-screen, foldable, and large-screen devices. TwoPaneLayout provides a two-pane layout for use at the top level of a UI. The component will place two panes side-by-side on dual-screen, foldable, and large-screen devices and one pane only on regular single-screen devices. The two panes can be horizontal or vertical, based on the orientation of the device, unless paneMode is configured."
-    private val secondPaneText = "Second pane: The element layout is based on the order, which means the first element will be placed in the first pane and the second element will be placed in the second pane. The TwoPaneLayout is able to assign children widths according to their weights provided using the TwoPaneScope.weight modifier. When none of its children have weights, the first child element will be prioritized when the app is running on a regular single-screen device, or when foldable and dual-screen devices become folded or unspanned. If the app is spanned or unfolded on foldable and dual-screen, or large-screen devices, the two elements will be laid out equally to take all the display area."
-
     @Test
     fun app_launches() {
-        composeTestRule.onNodeWithText(appName).assertIsDisplayed()
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.app_name)).assertIsDisplayed()
     }
 
     @Test
     fun app_canNavigateToSecondPane() {
-        composeTestRule.onNodeWithText(firstPaneText).performClick()
-        composeTestRule.onNodeWithText(secondPaneText).assertIsDisplayed()
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.first_pane_text)).performClick()
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.second_pane_text)).assertIsDisplayed()
     }
 
     @Test
     fun app_canNavigateToFirstPane() {
-        composeTestRule.onNodeWithText(firstPaneText).performClick()
-        composeTestRule.onNodeWithText(secondPaneText).performClick()
-        composeTestRule.onNodeWithText(firstPaneText).assertIsDisplayed()
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.first_pane_text)).performClick()
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.second_pane_text)).performClick()
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.first_pane_text)).assertIsDisplayed()
+    }
+
+    @Test
+    fun app_dualPortrait_showsTwoPanes() {
+        publisherRule.simulateVerticalFoldingFeature(composeTestRule)
+
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.first_pane_text)).assertIsDisplayed()
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.second_pane_text)).assertIsDisplayed()
+    }
+
+    @Test
+    fun app_dualLandscape_showsOnePane() {
+        publisherRule.simulateHorizontalFoldingFeature(composeTestRule)
+
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.first_pane_text)).assertIsDisplayed()
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.second_pane_text)).assertDoesNotExist()
     }
 }
