@@ -7,7 +7,6 @@ package com.microsoft.device.dualscreen.windowstate
 
 import android.app.Activity
 import android.graphics.Rect
-import android.graphics.RectF
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -17,6 +16,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpRect
+import androidx.compose.ui.unit.dp
 import androidx.window.layout.FoldingFeature
 import androidx.window.layout.WindowInfoTracker.Companion.getOrCreate
 import androidx.window.layout.WindowMetricsCalculator
@@ -28,7 +29,7 @@ fun Activity.rememberWindowState(): WindowState {
 
     var hasFold by remember { mutableStateOf(false) }
     var isFoldHorizontal by remember { mutableStateOf(false) }
-    var foldBoundsDp by remember { mutableStateOf(RectF()) }
+    var foldBoundsDp by remember { mutableStateOf(DpRect(0.dp, 0.dp, 0.dp, 0.dp)) }
     var foldBoundsPx by remember { mutableStateOf(Rect()) }
     var foldState by remember { mutableStateOf(FoldState.FLAT) }
     var foldSeparates by remember { mutableStateOf(false) }
@@ -63,11 +64,11 @@ fun Activity.rememberWindowState(): WindowState {
         windowWidth = windowMetrics.width().toDp()
         windowHeight = windowMetrics.height().toDp()
 
-        foldBoundsDp = RectF(
-            foldBoundsPx.left.toDp().value,
-            foldBoundsPx.top.toDp().value,
-            foldBoundsPx.right.toDp().value,
-            foldBoundsPx.bottom.toDp().value
+        foldBoundsDp = DpRect(
+            foldBoundsPx.left.toDp(),
+            foldBoundsPx.top.toDp(),
+            foldBoundsPx.right.toDp(),
+            foldBoundsPx.bottom.toDp()
         )
     }
 

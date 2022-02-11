@@ -6,15 +6,17 @@
 package com.microsoft.device.dualscreen.windowstate
 
 import android.content.res.Configuration
-import android.graphics.RectF
 import androidx.annotation.VisibleForTesting
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpRect
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.height
+import androidx.compose.ui.unit.width
 
 /**
  * Data class that contains foldable and large screen information extracted from the Jetpack
@@ -22,7 +24,7 @@ import androidx.compose.ui.unit.dp
  *
  * @param hasFold: true if window contains a FoldingFeature,
  * @param foldIsHorizontal: true if window contains a FoldingFeature with a horizontal orientation
- * @param foldBoundsDp: RectF object that describes the bound of the FoldingFeature in Dp
+ * @param foldBoundsDp: DpRect object that describes the bound of the FoldingFeature in Dp
  * @param foldState: state of the fold, based on state property of FoldingFeature
  * @param foldIsSeparating: based on isSeparating property of FoldingFeature
  * @param foldIsOccluding: true if FoldingFeature occlusion type is full
@@ -32,7 +34,7 @@ import androidx.compose.ui.unit.dp
 data class WindowState(
     val hasFold: Boolean = false,
     val foldIsHorizontal: Boolean = false,
-    val foldBoundsDp: RectF = RectF(),
+    val foldBoundsDp: DpRect = DpRect(0.dp, 0.dp, 0.dp, 0.dp),
     val foldState: FoldState = FoldState.FLAT,
     val foldIsSeparating: Boolean = false,
     val foldIsOccluding: Boolean = false,
@@ -44,7 +46,7 @@ data class WindowState(
      */
     val foldSizeDp: Dp =
         if (foldIsSeparating) {
-            if (foldIsHorizontal) foldBoundsDp.height().dp else foldBoundsDp.width().dp
+            if (foldIsHorizontal) foldBoundsDp.height else foldBoundsDp.width
         } else {
             0.dp
         }
@@ -140,7 +142,7 @@ data class WindowState(
      * Dp size of pane 1 (top and left or right pane depending on local layout direction) when a fold
      * is separating, otherwise the size is zero
      */
-    val foldablePane1SizeDp: Size
+    val foldablePane1SizeDp: DpSize
         @Composable get() {
             return getFoldablePaneSizes(LocalLayoutDirection.current).first
         }
@@ -149,7 +151,7 @@ data class WindowState(
      * Dp size of pane 2 (bottom and left or right pane depending on local layout direction) when a
      * fold is separating, otherwise the size is zero
      */
-    val foldablePane2SizeDp: Size
+    val foldablePane2SizeDp: DpSize
         @Composable get() {
             return getFoldablePaneSizes(LocalLayoutDirection.current).second
         }
@@ -164,9 +166,9 @@ data class WindowState(
      * @return dp size of pane 1
      */
     @Composable
-    fun pane1SizeDp(pane1Weight: Float = 0.5f): Size {
         return getPaneSizes(windowIsPortrait(), LocalLayoutDirection.current, pane1Weight).first
     }
+    fun pane1SizeDp(pane1Weight: Float = 0.5f): DpSize {
 
     /**
      * Returns the dp size of pane 2 (bottom and left or right pane depending on local layout direction) when a
@@ -178,9 +180,9 @@ data class WindowState(
      * @return dp size of pane 2
      */
     @Composable
-    fun pane2SizeDp(pane1Weight: Float = 0.5f): Size {
         return getPaneSizes(windowIsPortrait(), LocalLayoutDirection.current, pane1Weight).second
     }
+    fun pane2SizeDp(pane1Weight: Float = 0.5f): DpSize {
 
     /**
      * Checks whether the window is in the portrait or landscape orientation
@@ -234,32 +236,28 @@ data class WindowState(
      * @return pair of sizes, with pane 1 being the first size and pane 2 being the second
      */
     @VisibleForTesting
-    internal fun getFoldablePaneSizes(layoutDir: LayoutDirection): Pair<Size, Size> {
+    internal fun getFoldablePaneSizes(layoutDir: LayoutDirection): Pair<DpSize, DpSize> {
         // If a separating fold is not present, return size zero
         if (!foldIsSeparating)
-            return Pair(Size(0f, 0f), Size(0f, 0f))
+            return Pair(DpSize.Zero, DpSize.Zero)
 
         if (foldIsHorizontal) {
             // When a fold is horizontal, pane widths are equal and pane heights depend on the fold boundaries
-            val paneWidth = windowWidthDp.value
-
             val topPaneHeight = foldBoundsDp.top
-            val bottomPaneHeight = windowHeightDp.value - foldBoundsDp.bottom
+            val bottomPaneHeight = windowHeightDp - foldBoundsDp.bottom
 
             // The top pane is always considered pane 1
-            val topPaneSize = Size(paneWidth, topPaneHeight)
-            val bottomPaneSize = Size(paneWidth, bottomPaneHeight)
+            val topPaneSize = DpSize(windowWidthDp, topPaneHeight)
+            val bottomPaneSize = DpSize(windowWidthDp, bottomPaneHeight)
 
             return Pair(topPaneSize, bottomPaneSize)
         } else {
             // When a fold is vertical, pane heights are equal and pane widths depend on the fold boundaries
-            val paneHeight = windowHeightDp.value
-
             val leftPaneWidth = foldBoundsDp.left
-            val rightPaneWidth = windowWidthDp.value - foldBoundsDp.right
+            val rightPaneWidth = windowWidthDp - foldBoundsDp.right
 
-            val leftPaneSize = Size(leftPaneWidth, paneHeight)
-            val rightPaneSize = Size(rightPaneWidth, paneHeight)
+            val leftPaneSize = DpSize(leftPaneWidth, windowHeightDp)
+            val rightPaneSize = DpSize(rightPaneWidth, windowHeightDp)
 
             // Pane 1 can be right or left depending on the language layout direction
             return when (layoutDir) {
@@ -279,34 +277,29 @@ data class WindowState(
      * @return pair of sizes, with pane 1 being the first size and pane 2 being the second
      */
     @VisibleForTesting
-    internal fun getLargeScreenPaneSizes(isPortrait: Boolean, pane1Weight: Float = 0.5f): Pair<Size, Size> {
+    internal fun getLargeScreenPaneSizes(isPortrait: Boolean, pane1Weight: Float = 0.5f): Pair<DpSize, DpSize> {
         // Check that 0 < weight < 1
         if (pane1Weight <= 0f || pane1Weight >= 1f)
             throw IllegalArgumentException("Pane 1 weight must be between 0 and 1")
 
         // If the window is not large, return size zero
         if (!windowIsLarge())
-            return Pair(Size(0f, 0f), Size(0f, 0f))
+            return Pair(DpSize.Zero, DpSize.Zero)
 
         if (isPortrait) {
             // When a window is in the portrait orientation, panes should be divided between top and bottom.
             // This means pane widths are equal and pane heights are based on weight (dual landscape)
-            val paneWidth = windowWidthDp.value
+            val pane1Height = windowHeightDp * pane1Weight
+            val pane2Height = windowHeightDp - pane1Height
 
-            val pane1Height = windowHeightDp.value * pane1Weight
-            val pane2Height = windowHeightDp.value - pane1Height
-
-            return Pair(Size(paneWidth, pane1Height), Size(paneWidth, pane2Height))
+            return Pair(DpSize(windowWidthDp, pane1Height), DpSize(windowWidthDp, pane2Height))
         } else {
             // When a window is in the landscape orientation, panes should be divided between left and right.
             // This means pane heights are equal and pane widths are based on weight (dual portrait)
-            val paneHeight = windowHeightDp.value
+            val pane1Width = windowWidthDp * pane1Weight
+            val pane2Width = windowWidthDp - pane1Width
 
-            // REVISIT: do we want to add an option for padding between the panes?
-            val pane1Width = windowWidthDp.value * pane1Weight
-            val pane2Width = windowWidthDp.value - pane1Width
-
-            return Pair(Size(pane1Width, paneHeight), Size(pane2Width, paneHeight))
+            return Pair(DpSize(pane1Width, windowHeightDp), DpSize(pane2Width, windowHeightDp))
         }
     }
 
@@ -321,11 +314,11 @@ data class WindowState(
      * default weight is 0.5 to make equal panes
      * @return pair of sizes, with pane 1 being the first size and pane 2 being the second
      */
-    fun getPaneSizes(isPortrait: Boolean, layoutDir: LayoutDirection, pane1Weight: Float): Pair<Size, Size> {
+    fun getPaneSizes(isPortrait: Boolean, layoutDir: LayoutDirection, pane1Weight: Float): Pair<DpSize, DpSize> {
         return when {
             foldIsSeparating -> getFoldablePaneSizes(layoutDir)
             windowIsLarge() -> getLargeScreenPaneSizes(isPortrait, pane1Weight)
-            else -> Pair(Size(0f, 0f), Size(0f, 0f))
+            else -> Pair(DpSize.Zero, DpSize.Zero)
         }
     }
 }
