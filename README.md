@@ -1,4 +1,4 @@
-![build-test-check](https://github.com/microsoft/surface-duo-compose-sdk/actions/workflows/build_test_check.yml/badge.svg) ![Compose Version](https://img.shields.io/badge/Jetpack%20Compose-1.1.0--rc03-brightgreen)
+![build-test-check](https://github.com/microsoft/surface-duo-compose-sdk/actions/workflows/build_test_check.yml/badge.svg) ![Compose Version](https://img.shields.io/badge/Jetpack%20Compose-1.1.0-brightgreen)
 
 # Surface Duo Jetpack Compose SDK
 
@@ -8,7 +8,7 @@ Please read the [code of conduct](CODE_OF_CONDUCT.md) and [contribution guidelin
 
 ## Prerequisites
 
-- Jetpack Compose version: `1.1.0-rc03`
+- Jetpack Compose version: `1.1.0`
 - Jetpack Window Manager version: `1.0.0`
 - Android Studio version: Bumblebee `2021.1.1`
 

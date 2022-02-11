@@ -16,7 +16,7 @@
 2. Add dependencies to the module-level **build.gradle** file (current version may be different from what's shown here).
 
     ```gradle
-    implementation "com.microsoft.device.dualscreen.testing:testing-compose:1.0.0-alpha01"
+    implementation "com.microsoft.device.dualscreen.testing:testing-compose:1.0.0-alpha02"
     ```
 
 3. Also ensure the compileSdkVersion and targetSdkVersion are set to API 31 or newer in the module-level build.gradle file.
@@ -151,22 +151,6 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.g
 ```
 
 Get resource string inside Compose test with resource id and arguments
-
-### Zoom Helper
-
-These functions can be used to perform zooming gestures during Compose UI tests.
-
-```kotlin
-fun TouchInjectionScope.zoomIn(pinchMillis: Long = PINCH_MILLIS)
-```
-
-Performs a zoom in gesture (swipes start towards center then move outwards)
-
-```kotlin
-fun TouchInjectionScope.zoomOut(pinchMillis: Long = PINCH_MILLIS)
-```
-
-Performs a zoom out gesture (swipes start towards center then move outwards)
 
 ## Contributing
 
