@@ -62,6 +62,28 @@ data class WindowState(
         }
 
     /**
+     * Proportion of the window that pane 1 should occupy on a large screen
+     *
+     * Must be between 0 and 1 - default value is 0.5 to create equal panes
+     */
+    var largeScreenPane1Weight: Float = 0.5f
+        set(value) {
+            checkWeight(value)
+            field = value
+        }
+
+    /**
+     * Helper method to check the validity of a pane weight
+     *
+     * If the given weight is <=0 or >=1, then an exception is thrown
+     */
+    private fun checkWeight(weight: Float) {
+        // Check that 0 < weight < 1
+        if (weight <= 0f || weight >= 1f)
+            throw IllegalArgumentException("Pane 1 weight must be between 0 and 1")
+    }
+
+    /**
      * Returns whether the current window is in a dual screen mode or not.
      *
      * A window is considered dual screen if it's a large screen ("expanded" width size class) or a foldable
@@ -157,32 +179,34 @@ data class WindowState(
         }
 
     /**
-     * Returns the dp size of pane 1 (top and left or right pane depending on local layout direction) when a fold
-     * is separating or the window is large, otherwise the returned size is zero. If a separating fold is present,
-     * then the pane1Weight parameter is ignored and the panes are split according to the fold boundaries.
+     * Returns the dp size of pane 1 (top and left or right pane depending on local layout direction) when a
+     * folding feature is separating or the window is large, otherwise the returned size is zero.
      *
-     * @param pane1Weight: the proportion of the window that pane 1 should occupy (must be between 0 and 1),
-     * default weight is 0.5 to make equal panes
+     * If a separating folding feature is present, the panes are split according to the folding feature's boundaries.
+     *
+     * If the window is large, then the panes are split according to the **largeScreenPane1Weight** property.
+     *
      * @return dp size of pane 1
      */
-    @Composable
-        return getPaneSizes(windowIsPortrait(), LocalLayoutDirection.current, pane1Weight).first
-    }
-    fun pane1SizeDp(pane1Weight: Float = 0.5f): DpSize {
+    val pane1SizeDp: DpSize
+        @Composable get() {
+            return getPaneSizes(windowIsPortrait(), LocalLayoutDirection.current, largeScreenPane1Weight).first
+        }
 
     /**
      * Returns the dp size of pane 2 (bottom and left or right pane depending on local layout direction) when a
-     * fold is separating or the window is large, otherwise the returned size is zero. If a separating fold is
-     * present, then the pane1Weight parameter is ignored and the panes are split according to the fold boundaries.
+     * fold is separating or the window is large, otherwise the returned size is zero.
      *
-     * @param pane1Weight: the proportion of the window that pane 1 should occupy (must be between 0 and 1),
-     * default weight is 0.5 to make equal panes
+     * If a separating folding feature is present, the panes are split according to the folding feature's boundaries.
+     *
+     * If the window is large, then the panes are split according to the **largeScreenPane1Weight** property.
+     *
      * @return dp size of pane 2
      */
-    @Composable
-        return getPaneSizes(windowIsPortrait(), LocalLayoutDirection.current, pane1Weight).second
-    }
-    fun pane2SizeDp(pane1Weight: Float = 0.5f): DpSize {
+    val pane2SizeDp: DpSize
+        @Composable get() {
+            return getPaneSizes(windowIsPortrait(), LocalLayoutDirection.current, largeScreenPane1Weight).second
+        }
 
     /**
      * Checks whether the window is in the portrait or landscape orientation
@@ -279,8 +303,7 @@ data class WindowState(
     @VisibleForTesting
     internal fun getLargeScreenPaneSizes(isPortrait: Boolean, pane1Weight: Float = 0.5f): Pair<DpSize, DpSize> {
         // Check that 0 < weight < 1
-        if (pane1Weight <= 0f || pane1Weight >= 1f)
-            throw IllegalArgumentException("Pane 1 weight must be between 0 and 1")
+        checkWeight(pane1Weight)
 
         // If the window is not large, return size zero
         if (!windowIsLarge())
@@ -310,14 +333,18 @@ data class WindowState(
      * @param isPortrait: true if the window is in the portrait orientation, false otherwise
      * @param layoutDir: language layout direction that determines whether the right or left pane is considered
      * pane 1 (primary pane)
-     * @param pane1Weight: the proportion of the window that pane 1 should occupy (must be between 0 and 1),
-     * default weight is 0.5 to make equal panes
+     * @param largeScreenPane1Weight: the proportion of the window that pane 1 should occupy on a large screen
+     * (must be between 0 and 1), default weight is 0.5 to make equal panes
      * @return pair of sizes, with pane 1 being the first size and pane 2 being the second
      */
-    fun getPaneSizes(isPortrait: Boolean, layoutDir: LayoutDirection, pane1Weight: Float): Pair<DpSize, DpSize> {
+    private fun getPaneSizes(
+        isPortrait: Boolean,
+        layoutDir: LayoutDirection,
+        largeScreenPane1Weight: Float
+    ): Pair<DpSize, DpSize> {
         return when {
             foldIsSeparating -> getFoldablePaneSizes(layoutDir)
-            windowIsLarge() -> getLargeScreenPaneSizes(isPortrait, pane1Weight)
+            windowIsLarge() -> getLargeScreenPaneSizes(isPortrait, largeScreenPane1Weight)
             else -> Pair(DpSize.Zero, DpSize.Zero)
         }
     }
