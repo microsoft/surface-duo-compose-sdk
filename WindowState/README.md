@@ -24,7 +24,7 @@ And the window size classes are measured based on Google's [Window size classes]
 2. Add dependencies to the module-level **build.gradle** file (current version may be different from what's shown here).
 
     ```gradle
-    implementation "com.microsoft.device.dualscreen:windowstate:1.0.0-alpha03"
+    implementation "com.microsoft.device.dualscreen:windowstate:1.0.0-alpha04"
     ```
 
 3. Also ensure the compileSdkVersion and targetSdkVersion are set to API 31 or newer in the module-level build.gradle file.
@@ -51,7 +51,7 @@ fun Activity.rememberWindowState(): WindowState
 
 An interface to provide all the relevant info about the device window.
 
-### Fold properties
+### Large screen and foldable properties
 
 ```kotlin
 val foldSizeDp: Dp
@@ -59,8 +59,18 @@ val foldSizeDp: Dp
 
 Returns a dp value of the thickness of the hinge of dual-screen device or the folding line of foldable device when the device is in dual-screen mode. If the device is in single screen mode, or the device is a regular single screen device, the return value will be 0.
 
+Must be set before calling `pane1SizeDp` or `pane2SizeDp` for the correct value to be applied.
+
 ```kotlin
-fun pane1SizeDp(pane1Weight: Float = 0.5f): Size
+var largeScreenPane1Weight: Float = 0.5f
+```
+
+Proportion of the window that pane 1 should occupy on a large screen. Used when calculating pane size for the `pane1SizeDp` and `pane2SizeDp` properties.
+
+Default value is 0.5 to create equal panes - any new values must be between 0 and 1 or an `IllegalArgumentException` will be thrown.
+
+```kotlin
+val pane1SizeDp: DpSize
 ```
 
 Returns the dp size of the primary pane of any device, including dual-screen, foldable, and large screen devices. This is the recommended value to use when creating dualscreen layouts.
@@ -69,10 +79,10 @@ The primary pane is either the top pane or the left/right pane, depending on dev
 
 If the device is in single screen mode, or the device is a regular single screen device, the return value will be 0.
 
-`pane1Weight` is an optional parameter that applies only to large screens and can be used to create panes of unequal proportions. The weight must be between 0 and 1.
+If the device is a large screen, then the `largeScreenPane1Weight` property will be used to calculate how much space each pane takes up. The property must be set before calling this method for the correct value to be applied.
 
 ```kotlin
-fun pane2SizeDp(pane1Weight: Float = 0.5f): Size
+val pane2SizeDp: DpSize
 ```
 
 Returns the dp size of the primary pane of any device, including dual-screen, foldable, and large screen devices. This is the recommended value to use when creating dualscreen layouts.
@@ -81,10 +91,10 @@ The secondary pane is either the bottom pane or the left/right pane, depending o
 
 If the device is in single screen mode, or the device is a regular single screen device, the return value will be 0.
 
-`pane1Weight` is an optional parameter that applies only to large screens and can be used to create panes of unequal proportions. The weight must be between 0 and 1.
+If the device is a large screen, then the `largeScreenPane1Weight` property will be used to calculate how much space each pane takes up. The property must be set before calling this method for the correct value to be applied.
 
 ```kotlin
-val foldablePane1SizeDp: Size
+val foldablePane1SizeDp: DpSize
 ```
 
 Returns the dp size of the primary pane of the dual-screen or foldable device when the device is in dual-screen mode - note that this does NOT include large screen devices.
@@ -94,7 +104,7 @@ The primary pane is either the top pane or the left/right pane, depending on dev
 If the device is in single screen mode, or the device is a regular single screen device, the return value will be 0.
 
 ```kotlin
-val foldablePane2SizeDp: Size
+val foldablePane2SizeDp: DpSize
 ```
 
 Returns the dp size of the secondary pane of the dual-screen or foldable device when the device is in dual-screen mode - note that this does NOT include large screen devices.
@@ -179,7 +189,7 @@ Returns true if a [FoldingFeature](https://developer.android.com/reference/andro
 Based on the [orientation field](https://developer.android.com/reference/androidx/window/layout/FoldingFeature#orientation()) in [FoldingFeature](https://developer.android.com/reference/androidx/window/layout/FoldingFeature).
 
 ```kotlin
-val foldBoundsDp: RectF = RectF()
+val foldBoundsDp: DpRect = DpRect(0.dp, 0.dp, 0.dp, 0.dp)
 ```
 
 Returns the bounding rectangle of a fold in units of Dp. If no fold is present, the returned rectangle will contain all zeroes.
@@ -221,6 +231,19 @@ val windowHeightDp: Dp = 0.dp
 ```
 
 Returns the window height in Dp.
+
+## Sample behavior
+
+The table below shows screenshots from the [sample](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/WindowState/sample) running on different large screen and foldable emulators.
+
+| Emulator | Sample screenshot |
+|---|:-:|
+| Surface Duo 2 (unspanned) |![Sample running on the Surface Duo 2 emulator, unspanned](screenshots/sample_surfaceduo2_unspanned.png) |
+| Surface Duo 2 (spanned) |![Sample running on the Surface Duo 2 emulator, spanned](screenshots/sample_surfaceduo2_spanned.png) |
+| 6.7 fold-in | ![Sample running on the 6.7 fold-in emulator](screenshots/sample_6.7.png)|
+| 7.6 fold-in | ![Sample running on the 7.6 fold-in emulator](screenshots/sample_7.6.png)
+| 8 fold-out | ![Sample running on the 8 fold-out emulator](screenshots/sample_8.png)
+| Pixel C | ![Sample running on the Pixel C emulator](screenshots/sample_pixelc.png)
 
 ## Contributing
 

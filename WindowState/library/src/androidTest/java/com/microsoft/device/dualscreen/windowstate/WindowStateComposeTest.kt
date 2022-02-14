@@ -1,9 +1,9 @@
 package com.microsoft.device.dualscreen.windowstate
 
-import android.graphics.RectF
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.unit.DpRect
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
@@ -20,7 +20,7 @@ class WindowStateComposeTest {
     private val largeScreenFoldNotSeparating =
         WindowState(
             hasFold = true,
-            foldBoundsDp = RectF(490f, 0f, 510f, 1000f),
+            foldBoundsDp = DpRect(490.dp, 0.dp, 510.dp, 1000.dp),
             windowWidthDp = 1000.dp,
             windowHeightDp = 1000.dp
         )
@@ -29,20 +29,20 @@ class WindowStateComposeTest {
     private val horizontalFold = WindowState(
         hasFold = true,
         foldIsHorizontal = true,
-        foldBoundsDp = RectF(0f, 490f, 1000f, 510f),
+        foldBoundsDp = DpRect(0.dp, 490.dp, 1000.dp, 510.dp),
         foldIsSeparating = true,
         windowWidthDp = 1000.dp,
         windowHeightDp = 1000.dp
     )
     private val verticalFold = WindowState(
         hasFold = true,
-        foldBoundsDp = RectF(100f, 0f, 180f, 500f),
+        foldBoundsDp = DpRect(100.dp, 0.dp, 180.dp, 500.dp),
         foldIsSeparating = true,
         windowWidthDp = 500.dp,
         windowHeightDp = 500.dp
     )
 
-    private val sizeZero = Size(0f, 0f)
+    private val sizeZero = DpSize.Zero
 
     /**
      * Tests that the window mode properties/functions are all correct for windows with different properties
@@ -114,29 +114,30 @@ class WindowStateComposeTest {
         composeTestRule.setContent {
             // Assert large screen with no fold/non-separating fold has equal panes or weighted panes and size
             // zero foldable panes
-            largeScreen.assertPaneSizesEquals(pane1 = Size(1000f, 500f), pane2 = Size(1000f, 500f))
+            largeScreen.assertPaneSizesEquals(pane1 = DpSize(1000.dp, 500.dp), pane2 = DpSize(1000.dp, 500.dp))
+            largeScreenFoldNotSeparating.largeScreenPane1Weight = 0.3f
             largeScreenFoldNotSeparating.assertPaneSizesEquals(
-                pane1 = Size(1000f, 300f),
-                pane2 = Size(1000f, 700f),
-                pane1Weight = 0.3f
+                pane1 = DpSize(1000.dp, 300.dp),
+                pane2 = DpSize(1000.dp, 700.dp),
             )
 
             // Assert compact screen with no fold/non-separating fold has panes and foldable panes of size zero
-            compactScreen.assertPaneSizesEquals(pane1 = sizeZero, pane2 = sizeZero, pane1Weight = 0.3f)
+            compactScreen.largeScreenPane1Weight = 0.3f
+            compactScreen.assertPaneSizesEquals(pane1 = sizeZero, pane2 = sizeZero)
             compactScreenFoldNotSeparating.assertPaneSizesEquals(pane1 = sizeZero, pane2 = sizeZero)
 
             // Assert window with horizontal fold ignores weight and divides based on fold boundaries
+            horizontalFold.largeScreenPane1Weight = 0.3f
             horizontalFold.assertPaneSizesEquals(
-                pane1 = Size(1000f, 490f),
-                pane2 = Size(1000f, 490f),
-                pane1Weight = 0.3f,
+                pane1 = DpSize(1000.dp, 490.dp),
+                pane2 = DpSize(1000.dp, 490.dp),
                 checkFoldable = true
             )
 
             // Assert window with vertical fold divides into unequal panes according to fold boundaries
             // Note: assume LTR local layout direction
             verticalFold.assertPaneSizesEquals(
-                pane1 = Size(100f, 500f), pane2 = Size(320f, 500f), checkFoldable = true
+                pane1 = DpSize(100.dp, 500.dp), pane2 = DpSize(320.dp, 500.dp), checkFoldable = true
             )
         }
 
@@ -156,33 +157,30 @@ class WindowStateComposeTest {
         composeTestRule.setContent {
             // Assert large screen with no fold/non-separating fold has equal panes or weighted panes and size
             // zero foldable panes
-            largeScreen.assertPaneSizesEquals(pane1 = Size(500f, 1000f), pane2 = Size(500f, 1000f))
+            largeScreen.assertPaneSizesEquals(pane1 = DpSize(500.dp, 1000.dp), pane2 = DpSize(500.dp, 1000.dp))
+            largeScreenFoldNotSeparating.largeScreenPane1Weight = 0.3f
             largeScreenFoldNotSeparating.assertPaneSizesEquals(
-                pane1 = Size(300f, 1000f),
-                pane2 = Size(700f, 1000f),
-                pane1Weight = 0.3f
+                pane1 = DpSize(300.dp, 1000.dp),
+                pane2 = DpSize(700.dp, 1000.dp),
             )
 
             // Assert compact screen with no fold/non-separating fold has panes and foldable panes of size zero
             compactScreen.assertPaneSizesEquals(pane1 = sizeZero, pane2 = sizeZero)
-            compactScreenFoldNotSeparating.assertPaneSizesEquals(
-                pane1 = sizeZero,
-                pane2 = sizeZero,
-                pane1Weight = 0.6f
-            )
+            compactScreen.largeScreenPane1Weight = 0.6f
+            compactScreenFoldNotSeparating.assertPaneSizesEquals(pane1 = sizeZero, pane2 = sizeZero)
 
             // Assert window with horizontal fold ignores weight and divides based on fold boundaries
+            horizontalFold.largeScreenPane1Weight = 0.3f
             horizontalFold.assertPaneSizesEquals(
-                pane1 = Size(1000f, 490f),
-                pane2 = Size(1000f, 490f),
-                pane1Weight = 0.3f,
+                pane1 = DpSize(1000.dp, 490.dp),
+                pane2 = DpSize(1000.dp, 490.dp),
                 checkFoldable = true
             )
 
             // Assert window with vertical fold divides into unequal panes according to fold boundaries
             // Note: assume LTR local layout direction
             verticalFold.assertPaneSizesEquals(
-                pane1 = Size(100f, 500f), pane2 = Size(320f, 500f), checkFoldable = true
+                pane1 = DpSize(100.dp, 500.dp), pane2 = DpSize(320.dp, 500.dp), checkFoldable = true
             )
         }
 
@@ -215,17 +213,16 @@ class WindowStateComposeTest {
 
     @Composable
     private fun WindowState.assertPaneSizesEquals(
-        pane1: Size,
-        pane2: Size,
-        pane1Weight: Float? = null,
+        pane1: DpSize,
+        pane2: DpSize,
         checkFoldable: Boolean = false
     ) {
         // Check pane sizes
-        assertEquals(pane1, if (pane1Weight == null) pane1SizeDp() else pane1SizeDp(pane1Weight))
-        assertEquals(pane2, if (pane1Weight == null) pane2SizeDp() else pane2SizeDp(pane1Weight))
+        assertEquals(pane1, pane1SizeDp)
+        assertEquals(pane2, pane2SizeDp)
 
-        val foldablePane1 = if (checkFoldable) pane1 else sizeZero
-        val foldablePane2 = if (checkFoldable) pane2 else sizeZero
+        val foldablePane1 = if (checkFoldable) pane1 else DpSize.Zero
+        val foldablePane2 = if (checkFoldable) pane2 else DpSize.Zero
 
         // Check foldable pane sizes
         assertEquals(foldablePane1, foldablePane1SizeDp)

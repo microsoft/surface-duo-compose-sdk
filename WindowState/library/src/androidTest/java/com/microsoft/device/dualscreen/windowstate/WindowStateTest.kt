@@ -5,17 +5,18 @@
 
 package com.microsoft.device.dualscreen.windowstate
 
-import android.graphics.RectF
-import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.unit.DpRect
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.height
+import androidx.compose.ui.unit.width
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import java.lang.IllegalArgumentException
 
 class WindowStateTest {
     private val hasFold = true
-    private val foldBounds = RectF(20f, 100f, 60f, 200f)
+    private val foldBounds = DpRect(20.dp, 100.dp, 60.dp, 200.dp)
     private val foldState = FoldState.HALF_OPENED
     private val foldSeparates = true
     private val foldOccludes = true
@@ -33,7 +34,7 @@ class WindowStateTest {
     private val horizontalFoldEqualNotSeparating = WindowState(
         hasFold,
         foldIsHorizontal = true,
-        RectF(0f, 699f, 1000f, 701f),
+        DpRect(0.dp, 699.dp, 1000.dp, 701.dp),
         FoldState.FLAT,
         foldIsSeparating = false,
         foldIsOccluding = false,
@@ -77,7 +78,7 @@ class WindowStateTest {
 
         assertEquals(false, windowState.hasFold)
         assertEquals(false, windowState.foldIsHorizontal)
-        assertEquals(RectF(), windowState.foldBoundsDp)
+        assertEquals(DpRect(0.dp, 0.dp, 0.dp, 0.dp), windowState.foldBoundsDp)
         assertEquals(FoldState.FLAT, windowState.foldState)
         assertEquals(false, windowState.foldIsSeparating)
         assertEquals(false, windowState.foldIsOccluding)
@@ -106,8 +107,8 @@ class WindowStateTest {
 
     @Test
     fun returns_correct_fold_size() {
-        assertEquals(foldBounds.height().dp, horizontalFoldEqual.foldSizeDp)
-        assertEquals(foldBounds.width().dp, verticalFoldUnequal.foldSizeDp)
+        assertEquals(foldBounds.height, horizontalFoldEqual.foldSizeDp)
+        assertEquals(foldBounds.width, verticalFoldUnequal.foldSizeDp)
         assertEquals(0.dp, noFoldLargeScreen.foldSizeDp)
     }
 
@@ -171,12 +172,12 @@ class WindowStateTest {
         val paneSizesRtl = horizontalFoldEqual.getFoldablePaneSizes(LayoutDirection.Rtl)
 
         // Assert that top pane size is 60 x 100 dp
-        assertEquals(Size(60f, 100f), paneSizesLtr.first)
-        assertEquals(Size(60f, 100f), paneSizesRtl.first)
+        assertEquals(DpSize(60.dp, 100.dp), paneSizesLtr.first)
+        assertEquals(DpSize(60.dp, 100.dp), paneSizesRtl.first)
 
         // Assert that bottom pane size is also 60 x 100 dp
-        assertEquals(Size(60f, 100f), paneSizesLtr.second)
-        assertEquals(Size(60f, 100f), paneSizesRtl.second)
+        assertEquals(DpSize(60.dp, 100.dp), paneSizesLtr.second)
+        assertEquals(DpSize(60.dp, 100.dp), paneSizesRtl.second)
     }
 
     @Test
@@ -185,12 +186,12 @@ class WindowStateTest {
         val paneSizesRtl = verticalFoldUnequal.getFoldablePaneSizes(LayoutDirection.Rtl)
 
         // Assert that left pane size is 20 x 200 dp
-        assertEquals(Size(20f, 200f), paneSizesLtr.first)
-        assertEquals(Size(20f, 200f), paneSizesRtl.second)
+        assertEquals(DpSize(20.dp, 200.dp), paneSizesLtr.first)
+        assertEquals(DpSize(20.dp, 200.dp), paneSizesRtl.second)
 
         // Assert that right pane size is 40 x 200 dp
-        assertEquals(Size(40f, 200f), paneSizesLtr.second)
-        assertEquals(Size(40f, 200f), paneSizesRtl.first)
+        assertEquals(DpSize(40.dp, 200.dp), paneSizesLtr.second)
+        assertEquals(DpSize(40.dp, 200.dp), paneSizesRtl.first)
     }
 
     @Test
@@ -198,10 +199,10 @@ class WindowStateTest {
         val paneSizesLtr = noFoldCompact.getFoldablePaneSizes(LayoutDirection.Ltr)
         val paneSizesRtl = noFoldCompact.getFoldablePaneSizes(LayoutDirection.Rtl)
 
-        assertEquals(Size(0f, 0f), paneSizesLtr.first)
-        assertEquals(Size(0f, 0f), paneSizesLtr.second)
-        assertEquals(Size(0f, 0f), paneSizesRtl.first)
-        assertEquals(Size(0f, 0f), paneSizesRtl.second)
+        assertEquals(DpSize(0.dp, 0.dp), paneSizesLtr.first)
+        assertEquals(DpSize(0.dp, 0.dp), paneSizesLtr.second)
+        assertEquals(DpSize(0.dp, 0.dp), paneSizesRtl.first)
+        assertEquals(DpSize(0.dp, 0.dp), paneSizesRtl.second)
     }
 
     @Test
@@ -209,10 +210,10 @@ class WindowStateTest {
         val paneSizesLtr = noFoldLargeScreen.getFoldablePaneSizes(LayoutDirection.Ltr)
         val paneSizesRtl = noFoldLargeScreen.getFoldablePaneSizes(LayoutDirection.Rtl)
 
-        assertEquals(Size(0f, 0f), paneSizesLtr.first)
-        assertEquals(Size(0f, 0f), paneSizesLtr.second)
-        assertEquals(Size(0f, 0f), paneSizesRtl.first)
-        assertEquals(Size(0f, 0f), paneSizesRtl.second)
+        assertEquals(DpSize(0.dp, 0.dp), paneSizesLtr.first)
+        assertEquals(DpSize(0.dp, 0.dp), paneSizesLtr.second)
+        assertEquals(DpSize(0.dp, 0.dp), paneSizesRtl.first)
+        assertEquals(DpSize(0.dp, 0.dp), paneSizesRtl.second)
     }
 
     @Test
@@ -220,10 +221,10 @@ class WindowStateTest {
         val paneSizesLtr = verticalFoldUnequalNotSeparating.getFoldablePaneSizes(LayoutDirection.Ltr)
         val paneSizesRtl = verticalFoldUnequalNotSeparating.getFoldablePaneSizes(LayoutDirection.Rtl)
 
-        assertEquals(Size(0f, 0f), paneSizesLtr.first)
-        assertEquals(Size(0f, 0f), paneSizesLtr.second)
-        assertEquals(Size(0f, 0f), paneSizesRtl.first)
-        assertEquals(Size(0f, 0f), paneSizesRtl.second)
+        assertEquals(DpSize(0.dp, 0.dp), paneSizesLtr.first)
+        assertEquals(DpSize(0.dp, 0.dp), paneSizesLtr.second)
+        assertEquals(DpSize(0.dp, 0.dp), paneSizesRtl.first)
+        assertEquals(DpSize(0.dp, 0.dp), paneSizesRtl.second)
     }
 
     /**
@@ -237,12 +238,12 @@ class WindowStateTest {
         val paneSizesLandscape = noFoldLargeScreen.getLargeScreenPaneSizes(false)
 
         // Assert that default portrait pane size (dual landscape) is half the window - 850 x 455 dp
-        assertEquals(Size(850f, 455f), paneSizesPortrait.first)
-        assertEquals(Size(850f, 455f), paneSizesPortrait.second)
+        assertEquals(DpSize(850.dp, 455.dp), paneSizesPortrait.first)
+        assertEquals(DpSize(850.dp, 455.dp), paneSizesPortrait.second)
 
         // Assert that default landscape pane size (dual portrait) is half the window - 425 x 910 dp
-        assertEquals(Size(425f, 910f), paneSizesLandscape.first)
-        assertEquals(Size(425f, 910f), paneSizesLandscape.second)
+        assertEquals(DpSize(425.dp, 910.dp), paneSizesLandscape.first)
+        assertEquals(DpSize(425.dp, 910.dp), paneSizesLandscape.second)
     }
 
     @Test
@@ -251,12 +252,12 @@ class WindowStateTest {
         val paneSizesLandscape = noFoldLargeScreen.getLargeScreenPaneSizes(false, 0.25f)
 
         // Assert that the portrait pane sizes (dual landscape) are split 25/75
-        assertEquals(Size(850f, 227.5f), paneSizesPortrait.first)
-        assertEquals(Size(850f, 682.5f), paneSizesPortrait.second)
+        assertEquals(DpSize(850.dp, 227.5.dp), paneSizesPortrait.first)
+        assertEquals(DpSize(850.dp, 682.5.dp), paneSizesPortrait.second)
 
         // Assert that the landscape pane sizes (dual portrait) are split 25/75
-        assertEquals(Size(212.5f, 910f), paneSizesLandscape.first)
-        assertEquals(Size(637.5f, 910f), paneSizesLandscape.second)
+        assertEquals(DpSize(212.5.dp, 910.dp), paneSizesLandscape.first)
+        assertEquals(DpSize(637.5.dp, 910.dp), paneSizesLandscape.second)
     }
 
     @Test(expected = IllegalArgumentException::class)
@@ -277,5 +278,43 @@ class WindowStateTest {
     @Test(expected = IllegalArgumentException::class)
     fun weight_1_throws_exception() {
         noFoldLargeScreen.getLargeScreenPaneSizes(true, 1.00f)
+    }
+
+    /**
+     * largeScreenPane1Weight tests
+     * -------------------------------
+     */
+    @Test(expected = IllegalArgumentException::class)
+    fun set_weight_less_than_0_throws_exception() {
+        WindowState().largeScreenPane1Weight = -1f
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun set_weight_0_throws_exception() {
+        WindowState().largeScreenPane1Weight = 0.00f
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun set_weight_greater_than_1_throws_exception() {
+        WindowState().largeScreenPane1Weight = 1.01f
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun set_weight_1_throws_exception() {
+        WindowState().largeScreenPane1Weight = 1.00f
+    }
+
+    @Test
+    fun weight_default_is_correct() {
+        assertEquals(0.5f, WindowState().largeScreenPane1Weight)
+    }
+
+    @Test
+    fun weight_sets_and_gets() {
+        val windowState = WindowState()
+
+        assertEquals(0.5f, windowState.largeScreenPane1Weight)
+        windowState.largeScreenPane1Weight = 0.7f
+        assertEquals(0.7f, windowState.largeScreenPane1Weight)
     }
 }

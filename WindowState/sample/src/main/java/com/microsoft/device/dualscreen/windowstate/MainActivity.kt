@@ -43,8 +43,9 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun WindowStateDashboard(windowState: WindowState) {
     val foldSizeDp = windowState.foldSizeDp
-    val pane1Size = windowState.pane1SizeDp()
-    val pane2Size = windowState.pane2SizeDp()
+    windowState.largeScreenPane1Weight = 0.3f
+    val pane1Size = windowState.pane1SizeDp
+    val pane2Size = windowState.pane2SizeDp
 
     var foldSizePx: Float
     var pane1WidthPx: Float
@@ -53,10 +54,10 @@ fun WindowStateDashboard(windowState: WindowState) {
     var pane2HeightPx: Float
     with(LocalDensity.current) {
         foldSizePx = foldSizeDp.toPx()
-        pane1WidthPx = pane1Size.width.dp.toPx()
-        pane1HeightPx = pane1Size.height.dp.toPx()
-        pane2WidthPx = pane2Size.width.dp.toPx()
-        pane2HeightPx = pane2Size.height.dp.toPx()
+        pane1WidthPx = pane1Size.width.toPx()
+        pane1HeightPx = pane1Size.height.toPx()
+        pane2WidthPx = pane2Size.width.toPx()
+        pane2HeightPx = pane2Size.height.toPx()
     }
 
     val isDualScreen = windowState.isDualScreen()
@@ -66,10 +67,11 @@ fun WindowStateDashboard(windowState: WindowState) {
     val heightSizeClass = windowState.heightSizeClass()
 
     Column {
-        Text(text = "Foldable properties", style = MaterialTheme.typography.h6)
+        Text(text = "Large screen and foldable properties", style = MaterialTheme.typography.h6)
         Text(text = "The current foldSizeDp is ${foldSizePx}px, $foldSizeDp")
-        Text(text = "The current pane1SizeDp is:\n\t[${pane1WidthPx}px, ${pane1HeightPx}px], [${pane1Size.width.dp}, ${pane1Size.height.dp}]")
-        Text(text = "The current pane2SizeDp is:\n\t[${pane2WidthPx}px, ${pane2HeightPx}px], [${pane2Size.width.dp}, ${pane2Size.height.dp}]")
+        Text(text = "The current largeScreenPane1Weight is ${windowState.largeScreenPane1Weight}")
+        Text(text = "The current pane1SizeDp is:\n\t[${pane1WidthPx}px, ${pane1HeightPx}px], [${pane1Size.width}, ${pane1Size.height}]")
+        Text(text = "The current pane2SizeDp is:\n\t[${pane2WidthPx}px, ${pane2HeightPx}px], [${pane2Size.width}, ${pane2Size.height}]")
         Spacer(modifier = Modifier.height(15.dp))
 
         Text(text = "Window mode properties", style = MaterialTheme.typography.h6)
