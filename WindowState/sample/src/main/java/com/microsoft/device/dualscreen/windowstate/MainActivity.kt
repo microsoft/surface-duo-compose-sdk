@@ -43,6 +43,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun WindowStateDashboard(windowState: WindowState) {
     val foldSizeDp = windowState.foldSizeDp
+    windowState.largeScreenPane1Weight = 0.3f
     val pane1Size = windowState.pane1SizeDp
     val pane2Size = windowState.pane2SizeDp
 
