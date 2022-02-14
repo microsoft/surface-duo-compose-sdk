@@ -69,7 +69,7 @@ fun WindowStateDashboard(windowState: WindowState) {
     Column {
         Text(text = "Large screen and foldable properties", style = MaterialTheme.typography.h6)
         Text(text = "The current foldSizeDp is ${foldSizePx}px, $foldSizeDp")
-        Text(text= "The current largeScreenPane1Weight is ${windowState.largeScreenPane1Weight}")
+        Text(text = "The current largeScreenPane1Weight is ${windowState.largeScreenPane1Weight}")
         Text(text = "The current pane1SizeDp is:\n\t[${pane1WidthPx}px, ${pane1HeightPx}px], [${pane1Size.width}, ${pane1Size.height}]")
         Text(text = "The current pane2SizeDp is:\n\t[${pane2WidthPx}px, ${pane2HeightPx}px], [${pane2Size.width}, ${pane2Size.height}]")
         Spacer(modifier = Modifier.height(15.dp))
