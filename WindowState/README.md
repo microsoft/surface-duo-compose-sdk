@@ -59,6 +59,8 @@ val foldSizeDp: Dp
 
 Returns a dp value of the thickness of the hinge of dual-screen device or the folding line of foldable device when the device is in dual-screen mode. If the device is in single screen mode, or the device is a regular single screen device, the return value will be 0.
 
+Must be set before calling `pane1SizeDp` or `pane2SizeDp` for the correct value to be applied.
+
 ```kotlin
 var largeScreenPane1Weight: Float = 0.5f
 ```
@@ -77,7 +79,7 @@ The primary pane is either the top pane or the left/right pane, depending on dev
 
 If the device is in single screen mode, or the device is a regular single screen device, the return value will be 0.
 
-If the device is a large screen, then `largeScreenPane1Weight` will be used to calculate how much space each pane takes up.
+If the device is a large screen, then the `largeScreenPane1Weight` property will be used to calculate how much space each pane takes up. The property must be set before calling this method for the correct value to be applied.
 
 ```kotlin
 val pane2SizeDp: DpSize
@@ -89,7 +91,7 @@ The secondary pane is either the bottom pane or the left/right pane, depending o
 
 If the device is in single screen mode, or the device is a regular single screen device, the return value will be 0.
 
-If the device is a large screen, then `largeScreenPane1Weight` will be used to calculate how much space each pane takes up.
+If the device is a large screen, then the `largeScreenPane1Weight` property will be used to calculate how much space each pane takes up. The property must be set before calling this method for the correct value to be applied.
 
 ```kotlin
 val foldablePane1SizeDp: DpSize

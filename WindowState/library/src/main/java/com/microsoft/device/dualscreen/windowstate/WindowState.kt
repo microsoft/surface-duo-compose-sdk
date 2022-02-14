@@ -184,7 +184,8 @@ data class WindowState(
      *
      * If a separating folding feature is present, the panes are split according to the folding feature's boundaries.
      *
-     * If the window is large, then the panes are split according to the **largeScreenPane1Weight** property.
+     * If the window is large, then the panes are split according to the **largeScreenPane1Weight** property. The
+     * property must be set before calling this method for the correct value to be used.
      *
      * @return dp size of pane 1
      */
@@ -199,7 +200,8 @@ data class WindowState(
      *
      * If a separating folding feature is present, the panes are split according to the folding feature's boundaries.
      *
-     * If the window is large, then the panes are split according to the **largeScreenPane1Weight** property.
+     * If the window is large, then the panes are split according to the **largeScreenPane1Weight** property. The
+     * property must be set before calling this method for the correct value to be used.
      *
      * @return dp size of pane 2
      */
