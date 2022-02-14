@@ -62,7 +62,8 @@ data class WindowState(
         }
 
     /**
-     * Proportion of the window that pane 1 should occupy on a large screen
+     * Proportion of the window that pane 1 should occupy on a large screen. Used when calculating pane size for
+     * the `pane1SizeDp` and `pane2SizeDp` properties.
      *
      * Must be between 0 and 1 - default value is 0.5 to create equal panes
      */
@@ -184,7 +185,7 @@ data class WindowState(
      *
      * If a separating folding feature is present, the panes are split according to the folding feature's boundaries.
      *
-     * If the window is large, then the panes are split according to the **largeScreenPane1Weight** property. The
+     * If the window is large, then the panes are split according to the `largeScreenPane1Weight` property. The
      * property must be set before calling this method for the correct value to be used.
      *
      * @return dp size of pane 1
@@ -200,7 +201,7 @@ data class WindowState(
      *
      * If a separating folding feature is present, the panes are split according to the folding feature's boundaries.
      *
-     * If the window is large, then the panes are split according to the **largeScreenPane1Weight** property. The
+     * If the window is large, then the panes are split according to the `largeScreenPane1Weight` property. The
      * property must be set before calling this method for the correct value to be used.
      *
      * @return dp size of pane 2
