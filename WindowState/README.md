@@ -232,6 +232,19 @@ val windowHeightDp: Dp = 0.dp
 
 Returns the window height in Dp.
 
+## Sample behavior
+
+The table below shows screenshots from the [sample](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/WindowState/sample) running on different large screen and foldable emulators.
+
+| Emulator | Sample screenshot |
+|---|:-:|
+| Surface Duo 2 (unspanned) |![Sample running on the Surface Duo 2 emulator, unspanned](screenshots/sample_surfaceduo2_unspanned.png) |
+| Surface Duo 2 (spanned) |![Sample running on the Surface Duo 2 emulator, spanned](screenshots/sample_surfaceduo2_spanned.png) |
+| 6.7 fold-in | ![Sample running on the 6.7 fold-in emulator](screenshots/sample_6.7.png)|
+| 7.6 fold-in | ![Sample running on the 7.6 fold-in emulator](screenshots/sample_7.6.png)
+| 8 fold-out | ![Sample running on the 8 fold-out emulator](screenshots/sample_8.png)
+| Pixel C | ![Sample running on the Pixel C emulator](screenshots/sample_pixelc.png)
+
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
