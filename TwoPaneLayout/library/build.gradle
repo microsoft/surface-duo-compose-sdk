@@ -21,10 +21,6 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode rootProject.ext.twoPaneLayoutVersionCode
-        versionName rootProject.ext.twoPaneLayoutVersionName
-        buildConfigField("int", "VERSION_CODE", "${defaultConfig.versionCode}")
-        buildConfigField("String", "VERSION_NAME", "\"${defaultConfig.versionName}\"")
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
