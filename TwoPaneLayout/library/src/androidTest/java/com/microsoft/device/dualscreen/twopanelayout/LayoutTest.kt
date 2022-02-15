@@ -33,7 +33,6 @@ import androidx.compose.ui.platform.ViewRootForTest
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.IntSize
-import androidx.compose.ui.unit.dp
 import com.microsoft.device.dualscreen.windowstate.WindowState
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -109,10 +108,10 @@ open class LayoutTest {
         val pane1SizePx: Size
         val pane2SizePx: Size
         with(LocalDensity.current) {
-            val pane1SizeDp = windowState.pane1SizeDp()
-            val pane2SizeDp = windowState.pane2SizeDp()
-            pane1SizePx = Size(pane1SizeDp.width.dp.toPx(), pane1SizeDp.height.dp.toPx())
-            pane2SizePx = Size(pane2SizeDp.width.dp.toPx(), pane2SizeDp.height.dp.toPx())
+            val pane1SizeDp = windowState.pane1SizeDp
+            val pane2SizeDp = windowState.pane2SizeDp
+            pane1SizePx = Size(pane1SizeDp.width.toPx(), pane1SizeDp.height.toPx())
+            pane2SizePx = Size(pane2SizeDp.width.toPx(), pane2SizeDp.height.toPx())
         }
 
         val measurePolicy = twoPaneMeasurePolicy(

@@ -6,7 +6,6 @@
 package com.microsoft.device.dualscreen.twopanelayout
 
 import android.graphics.Rect
-import android.graphics.RectF
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -14,6 +13,7 @@ import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpRect
 import androidx.compose.ui.unit.IntSize
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.microsoft.device.dualscreen.windowstate.WindowMode
@@ -135,7 +135,7 @@ class TwoPaneTest : LayoutTest() {
         val constraints = Constraints(width, width, height, height)
         var widthDp: Dp
         var heightDp: Dp
-        var hingeBoundsDp: RectF
+        var hingeBoundsDp: DpRect
 
         val drawLatch = CountDownLatch(2)
         val childSize = arrayOfNulls<IntSize>(2)
@@ -145,12 +145,12 @@ class TwoPaneTest : LayoutTest() {
                 widthDp = width.toDp()
                 heightDp = height.toDp()
 
-                val left = hingeBounds.left.toDp().value
-                val top = hingeBounds.top.toDp().value
-                val right = hingeBounds.right.toDp().value
-                val bottom = hingeBounds.bottom.toDp().value
+                val left = hingeBounds.left.toDp()
+                val top = hingeBounds.top.toDp()
+                val right = hingeBounds.right.toDp()
+                val bottom = hingeBounds.bottom.toDp()
 
-                hingeBoundsDp = RectF(left, top, right, bottom)
+                hingeBoundsDp = DpRect(left, top, right, bottom)
             }
 
             Container(width = width, height = height) {
