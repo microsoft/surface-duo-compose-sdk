@@ -16,7 +16,6 @@ import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.debugInspectorInfo
-import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -65,6 +64,7 @@ fun TwoPaneLayout(
 
     if (isSinglePane) {
         SinglePaneContainer(
+            navController = rememberNavController(),
             pane1 = pane1,
             pane2 = pane2
         )
@@ -106,11 +106,10 @@ private sealed class Screen(val route: String) {
  */
 @Composable
 internal fun SinglePaneContainer(
+    navController: NavHostController,
     pane1: @Composable TwoPaneScope.() -> Unit,
     pane2: @Composable TwoPaneScope.() -> Unit
 ) {
-    val navController = rememberNavController()
-
     NavHost(
         navController = navController,
         startDestination = currentSinglePane
@@ -147,11 +146,12 @@ private fun TwoPaneContainer(
     val pane1SizePx: Size
     val pane2SizePx: Size
     with(LocalDensity.current) {
-        val pane1SizeDp = windowState.pane1SizeDp()
-        val pane2SizeDp = windowState.pane2SizeDp()
-        pane1SizePx = Size(pane1SizeDp.width.dp.toPx(), pane1SizeDp.height.dp.toPx())
-        pane2SizePx = Size(pane2SizeDp.width.dp.toPx(), pane2SizeDp.height.dp.toPx())
+        pane1SizePx = windowState.pane1SizeDp.toSize()
+        pane2SizePx = windowState.pane2SizeDp.toSize()
     }
+
+    navigateToPane1Handler = { }
+    navigateToPane2Handler = { }
 
     val measurePolicy = twoPaneMeasurePolicy(
         windowMode = windowState.windowMode,
