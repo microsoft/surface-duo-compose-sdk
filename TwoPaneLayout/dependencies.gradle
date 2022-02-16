@@ -22,7 +22,7 @@ ext {
 
     // ----------------------------------
 
-    gradlePluginVersion = '7.1.0'
+    gradlePluginVersion = '7.1.1'
     kotlinVersion = "1.6.10"
     compileSdkVersion = 31
     targetSdkVersion = compileSdkVersion
@@ -54,7 +54,7 @@ ext {
     ]
 
     // Compose dependencies
-    composeVersion = "1.1.0-rc03"
+    composeVersion = "1.1.0"
     activityComposeVersion = "1.4.0"
     navigationComposeVersion = "2.4.0"
     composeDependencies = [
@@ -83,7 +83,7 @@ ext {
     ]
 
     // Microsoft dependencies
-    windowStateVersion = '1.0.0-alpha02'
+    windowStateVersion = '1.0.0-alpha04'
     composeTestingVersion = '1.0.0-alpha01'
     microsoftDependencies = [
             windowState         : "com.microsoft.device.dualscreen:windowstate:$windowStateVersion",

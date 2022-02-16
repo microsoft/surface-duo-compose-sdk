@@ -36,7 +36,7 @@ Helper functions that help you easily test your application on the dual-screen, 
 
 ## Social links
 
-- [video: Jetpack Compose WindowState preview](https://www.twitch.tv/videos/1271211220)
+- [video: Jetpack Compose WindowState preview](https://www.youtube.com/watch?v=qOIliow-uS4)
 - [blog: Jetpack Compose WindowState preview](https://devblogs.microsoft.com/surface-duo/jetpack-compose-windowstate-preview/)
 - [video: Get started with Jetpack Compose Twitch](https://www.youtube.com/watch?v=ijXDWDtdiIE)
 - [blog: Get started with Jetpack Compose](https://devblogs.microsoft.com/surface-duo/get-started-with-jetpack-compose/)
