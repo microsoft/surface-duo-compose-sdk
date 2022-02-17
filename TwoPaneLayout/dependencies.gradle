@@ -46,11 +46,9 @@ ext {
     // AndroidX dependencies
     appCompatVersion = '1.4.1'
     ktxCoreVersion = '1.7.0'
-    windowVersion = "1.0.0"
     androidxDependencies = [
             appCompat         : "androidx.appcompat:appcompat:$appCompatVersion",
             ktxCore           : "androidx.core:core-ktx:$ktxCoreVersion",
-            window            : "androidx.window:window:$windowVersion"
     ]
 
     // Compose dependencies
@@ -84,7 +82,7 @@ ext {
 
     // Microsoft dependencies
     windowStateVersion = '1.0.0-alpha04'
-    composeTestingVersion = '1.0.0-alpha01'
+    composeTestingVersion = '1.0.0-alpha02'
     microsoftDependencies = [
             windowState         : "com.microsoft.device.dualscreen:windowstate:$windowStateVersion",
             composeTesting      : "com.microsoft.device.dualscreen.testing:testing-compose:$composeTestingVersion",
