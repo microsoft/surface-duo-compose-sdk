@@ -6,7 +6,11 @@ When the app is spanned across a vertical hinge or fold, or when the width is la
 
 The TwoPaneLayout is able to assign children widths or heights according to their weights provided using the `TwoPaneScope.weight` modifier. If no weight is provided, the two panes will be displayed equally. The proportional layout only applies when the foldingFeature is not separating, meaning the foldable device is fully open or running on the large screen device. For dual-screen device with a hinge in the middle, the two panes would always layout equally.
 
-If running on regular single-screen device, there will be only one pane visible. The other pane will be overlayed and navigation will be available to switch between two panes.
+The TwoPaneLayout is able to assign children widths or heights according to their weights provided using the TwoPaneScope.weight modifier.
+
+- For large screens, if no weight is provided, the two panes will be displayed equally. If weight is provided, then the layout will be split up proportionally according to the weight.
+- For foldables with a separating folding feature, the two panes will always be split up according to the folding feature boundaries (with or without weight). A folding feature is considered separating when a foldable device is half-opened or has a hinge that physically divides the screens. If a foldable device does not have a separating folding feature, then it will either be treated as a large screen or a single screen depending on its size and the provided weight.
+- If running on regular single-screen device, there will be only one pane visible. The other pane will be overlayed and navigation will be available to switch between two panes, regardless the weight.
 
 ```kotlin
 @Composable
