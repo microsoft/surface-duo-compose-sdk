@@ -60,6 +60,7 @@ fun MainPage() {
                         text = stringResource(R.string.first_pane_text),
                         modifier = Modifier
                             .fillMaxSize()
+                            .weight(.3f)
                             .background(color = Color.Cyan)
                             .clickable { navigateToPane2() },
                         color = Color.Black
@@ -70,6 +71,7 @@ fun MainPage() {
                         text = stringResource(R.string.second_pane_text),
                         modifier = Modifier
                             .fillMaxSize()
+                            .weight(.7f)
                             .background(color = Color.Magenta)
                             .clickable { navigateToPane1() },
                         color = Color.Black
