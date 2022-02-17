@@ -116,6 +116,7 @@ open class LayoutTest {
 
         val measurePolicy = twoPaneMeasurePolicy(
             windowMode = windowState.windowMode,
+            isSeparating = windowState.foldIsSeparating,
             paneSizes = arrayOf(pane1SizePx, pane2SizePx),
             mockConstraints = constraints
         )
