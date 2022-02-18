@@ -128,7 +128,7 @@ class TwoPaneTest : LayoutTest() {
     }
 
     @Test
-    fun twoPane_withoutWeight() {
+    fun twoPaneSeparating_withoutWeight() {
         val width = 800
         val height = 600
         val hingeBounds = Rect(390, 0, 410, 600)
@@ -197,6 +197,152 @@ class TwoPaneTest : LayoutTest() {
         assertEquals(IntSize(hingeBounds.left, root.height), childSize[1])
         assertEquals(Offset(0f, 0f), childPosition[0])
         assertEquals(Offset(hingeBounds.right.toFloat(), 0f), childPosition[1])
+    }
+
+    @Test
+    fun twoPaneSeparating_withWeight() {
+        val width = 1200
+        val height = 1000
+        val hingeBounds = Rect(590, 0, 610, 1000)
+        val constraints = Constraints(width, width, height, height)
+        var widthDp: Dp
+        var heightDp: Dp
+        var hingeBoundsDp: DpRect
+
+        val drawLatch = CountDownLatch(2)
+        val childSize = arrayOfNulls<IntSize>(2)
+        val childPosition = arrayOfNulls<Offset>(2)
+        activityTestRule.setContent {
+            with(LocalDensity.current) {
+                widthDp = width.toDp()
+                heightDp = height.toDp()
+
+                val left = hingeBounds.left.toDp()
+                val top = hingeBounds.top.toDp()
+                val right = hingeBounds.right.toDp()
+                val bottom = hingeBounds.bottom.toDp()
+
+                hingeBoundsDp = DpRect(left, top, right, bottom)
+            }
+
+            Container(width = width, height = height) {
+                MockTwoPaneLayout(
+                    windowState = WindowState(
+                        hasFold = true,
+                        foldIsHorizontal = false,
+                        foldBoundsDp = hingeBoundsDp,
+                        foldIsSeparating = true,
+                        windowWidthDp = widthDp,
+                        windowHeightDp = heightDp,
+                    ),
+                    constraints = constraints,
+                    firstPane = {
+                        Container(
+                            Modifier
+                                .weight(.3f)
+                                .onGloballyPositioned { coordinates ->
+                                    childSize[0] = coordinates.size
+                                    childPosition[0] = coordinates.positionInParent()
+                                    drawLatch.countDown()
+                                }
+                        ) {}
+                    },
+                    secondPane = {
+                        Container(
+                            Modifier
+                                .weight(.7f)
+                                .onGloballyPositioned { coordinates ->
+                                    childSize[1] = coordinates.size
+                                    childPosition[1] = coordinates.positionInParent()
+                                    drawLatch.countDown()
+                                }
+                        ) {}
+                    }
+                )
+            }
+        }
+        assertTrue(drawLatch.await(1, TimeUnit.SECONDS))
+
+        val root = findComposeView()
+        waitForDraw(root)
+
+        assertEquals(IntSize(width, height), IntSize(root.width, root.height))
+        assertEquals(IntSize(hingeBounds.left, root.height), childSize[0])
+        assertEquals(IntSize(hingeBounds.left, root.height), childSize[1])
+        assertEquals(Offset(0f, 0f), childPosition[0])
+        assertEquals(Offset(hingeBounds.right.toFloat(), 0f), childPosition[1])
+    }
+
+    @Test
+    fun twoPaneNotSeparating_withWeight() {
+        val width = 4000
+        val height = 2000
+        val hingeBounds = Rect(1999, 0, 2001, 2000)
+        val constraints = Constraints(width, width, height, height)
+        var widthDp: Dp
+        var heightDp: Dp
+        var hingeBoundsDp: DpRect
+
+        val drawLatch = CountDownLatch(2)
+        val childSize = arrayOfNulls<IntSize>(2)
+        val childPosition = arrayOfNulls<Offset>(2)
+        activityTestRule.setContent {
+            with(LocalDensity.current) {
+                widthDp = width.toDp()
+                heightDp = height.toDp()
+
+                val left = hingeBounds.left.toDp()
+                val top = hingeBounds.top.toDp()
+                val right = hingeBounds.right.toDp()
+                val bottom = hingeBounds.bottom.toDp()
+
+                hingeBoundsDp = DpRect(left, top, right, bottom)
+            }
+
+            Container(width = width, height = height) {
+                MockTwoPaneLayout(
+                    windowState = WindowState(
+                        hasFold = true,
+                        foldBoundsDp = hingeBoundsDp,
+                        foldIsSeparating = false,
+                        windowWidthDp = widthDp,
+                        windowHeightDp = heightDp,
+                    ),
+                    constraints = constraints,
+                    firstPane = {
+                        Container(
+                            Modifier
+                                .weight(.3f)
+                                .onGloballyPositioned { coordinates ->
+                                    childSize[0] = coordinates.size
+                                    childPosition[0] = coordinates.positionInParent()
+                                    drawLatch.countDown()
+                                }
+                        ) {}
+                    },
+                    secondPane = {
+                        Container(
+                            Modifier
+                                .weight(.7f)
+                                .onGloballyPositioned { coordinates ->
+                                    childSize[1] = coordinates.size
+                                    childPosition[1] = coordinates.positionInParent()
+                                    drawLatch.countDown()
+                                }
+                        ) {}
+                    }
+                )
+            }
+        }
+        assertTrue(drawLatch.await(1, TimeUnit.SECONDS))
+
+        val root = findComposeView()
+        waitForDraw(root)
+
+        assertEquals(IntSize(width = width, height = (height * .3f).roundToInt()), childSize[0])
+        assertEquals(IntSize(width = width, height = (height * .7f).roundToInt()), childSize[1])
+        assertEquals(Offset(0f, 0f), childPosition[0])
+        assertEquals(Offset(0f, height * .3f), childPosition[1])
     }
 
     @Test

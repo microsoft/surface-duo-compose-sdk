@@ -22,6 +22,7 @@ import kotlin.math.roundToInt
 @Composable
 internal fun twoPaneMeasurePolicy(
     windowMode: WindowMode,
+    isSeparating: Boolean,
     paneSizes: Array<Size>,
     mockConstraints: Constraints = Constraints(0, 0, 0, 0)
 ): MeasurePolicy {
@@ -49,14 +50,18 @@ internal fun twoPaneMeasurePolicy(
             }
         }
 
-        // no weight or equal weight
-        placeables = if (maxWeight == 0f || maxWeight * 2 == totalWeight) {
+        // there is no weight or two weights are equal
+        val hasEqualWeight: Boolean = maxWeight == 0f || maxWeight * 2 == totalWeight
+        // shows two panes equally when the foldingFeature is separating or the weights are equal
+        val shouldLayoutEqually = isSeparating || hasEqualWeight
+
+        placeables = if (shouldLayoutEqually) {
             measureTwoPaneEqually(
                 constraints = childrenConstraints,
                 paneSizes = paneSizes,
                 measurables = measurables
             )
-        } else {
+        } else { // the foldingFeature is not separating and the weights are not equal
             measureTwoPaneProportionally(
                 constraints = childrenConstraints,
                 measurables = measurables,
@@ -66,7 +71,7 @@ internal fun twoPaneMeasurePolicy(
             )
         }
 
-        if (maxWeight == 0f || (maxWeight * 2 == totalWeight)) { // no weight will be layout equally by default
+        if (shouldLayoutEqually) {
             layout(childrenConstraints.maxWidth, childrenConstraints.maxHeight) {
                 placeables.forEachIndexed { index, placeable ->
                     placeTwoPaneEqually(
@@ -78,7 +83,7 @@ internal fun twoPaneMeasurePolicy(
                     )
                 }
             }
-        } else { // two panes with different weight
+        } else {
             layout(childrenConstraints.maxWidth, childrenConstraints.maxHeight) {
                 placeables.forEachIndexed { index, placeable ->
                     placeTwoPaneProportionally(
