@@ -275,9 +275,9 @@ class TwoPaneTest : LayoutTest() {
 
     @Test
     fun twoPaneNotSeparating_withWeight() {
-        val width = 1200
-        val height = 800
-        val hingeBounds = Rect(598, 0, 601, 800)
+        val width = 4000
+        val height = 2000
+        val hingeBounds = Rect(1999, 0, 2001, 2000)
         val constraints = Constraints(width, width, height, height)
         var widthDp: Dp
         var heightDp: Dp
@@ -303,7 +303,6 @@ class TwoPaneTest : LayoutTest() {
                 MockTwoPaneLayout(
                     windowState = WindowState(
                         hasFold = true,
-                        foldIsHorizontal = false,
                         foldBoundsDp = hingeBoundsDp,
                         foldIsSeparating = false,
                         windowWidthDp = widthDp,
@@ -340,11 +339,10 @@ class TwoPaneTest : LayoutTest() {
         val root = findComposeView()
         waitForDraw(root)
 
-        assertEquals(IntSize(width, height), IntSize(root.width, root.height))
-        assertEquals(IntSize(width = (width * .3f).roundToInt(), height = height), childSize[0])
-        assertEquals(IntSize(width = (width * .7f).roundToInt(), height = height), childSize[1])
+        assertEquals(IntSize(width = width, height = (height * .3f).roundToInt()), childSize[0])
+        assertEquals(IntSize(width = width, height = (height * .7f).roundToInt()), childSize[1])
         assertEquals(Offset(0f, 0f), childPosition[0])
-        assertEquals(Offset(width * 0.3f, height.toFloat()), childPosition[1])
+        assertEquals(Offset(0f, height * .3f), childPosition[1])
     }
 
     @Test
