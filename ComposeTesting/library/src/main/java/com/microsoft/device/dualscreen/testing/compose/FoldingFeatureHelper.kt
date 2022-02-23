@@ -3,18 +3,20 @@
  * Licensed under the MIT License.
  */
 
-package com.microsoft.device.dualscreen.testing
+package com.microsoft.device.dualscreen.testing.compose
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.window.layout.FoldingFeature
+import com.microsoft.device.dualscreen.testing.simulateHorizontalFoldingFeature
+import com.microsoft.device.dualscreen.testing.simulateVerticalFoldingFeature
 import org.junit.rules.TestRule
 
 /**
- * FOLDINGFEATURE HELPER
+ * COMPOSE FOLDINGFEATURE HELPER
  * -----------------------------------------------------------------------------------------------
- * These functions can be used in foldable UI tests to simulate the present of vertical and
+ * These functions can be used in Compose foldable UI tests to simulate the present of vertical and
  * horizontal foldingFeatures(folds/hinges). The foldingFeatures are simulated using TestWindowLayoutInfo.
  */
 

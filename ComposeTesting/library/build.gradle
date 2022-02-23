@@ -60,7 +60,6 @@ android {
 
 dependencies {
     implementation testDependencies.composeJunit
-    implementation testDependencies.uiAutomator
     implementation androidxDependencies.window
     implementation androidxDependencies.ktxCore
     api microsoftDependencies.kotlinTesting
