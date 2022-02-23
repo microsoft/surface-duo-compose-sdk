@@ -93,7 +93,9 @@ ext {
 
     // Microsoft dependencies
     twoPaneLayoutVersion = "1.0.0-alpha10"
+    kotlinTestingVersion = "1.0.0-alpha2-test01"
     microsoftDependencies = [
             twoPaneLayout: "com.microsoft.device.dualscreen:twopanelayout:$twoPaneLayoutVersion",
+            kotlinTesting: "com.microsoft.device.dualscreen.testing:testing-kotlin:$kotlinTestingVersion",
     ]
 }
