@@ -14,11 +14,11 @@ ext {
 
     // TwoPaneLayout library version code:
     // If you want to publish a new version, bump in one (1) the specific line(s)
-    twoPaneLayoutVersionCode = 11
+    twoPaneLayoutVersionCode = 12
 
     // TwoPaneLayout library version name:
     // If you want to publish a new version, bump the specific line
-    twoPaneLayoutVersionName = '1.0.0-beta01'
+    twoPaneLayoutVersionName = '1.0.0-beta02'
 
     // ----------------------------------
 
@@ -52,7 +52,7 @@ ext {
     ]
 
     // Compose dependencies
-    composeVersion = "1.1.0"
+    composeVersion = "1.1.1"
     activityComposeVersion = "1.4.0"
     navigationComposeVersion = "2.4.0"
     composeDependencies = [

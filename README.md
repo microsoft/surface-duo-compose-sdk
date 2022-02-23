@@ -8,7 +8,7 @@ Please read the [code of conduct](CODE_OF_CONDUCT.md) and [contribution guidelin
 
 ## Prerequisites
 
-- Jetpack Compose version: `1.1.0`
+- Jetpack Compose version: `1.1.1`
 - Jetpack Window Manager version: `1.0.0`
 - Android Studio version: Bumblebee `2021.1.1`
 

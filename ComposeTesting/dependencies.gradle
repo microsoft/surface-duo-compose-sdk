@@ -14,11 +14,11 @@ ext {
 
     // ComposeTesting library version code:
     // If you want to publish a new version, bump in one (1) the specific line(s)
-    composeTestingVersionCode = 2
+    composeTestingVersionCode = 3
 
     // ComposeTesting library version name:
     // If you want to publish a new version, bump the specific line
-    composeTestingVersionName = '1.0.0-alpha02'
+    composeTestingVersionName = '1.0.0-alpha03'
 
     // ----------------------------------
 
@@ -54,7 +54,7 @@ ext {
     ]
 
     // Compose dependencies
-    composeVersion = "1.1.0"
+    composeVersion = "1.1.1"
     activityComposeVersion = "1.4.0"
     navigationComposeVersion = "2.4.0"
     composeDependencies = [
