@@ -7,7 +7,7 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.microsoft.device.dualscreen.testing">
+    package="com.microsoft.device.dualscreen.testing.sample">
 
     <application
         android:allowBackup="true"
@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ComposeTesting">
         <activity
-            android:name="com.microsoft.device.dualscreen.testing.MainActivity"
+            android:name="com.microsoft.device.dualscreen.testing.sample.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.ComposeTesting.NoActionBar">
             <intent-filter>

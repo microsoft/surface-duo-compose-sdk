@@ -1,4 +1,4 @@
-package com.microsoft.device.dualscreen.testing.ui.theme
+package com.microsoft.device.dualscreen.testing.sample.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
