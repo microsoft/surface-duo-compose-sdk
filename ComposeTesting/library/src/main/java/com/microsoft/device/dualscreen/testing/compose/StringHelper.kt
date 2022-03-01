@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.microsoft.device.dualscreen.testing
+package com.microsoft.device.dualscreen.testing.compose
 
 import androidx.activity.ComponentActivity
 import androidx.annotation.StringRes
@@ -11,7 +11,7 @@ import androidx.compose.ui.test.junit4.AndroidComposeTestRule
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 
 /**
- * STRING HELPER
+ * COMPOSE STRING HELPER
  * -----------------------------------------------------------------------------------------------
  * These functions can be used for string operations in UI tests to simplify testing code.
  */

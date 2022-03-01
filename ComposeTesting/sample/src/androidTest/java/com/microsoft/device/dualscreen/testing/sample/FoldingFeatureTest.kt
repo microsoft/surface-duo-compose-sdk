@@ -5,18 +5,22 @@
  *
  */
 
-package com.microsoft.device.dualscreen.testing
+package com.microsoft.device.dualscreen.testing.sample
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
-import com.microsoft.device.dualscreen.testing.ui.theme.ComposeTestingTheme
+import com.microsoft.device.dualscreen.testing.compose.getString
+import com.microsoft.device.dualscreen.testing.compose.simulateHorizontalFoldingFeature
+import com.microsoft.device.dualscreen.testing.compose.simulateVerticalFoldingFeature
+import com.microsoft.device.dualscreen.testing.createWindowLayoutInfoPublisherRule
+import com.microsoft.device.dualscreen.testing.sample.ui.theme.ComposeTestingTheme
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
 import org.junit.rules.TestRule
 
-class FoldingFeatureHelperTest {
+class FoldingFeatureTest {
     private val composeTestRule = createAndroidComposeRule<MainActivity>()
     private val publisherRule = createWindowLayoutInfoPublisherRule()
 
@@ -35,7 +39,7 @@ class FoldingFeatureHelperTest {
                 ComposeTestingApp()
             }
         }
-        // Simulate vertical foldingFeature
+        // Simulate vertical FoldingFeature
         publisherRule.simulateVerticalFoldingFeature(composeTestRule)
 
         // Assert both panes are being shown
@@ -50,7 +54,7 @@ class FoldingFeatureHelperTest {
                 ComposeTestingApp()
             }
         }
-        // Simulate vertical foldingFeature
+        // Simulate vertical FoldingFeature
         publisherRule.simulateHorizontalFoldingFeature(composeTestRule)
 
         // Assert both panes are being shown

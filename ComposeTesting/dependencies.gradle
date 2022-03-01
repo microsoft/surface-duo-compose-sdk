@@ -46,9 +46,11 @@ ext {
     // AndroidX dependencies
     appCompatVersion = '1.4.1'
     ktxCoreVersion = '1.7.0'
+    windowVersion = '1.0.0'
     androidxDependencies = [
             appCompat         : "androidx.appcompat:appcompat:$appCompatVersion",
             ktxCore           : "androidx.core:core-ktx:$ktxCoreVersion",
+            window            : "androidx.window:window:$windowVersion",
     ]
 
     // Compose dependencies
@@ -65,7 +67,6 @@ ext {
     ]
 
     // Testing versions
-    windowVersion = "1.0.0"
     androidxTestVersion = "1.3.0"
     uiAutomatorVersion = "2.2.0"
     espressoVersion = "3.4.0"
@@ -79,7 +80,6 @@ ext {
             composeJunit            : "androidx.compose.ui:ui-test-junit4:$composeVersion",
             composeUITestManifest   : "androidx.compose.ui:ui-test-manifest:$composeVersion",
             uiAutomator             : "androidx.test.uiautomator:uiautomator:$uiAutomatorVersion",
-            windowTest              : "androidx.window:window-testing:$windowVersion",
             espressoCore            : "androidx.test.espresso:espresso-core:$espressoVersion",
             androidJunit            : "junit:junit:$junitVersion",
             mockitoCore             : "org.mockito:mockito-core:$mockitoVersion",
@@ -93,7 +93,9 @@ ext {
 
     // Microsoft dependencies
     twoPaneLayoutVersion = "1.0.0-alpha10"
+    kotlinTestingVersion = "1.0.0-alpha2"
     microsoftDependencies = [
             twoPaneLayout: "com.microsoft.device.dualscreen:twopanelayout:$twoPaneLayoutVersion",
+            kotlinTesting: "com.microsoft.device.dualscreen.testing:testing-kotlin:$kotlinTestingVersion",
     ]
 }

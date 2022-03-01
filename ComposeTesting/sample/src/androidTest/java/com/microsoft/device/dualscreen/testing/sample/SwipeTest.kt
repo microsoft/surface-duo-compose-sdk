@@ -5,18 +5,22 @@
  *
  */
 
-package com.microsoft.device.dualscreen.testing
+package com.microsoft.device.dualscreen.testing.sample
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
-import com.microsoft.device.dualscreen.testing.ui.theme.ComposeTestingTheme
+import com.microsoft.device.dualscreen.testing.compose.getString
+import com.microsoft.device.dualscreen.testing.isSurfaceDuo
+import com.microsoft.device.dualscreen.testing.sample.ui.theme.ComposeTestingTheme
+import com.microsoft.device.dualscreen.testing.spanFromStart
+import com.microsoft.device.dualscreen.testing.unspanToEnd
 import org.junit.Rule
 import org.junit.Test
 
-class SwipeHelperTest {
+class SwipeTest {
     @get: Rule
     val composeTestRule = createAndroidComposeRule<MainActivity>()
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
