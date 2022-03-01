@@ -62,4 +62,5 @@ dependencies {
 
     androidTestImplementation project(path: ':library')
     androidTestImplementation(testDependencies.composeJunit)
+    androidTestImplementation(testDependencies.uiAutomator)
 }

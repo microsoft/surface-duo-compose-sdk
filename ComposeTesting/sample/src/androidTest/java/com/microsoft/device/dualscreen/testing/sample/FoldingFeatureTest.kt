@@ -39,7 +39,7 @@ class FoldingFeatureTest {
                 ComposeTestingApp()
             }
         }
-        // Simulate vertical foldingFeature
+        // Simulate vertical FoldingFeature
         publisherRule.simulateVerticalFoldingFeature(composeTestRule)
 
         // Assert both panes are being shown
@@ -54,7 +54,7 @@ class FoldingFeatureTest {
                 ComposeTestingApp()
             }
         }
-        // Simulate vertical foldingFeature
+        // Simulate vertical FoldingFeature
         publisherRule.simulateHorizontalFoldingFeature(composeTestRule)
 
         // Assert both panes are being shown
