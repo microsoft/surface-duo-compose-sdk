@@ -50,7 +50,7 @@ For API reference information for **testing-kotlin** , refer to these resources:
 
 In addition to the resources above, **ComposeTesting** also offers the APIs described below.
 
-> **Note:** When updating to version `1.0.0-alpha03` and beyond, the import statements for utility functions change from `com.microsoft.device.dualscreen.testing.<function>` to `com.microsoft.device.dualscreen.testing.compose.<function>`. The `compose` part was added to the package name to avoid conflicts with the **testing-kotlin** library.
+> **Note:** All **testing-kotlin** functions are under the `com.microsoft.device.dualscreen.testing` package, while all **ComposeTesting** functions are under a different package, called `com.microsoft.device.dualscreen.testing.compose`. Please make sure you're importing the correct version of a function in your projects.
 
 ### FoldingFeatureHelper
 
