@@ -1,6 +1,8 @@
 # ComposeTesting - Surface Duo Compose SDK
 
-**ComposeTesting** provides some helper functions that help you easily test your application on the dual-screen, foldable and large screen devices, by simulating the foldingFeatures(fold/hinge), device gestures, screenshot comparing and zooming.
+**ComposeTesting** provides some helper functions that help you easily test your application on dual-screen, foldable, and large screen devices by simulating folding features (fold/hinge) and device gestures.
+
+The library is based on the [testing-kotlin](https://github.com/microsoft/surface-duo-sdk/tree/main/utils/test-utils) library and exposes those utility methods as well, so if your project uses a combination of composables and views, you only need to import **ComposeTesting**.
 
 ## Add to your project
 
@@ -16,7 +18,7 @@
 2. Add dependencies to the module-level **build.gradle** file (current version may be different from what's shown here).
 
     ```gradle
-    implementation "com.microsoft.device.dualscreen.testing:testing-compose:1.0.0-alpha02"
+    implementation "com.microsoft.device.dualscreen.testing:testing-compose:1.0.0-alpha03"
     ```
 
 3. Also ensure the compileSdkVersion and targetSdkVersion are set to API 31 or newer in the module-level build.gradle file.
@@ -36,17 +38,24 @@
 
 ## API reference
 
+For API reference information for **testing-kotlin** , refer to these resources:
 
-### FoldingFeature Helper
+- [UiDevice Extensions](https://github.com/microsoft/surface-duo-sdk/tree/main/utils/test-utils#uidevice-extensions)
+- [FoldingFeatureHelper](https://github.com/microsoft/surface-duo-sdk/tree/main/utils/test-utils#foldingfeaturehelper)
+- [DeviceModel](https://github.com/microsoft/surface-duo-sdk/tree/main/utils/test-utils#devicemodel)
+- [WindowLayoutInfoConsumer](https://github.com/microsoft/surface-duo-sdk/tree/main/utils/test-utils#windowlayoutinfoconsumer)
+- [CurrentActivityDelegate](https://github.com/microsoft/surface-duo-sdk/tree/main/utils/test-utils#currentactivitydelegate)
+- [ForceClick](https://github.com/microsoft/surface-duo-sdk/tree/main/utils/test-utils#forceclick)
+- [ViewMatcher](https://github.com/microsoft/surface-duo-sdk/tree/main/utils/test-utils#viewmatcher)
 
-These functions can be used in foldable UI tests to simulate the present of vertical and
-horizontal foldingFeatures(folds/hinges). The foldingFeatures are simulated using TestWindowLayoutInfo, using the Google [Jetpack WindowManager Testing](https://developer.android.com/reference/androidx/window/testing/layout/package-summary) library.
+In addition to the resources above, **ComposeTesting** also offers the APIs described below.
 
-```kotlin
-fun createWindowLayoutInfoPublisherRule(): TestRule
-```
+### FoldingFeatureHelper
 
-Return WindowLayoutInfoPublisherRule which allows you to simulate the different foldingFeature by pushing through different WindowLayoutInfo values.
+These functions provide Compose wrappers for the [FoldingFeatureHelper](https://github.com/microsoft/surface-duo-sdk/tree/main/utils/test-utils#foldingfeaturehelper) methods from **testing-kotlin**. The methods can be used in foldable UI tests to simulate the present of vertical and
+horizontal folding features (folds/hinges). The folding features are simulated using `TestWindowLayoutInfo` from Google's [Jetpack WindowManager Testing](https://developer.android.com/reference/androidx/window/testing/layout/package-summary) library.
+
+As described in the **testing-kotlin** documentation, the first step is to create a test rule with the `createWindowLayoutInfoPublisherRule()` function.
 
 ```kotlin
 fun <A : ComponentActivity> TestRule.simulateVerticalFoldingFeature(
@@ -57,7 +66,7 @@ fun <A : ComponentActivity> TestRule.simulateVerticalFoldingFeature(
 )
 ```
 
-Simulate a vertical foldingFeature in a Compose test
+Simulate a vertical folding feature in a Compose test. The default parameters create a vertical folding feature that is centered, 0px wide, and in the half-opened state, but these properties can be changed by passing in different parameter values.
 
 ```kotlin
 fun <A : ComponentActivity> TestRule.simulateHorizontalFoldingFeature(
@@ -68,75 +77,9 @@ fun <A : ComponentActivity> TestRule.simulateHorizontalFoldingFeature(
 )
 ```
 
-Simulate a horizontal foldingFeature in a Compose test
+Simulate a horizontal foldingFeature in a Compose test. The default parameters create a horizontal folding feature that is centered, 0px tall, and in the half-opened state, but these properties can be changed by passing in different parameter values.
 
-```kotlin
-fun <A : ComponentActivity> TestRule.simulateFoldingFeature(
-    composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>,
-    center: Int,
-    size: Int,
-    state: FoldingFeature.State,
-    orientation: FoldingFeature.Orientation,
-) 
-```
-
-Simulate a foldingFeature with the given properties in a Compose test
-
-### Swipe Helper
-
-These functions can be used in dual-screen UI tests to simulate swipe gestures that affect
-app display. The swipes are simulated using UiDevice, and the coordinates are calculated based
-on the display width/height of the testing device. They can be used only on dual-screen devices, not foldable devices or large screen devices.
-
-```kotlin
-fun UiDevice.spanFromStart()
-```
-
-Span app from the top/left pane
-
-```kotlin
-fun UiDevice.spanFromEnd()
-```
-
-Span app from the bottom/right pane
-
-```kotlin
-fun UiDevice.unspanToStart()
-```
-
-Unspan app to the top/left pane
-
-```kotlin
-fun UiDevice.unspanToEnd()
-```
-
-Unspan app to bottom/right pane
-
-```kotlin
-fun UiDevice.switchToStart()
-```
-
-Switch app from bottom/right pane to top/left pane
-
-```kotlin
-fun UiDevice.switchToEnd() 
-```
-
-Switch app from top/left pane to bottom/right pane
-
-```kotlin
-fun UiDevice.closeStart() 
-```
-
-Close app from top/left pane
-
-```kotlin
-fun UiDevice.closeEnd()
-```
-
-Close app from bottom/right pane
-
-### String Helper
+### StringHelper
 
 These functions can be used for string operations in UI tests to simplify testing code.
 
