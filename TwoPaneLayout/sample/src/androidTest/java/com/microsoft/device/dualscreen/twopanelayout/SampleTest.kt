@@ -9,10 +9,10 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import com.microsoft.device.dualscreen.testing.compose.getString
+import com.microsoft.device.dualscreen.testing.compose.simulateHorizontalFoldingFeature
+import com.microsoft.device.dualscreen.testing.compose.simulateVerticalFoldingFeature
 import com.microsoft.device.dualscreen.testing.createWindowLayoutInfoPublisherRule
-import com.microsoft.device.dualscreen.testing.getString
-import com.microsoft.device.dualscreen.testing.simulateHorizontalFoldingFeature
-import com.microsoft.device.dualscreen.testing.simulateVerticalFoldingFeature
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
