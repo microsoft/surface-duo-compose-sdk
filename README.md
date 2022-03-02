@@ -38,7 +38,7 @@ A utility component that helps you easily get details about the window state of 
 
 Helper functions that help you easily test your application on the dual-screen, foldable and large screen devices.
 
-#### Latest Update: [1.0.0-alpha02](https://github.com/microsoft/surface-duo-compose-sdk/releases/tag/composetesting_20220211_alpha02) (February 11th, 2022)
+#### Latest Update: [1.0.0-alpha03](https://github.com/microsoft/surface-duo-compose-sdk/releases/tag/composetesting_20220301_alpha03) (March 1st, 2022)
 
 ## Social links
 
