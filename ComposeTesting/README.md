@@ -50,6 +50,8 @@ For API reference information for **testing-kotlin** , refer to these resources:
 
 In addition to the resources above, **ComposeTesting** also offers the APIs described below.
 
+> **Note:** When updating to version `1.0.0-alpha03` and beyond, the import statements for utility functions change from `com.microsoft.device.dualscreen.testing.<function>` to `com.microsoft.device.dualscreen.testing.compose.<function>`. The `compose` part was added to the package name to avoid conflicts with the **testing-kotlin** library.
+
 ### FoldingFeatureHelper
 
 These functions provide Compose wrappers for the [FoldingFeatureHelper](https://github.com/microsoft/surface-duo-sdk/tree/main/utils/test-utils#foldingfeaturehelper) methods from **testing-kotlin**. The methods can be used in foldable UI tests to simulate the present of vertical and
