@@ -16,9 +16,11 @@ import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.debugInspectorInfo
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.get
 import com.microsoft.device.dualscreen.windowstate.WindowMode
 import com.microsoft.device.dualscreen.windowstate.WindowState
 import com.microsoft.device.dualscreen.windowstate.rememberWindowState
@@ -33,6 +35,35 @@ enum class TwoPaneMode {
     TwoPane,
     HorizontalSingle,
     VerticalSingle
+}
+
+@Composable
+fun TwoPaneLayout(
+    modifier: Modifier = Modifier,
+    paneMode: TwoPaneMode = TwoPaneMode.TwoPane,
+    navController: NavHostController = rememberNavController(),
+    pane1: @Composable TwoPaneScope.() -> Unit,
+    pane2: @Composable TwoPaneScope.() -> Unit
+) {
+    // REVISIT: not sure if this cast is safe
+    val windowState = (LocalContext.current as Activity).rememberWindowState()
+
+    val isSinglePane = isSinglePaneLayout(windowState.windowMode, paneMode)
+
+    if (isSinglePane) {
+        SinglePaneContainer(
+            navController = navController,
+            pane1 = pane1,
+            pane2 = pane2
+        )
+    } else {
+        TwoPaneContainer(
+            windowState = windowState,
+            modifier = modifier,
+            pane1 = pane1,
+            pane2 = pane2
+        )
+    }
 }
 
 /**
@@ -59,11 +90,13 @@ fun TwoPaneLayout(
 ) {
     // REVISIT: not sure if this cast is safe
     val windowState = (LocalContext.current as Activity).rememberWindowState()
+    val navController = rememberNavController()
 
     val isSinglePane = isSinglePaneLayout(windowState.windowMode, paneMode)
 
     if (isSinglePane) {
         SinglePaneContainer(
+            navController = navController,
             pane1 = pane1,
             pane2 = pane2
         )
@@ -105,11 +138,10 @@ private sealed class Screen(val route: String) {
  */
 @Composable
 internal fun SinglePaneContainer(
+    navController: NavHostController,
     pane1: @Composable TwoPaneScope.() -> Unit,
     pane2: @Composable TwoPaneScope.() -> Unit
 ) {
-    val navController = rememberNavController()
-
     NavHost(
         navController = navController,
         startDestination = currentSinglePane
