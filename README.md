@@ -38,21 +38,18 @@ A utility component that helps you easily get details about the window state of 
 
 Helper functions that help you easily test your application on the dual-screen, foldable and large screen devices.
 
-#### Latest Update: [1.0.0-alpha02](https://github.com/microsoft/surface-duo-compose-sdk/releases/tag/composetesting_20220211_alpha02) (February 11th, 2022)
+#### Latest Update: [1.0.0-alpha03](https://github.com/microsoft/surface-duo-compose-sdk/releases/tag/composetesting_20220301_alpha03) (March 1st, 2022)
 
 ## Social links
 
-- [video: Jetpack Compose WindowState preview](https://www.youtube.com/watch?v=qOIliow-uS4)
-- [blog: Jetpack Compose WindowState preview](https://devblogs.microsoft.com/surface-duo/jetpack-compose-windowstate-preview/)
-- [video: Get started with Jetpack Compose Twitch](https://www.youtube.com/watch?v=ijXDWDtdiIE)
-- [blog: Get started with Jetpack Compose](https://devblogs.microsoft.com/surface-duo/get-started-with-jetpack-compose/)
-- [video: NavigationRail Compose sample Twitch](https://www.youtube.com/watch?v=pdoIyOU7Suk)
-- [blog: NavigationRail Compose sample](https://devblogs.microsoft.com/surface-duo/jetpack-compose-navigation-rail/)
-- [video: TwoPaneLayout Compose library Twitch](https://www.youtube.com/watch?v=Q66bR2jKdrg)
-- [blog: New TwoPaneLayout Compose library preview](https://devblogs.microsoft.com/surface-duo/jetpack-compose-twopanelayout-preview/)
-- [video: Jetpack Compose samples Twitch](https://www.youtube.com/watch?v=m8bMjFhBbN8)
-- [blog: Jetpack Compose foldable and dual-screen development](https://devblogs.microsoft.com/surface-duo/jetpack-compose-foldable-samples)
-- [blog: Jetpack Compose on Microsoft Surface Duo](https://devblogs.microsoft.com/surface-duo/jetpack-compose-dual-screen-sample/)
+| Blog post | Video |
+|---|---|
+| [Jetpack Compose WindowState preview](https://devblogs.microsoft.com/surface-duo/jetpack-compose-windowstate-preview/) | [Twitch #53: Jetpack Compose WindowState for foldable devices](https://www.youtube.com/watch?v=qOIliow-uS4) |
+| [Get started with Jetpack Compose](https://devblogs.microsoft.com/surface-duo/get-started-with-jetpack-compose/) | [Twitch #44: Get started with Jetpack Compose](https://www.youtube.com/watch?v=ijXDWDtdiIE) |
+| [Jetpack Compose Navigation Rail](https://devblogs.microsoft.com/surface-duo/jetpack-compose-navigation-rail/) | [Twitch #42: Jetpack Compose Navigation Rail](https://www.youtube.com/watch?v=pdoIyOU7Suk)
+| [New TwoPaneLayout Compose library preview](https://devblogs.microsoft.com/surface-duo/jetpack-compose-twopanelayout-preview/) | [Twitch #25: TwoPaneLayout preview for Jetpack Compose](https://www.youtube.com/watch?v=Q66bR2jKdrg) |
+| [Jetpack Compose foldable and dual-screen development](https://devblogs.microsoft.com/surface-duo/jetpack-compose-foldable-samples) | [Twitch #9: Jetpack Compose samples](https://www.youtube.com/watch?v=m8bMjFhBbN8) |
+| [Jetpack Compose on Microsoft Surface Duo](https://devblogs.microsoft.com/surface-duo/jetpack-compose-dual-screen-sample/) | N/A|
 
 ## Related links
 
