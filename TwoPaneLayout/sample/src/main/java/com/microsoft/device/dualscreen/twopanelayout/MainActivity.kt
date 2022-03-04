@@ -38,46 +38,55 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainPage() {
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    BasicText(
-                        text = stringResource(R.string.app_name),
-                        style = TextStyle(
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.White
-                        )
-                    )
-                }
-            )
-        },
+        topBar = { TopAppBar() },
         content = {
             TwoPaneLayout(
                 paneMode = TwoPaneMode.HorizontalSingle,
-                pane1 = {
-                    Text(
-                        text = stringResource(R.string.first_pane_text),
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .weight(.3f)
-                            .background(color = Color.Cyan)
-                            .clickable { navigateToPane2() },
-                        color = Color.Black
-                    )
-                },
-                pane2 = {
-                    Text(
-                        text = stringResource(R.string.second_pane_text),
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .weight(.7f)
-                            .background(color = Color.Magenta)
-                            .clickable { navigateToPane1() },
-                        color = Color.Black
-                    )
-                }
+                pane1 = { Pane1() },
+                pane2 = { Pane2() }
             )
         }
+    )
+}
+
+@Composable
+fun TopAppBar() {
+    TopAppBar(
+        title = {
+            BasicText(
+                text = stringResource(R.string.app_name),
+                style = TextStyle(
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
+                )
+            )
+        }
+    )
+}
+
+@Composable
+fun TwoPaneScope.Pane1() {
+    Text(
+        text = stringResource(R.string.first_pane_text),
+        modifier = Modifier
+            .fillMaxSize()
+            .weight(.3f)
+            .background(color = Color.Cyan)
+            .clickable { navigateToPane2() },
+        color = Color.Black
+    )
+}
+
+@Composable
+fun TwoPaneScope.Pane2() {
+    Text(
+        text = stringResource(R.string.second_pane_text),
+        modifier = Modifier
+            .fillMaxSize()
+            .weight(.7f)
+            .background(color = Color.Magenta)
+            .clickable { navigateToPane1() },
+        color = Color.Black
     )
 }
