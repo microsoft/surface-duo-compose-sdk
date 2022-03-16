@@ -33,6 +33,7 @@ import androidx.compose.ui.platform.ViewRootForTest
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.IntSize
+import androidx.navigation.NavHostController
 import com.microsoft.device.dualscreen.windowstate.WindowState
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -92,10 +93,11 @@ open class LayoutTest {
 
     @Composable
     internal fun MockSinglePaneLayout(
+        navController: NavHostController,
         firstPane: @Composable TwoPaneScope.() -> Unit,
         secondPane: @Composable TwoPaneScope.() -> Unit
     ) {
-        SinglePaneContainer(firstPane, secondPane)
+        SinglePaneContainer(navController, firstPane, secondPane)
     }
 
     @Composable
