@@ -41,7 +41,7 @@ enum class TwoPaneMode {
 fun TwoPaneLayout(
     modifier: Modifier = Modifier,
     paneMode: TwoPaneMode = TwoPaneMode.TwoPane,
-    navController: NavHostController = rememberNavController(),
+    navController: NavHostController,
     pane1: @Composable TwoPaneScope.() -> Unit,
     pane2: @Composable TwoPaneScope.() -> Unit
 ) {
@@ -88,26 +88,9 @@ fun TwoPaneLayout(
     pane1: @Composable TwoPaneScope.() -> Unit,
     pane2: @Composable TwoPaneScope.() -> Unit
 ) {
-    // REVISIT: not sure if this cast is safe
-    val windowState = (LocalContext.current as Activity).rememberWindowState()
     val navController = rememberNavController()
 
-    val isSinglePane = isSinglePaneLayout(windowState.windowMode, paneMode)
-
-    if (isSinglePane) {
-        SinglePaneContainer(
-            navController = navController,
-            pane1 = pane1,
-            pane2 = pane2
-        )
-    } else {
-        TwoPaneContainer(
-            windowState = windowState,
-            modifier = modifier,
-            pane1 = pane1,
-            pane2 = pane2
-        )
-    }
+    TwoPaneLayout(modifier, paneMode, navController, pane1, pane2)
 }
 
 /**
