@@ -37,6 +37,24 @@ enum class TwoPaneMode {
     VerticalSingle
 }
 
+/**
+ * A layout component that places its children in one or two panes vertically or horizontally to
+ * support the layout on foldable or dual-screen form factors. One-pane can be used to layout on
+ * the single-screen device, or single-screen mode on the foldable or dual-screen devices. Two-pane
+ * can be used to layout left/right or top/bottom screens on the foldable or dual-screen devices.
+ * The tablet or wide screen devices will display two-pane layout by default.
+ *
+ * The [TwoPaneLayout] layout is able to assign children widths or heights according to their weights
+ * provided using the [TwoPaneScope.weight] modifier. If all the children have not provided a weight,
+ * they will be layout equally, with the potential padding in-between based on the
+ * physical hinge between two screens.
+ *
+ * @param modifier: The modifier to be applied to the TwoPaneLayout
+ * @param paneMode: The [TwoPaneMode] that determines when one or two panes are shown
+ * @param navController: The navController to use when navigating within the single pane container
+ * @param pane1: The content to show in pane 1
+ * @param pane2: The content to show in pane 2
+ */
 @Composable
 fun TwoPaneLayout(
     modifier: Modifier = Modifier,
@@ -78,9 +96,11 @@ fun TwoPaneLayout(
  * they will be layout equally, with the potential padding in-between based on the
  * physical hinge between two screens.
  *
- * @param modifier The modifier to be applied to the TwoPane.
+ * @param modifier: The modifier to be applied to the TwoPaneLayout
+ * @param paneMode: The [TwoPaneMode] that determines when one or two panes are shown
+ * @param pane1: The content to show in pane 1
+ * @param pane2: The content to show in pane 2
  */
-
 @Composable
 fun TwoPaneLayout(
     modifier: Modifier = Modifier,
@@ -109,14 +129,28 @@ fun navigateToPane2() {
 
 private lateinit var navigateToPane1Handler: () -> Unit
 private lateinit var navigateToPane2Handler: () -> Unit
+
+/**
+ * The route of the pane shown in the SinglePaneContainer
+ */
 var currentSinglePane = Screen.Pane1.route
 
+/**
+ * Class that represents a screen in a NavHost
+ */
 sealed class Screen(val route: String) {
+    /**
+     * Screen object representing pane 1
+     */
     object Pane1 : Screen("pane1")
+
+    /**
+     * Screen object representing pane 2
+     */
     object Pane2 : Screen("pane2")
 }
 
-/*
+/**
  * The container to hold single pane for single-screen or single pane in dual-screen mode
  */
 @Composable
@@ -148,7 +182,7 @@ internal fun SinglePaneContainer(
     }
 }
 
-/*
+/**
  * The container to hold the two panes for dual-screen/foldable/large-screen
  */
 @Composable
