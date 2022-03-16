@@ -126,9 +126,9 @@ fun navigateToPane2() {
 
 private lateinit var navigateToPane1Handler: () -> Unit
 private lateinit var navigateToPane2Handler: () -> Unit
-private var currentSinglePane = Screen.Pane1.route
+var currentSinglePane = Screen.Pane1.route
 
-private sealed class Screen(val route: String) {
+sealed class Screen(val route: String) {
     object Pane1 : Screen("pane1")
     object Pane2 : Screen("pane2")
 }
