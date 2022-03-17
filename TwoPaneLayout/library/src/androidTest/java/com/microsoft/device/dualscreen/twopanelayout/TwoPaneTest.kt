@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpRect
 import androidx.compose.ui.unit.IntSize
+import androidx.navigation.compose.rememberNavController
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.microsoft.device.dualscreen.windowstate.WindowMode
 import com.microsoft.device.dualscreen.windowstate.WindowState
@@ -91,6 +92,7 @@ class TwoPaneTest : LayoutTest() {
         activityTestRule.setContent {
             Container(width = width, height = height) {
                 MockSinglePaneLayout(
+                    navController = rememberNavController(),
                     firstPane =
                     {
                         Container(

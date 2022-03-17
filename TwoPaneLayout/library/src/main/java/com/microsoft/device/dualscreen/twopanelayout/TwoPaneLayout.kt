@@ -16,6 +16,7 @@ import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.debugInspectorInfo
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -47,23 +48,29 @@ enum class TwoPaneMode {
  * they will be layout equally, with the potential padding in-between based on the
  * physical hinge between two screens.
  *
- * @param modifier The modifier to be applied to the TwoPane.
+ * @param modifier: The modifier to be applied to the TwoPaneLayout
+ * @param paneMode: The [TwoPaneMode] that determines when one or two panes are shown
+ * @param navController: The navController to use when navigating within the single pane container
+ * @param pane1: The content to show in pane 1
+ * @param pane2: The content to show in pane 2
  */
-
 @Composable
 fun TwoPaneLayout(
     modifier: Modifier = Modifier,
     paneMode: TwoPaneMode = TwoPaneMode.TwoPane,
+    navController: NavHostController,
     pane1: @Composable TwoPaneScope.() -> Unit,
     pane2: @Composable TwoPaneScope.() -> Unit
 ) {
-    // REVISIT: not sure if this cast is safe
-    val windowState = (LocalContext.current as Activity).rememberWindowState()
+    val activity = (LocalContext.current as? Activity)
+        ?: throw ClassCastException("Local context could not be cast as an Activity")
+    val windowState = activity.rememberWindowState()
 
     val isSinglePane = isSinglePaneLayout(windowState.windowMode, paneMode)
 
     if (isSinglePane) {
         SinglePaneContainer(
+            navController = navController,
             pane1 = pane1,
             pane2 = pane2
         )
@@ -75,6 +82,35 @@ fun TwoPaneLayout(
             pane2 = pane2
         )
     }
+}
+
+/**
+ * A layout component that places its children in one or two panes vertically or horizontally to
+ * support the layout on foldable or dual-screen form factors. One-pane can be used to layout on
+ * the single-screen device, or single-screen mode on the foldable or dual-screen devices. Two-pane
+ * can be used to layout left/right or top/bottom screens on the foldable or dual-screen devices.
+ * The tablet or wide screen devices will display two-pane layout by default.
+ *
+ * The [TwoPaneLayout] layout is able to assign children widths or heights according to their weights
+ * provided using the [TwoPaneScope.weight] modifier. If all the children have not provided a weight,
+ * they will be layout equally, with the potential padding in-between based on the
+ * physical hinge between two screens.
+ *
+ * @param modifier: The modifier to be applied to the TwoPaneLayout
+ * @param paneMode: The [TwoPaneMode] that determines when one or two panes are shown
+ * @param pane1: The content to show in pane 1
+ * @param pane2: The content to show in pane 2
+ */
+@Composable
+fun TwoPaneLayout(
+    modifier: Modifier = Modifier,
+    paneMode: TwoPaneMode = TwoPaneMode.TwoPane,
+    pane1: @Composable TwoPaneScope.() -> Unit,
+    pane2: @Composable TwoPaneScope.() -> Unit
+) {
+    val navController = rememberNavController()
+
+    TwoPaneLayout(modifier, paneMode, navController, pane1, pane2)
 }
 
 /**
@@ -93,23 +129,36 @@ fun navigateToPane2() {
 
 private lateinit var navigateToPane1Handler: () -> Unit
 private lateinit var navigateToPane2Handler: () -> Unit
-private var currentSinglePane = Screen.Pane1.route
 
-private sealed class Screen(val route: String) {
+/**
+ * The route of the pane shown in the SinglePaneContainer
+ */
+var currentSinglePane = Screen.Pane1.route
+
+/**
+ * Class that represents a screen in a NavHost
+ */
+sealed class Screen(val route: String) {
+    /**
+     * Screen object representing pane 1
+     */
     object Pane1 : Screen("pane1")
+
+    /**
+     * Screen object representing pane 2
+     */
     object Pane2 : Screen("pane2")
 }
 
-/*
+/**
  * The container to hold single pane for single-screen or single pane in dual-screen mode
  */
 @Composable
 internal fun SinglePaneContainer(
+    navController: NavHostController,
     pane1: @Composable TwoPaneScope.() -> Unit,
     pane2: @Composable TwoPaneScope.() -> Unit
 ) {
-    val navController = rememberNavController()
-
     NavHost(
         navController = navController,
         startDestination = currentSinglePane
@@ -133,7 +182,7 @@ internal fun SinglePaneContainer(
     }
 }
 
-/*
+/**
  * The container to hold the two panes for dual-screen/foldable/large-screen
  */
 @Composable
