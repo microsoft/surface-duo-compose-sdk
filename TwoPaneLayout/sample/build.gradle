@@ -54,7 +54,6 @@ dependencies {
     implementation composeDependencies.composeMaterial
     implementation composeDependencies.composeUITooling
     implementation composeDependencies.activityCompose
-    implementation composeDependencies.navigationCompose
 
     implementation googleDependencies.material
 
