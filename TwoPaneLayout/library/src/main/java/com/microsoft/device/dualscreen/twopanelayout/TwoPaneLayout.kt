@@ -62,8 +62,9 @@ fun TwoPaneLayout(
     pane1: @Composable TwoPaneScope.() -> Unit,
     pane2: @Composable TwoPaneScope.() -> Unit
 ) {
-    // REVISIT: not sure if this cast is safe
-    val windowState = (LocalContext.current as Activity).rememberWindowState()
+    val activity = (LocalContext.current as? Activity)
+        ?: throw ClassCastException("Local context could not be cast as an Activity")
+    val windowState = activity.rememberWindowState()
 
     val isSinglePane = isSinglePaneLayout(windowState.windowMode, paneMode)
 
