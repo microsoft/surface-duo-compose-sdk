@@ -34,7 +34,7 @@ The library is based on the [testing-kotlin](https://github.com/microsoft/surfac
     }
     ```
 
-4. Access the testing functions from **ComposeTesting** to test your application. Please refer to the [sample](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/ComposeTesting/sample) for more details.
+4. Access the testing functions from **ComposeTesting** to test your application. Please refer to the [sample](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/ComposeTesting/sample) and [documentation](https://docs.microsoft.com/dual-screen/android/test-kit/?tabs=compose) for more details.
 
 ## API reference
 
