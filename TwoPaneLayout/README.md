@@ -1,22 +1,31 @@
 # TwoPaneLayout - Surface Duo Compose SDK
 
-**TwoPaneLayout** is a UI component for Jetpack Compose, which contains the layouts that help you create UI for dual-screen, foldable, and large-screen devices. TwoPaneLayout provides a two-pane layout for use at the top level of a UI. The component will place two panes side-by-side when the app is spanned on dual-screen, foldable and large-screen devices. The two panes can be horizontal or vertical, based on the orientation of the device, unless `paneMode` is configured. 
+**TwoPaneLayout** is a UI component for Jetpack Compose, which contains the layouts that help you create UI for dual-screen, foldable, and large-screen devices. TwoPaneLayout provides a two-pane layout for use at the top level of a UI. The component will place two panes side-by-side when the app is spanned on dual-screen, foldable and large-screen devices. The two panes can be horizontal or vertical, based on the orientation of the device, unless `paneMode` is configured.
 
-When the app is spanned across a vertical hinge or fold, or when the width is larger than height of screen on large-screen device, pane1 will be placed on the left, while pane2 will be on the right. If the device rotates, the app is spanned across a horizontal hinge or fold, or the width is smaller than the height of screen on large-screen device, pane1 will be placed on the top and pane2 will be on the bottom. 
+When the app is spanned across a vertical hinge or fold, or when the width is larger than height of screen on large-screen device, pane 1 will be placed on the left, while pane 2 will be on the right. If the device rotates, the app is spanned across a horizontal hinge or fold, or the width is smaller than the height of screen on large-screen device, pane 1 will be placed on the top and pane 2 will be on the bottom.
 
-The TwoPaneLayout is able to assign children widths or heights according to their weights provided using the `TwoPaneScope.weight` modifier. If no weight is provided, the two panes will be displayed equally. The proportional layout only applies when the foldingFeature is not separating, meaning the foldable device is fully open or running on the large screen device. For dual-screen device with a hinge in the middle, the two panes would always layout equally.
+The TwoPaneLayout is able to assign children widths or heights according to their weights provided using the `TwoPaneScope.weight` modifier. If no weight is provided, the two panes will be displayed equally. The proportional layout only applies when the folding feature is not separating, meaning the foldable device is fully open or running on the large screen device. For dual-screen device with a hinge in the middle, the two panes would always layout equally.
 
 The TwoPaneLayout is able to assign children widths or heights according to their weights provided using the TwoPaneScope.weight modifier.
 
 - For large screens, if no weight is provided, the two panes will be displayed equally. If weight is provided, then the layout will be split up proportionally according to the weight.
 - For foldables with a separating folding feature, the two panes will always be split up according to the folding feature boundaries (with or without weight). A folding feature is considered separating when a foldable device is half-opened or has a hinge that physically divides the screens. If a foldable device does not have a separating folding feature, then it will either be treated as a large screen or a single screen depending on its size and the provided weight.
-- If running on regular single-screen device, there will be only one pane visible. The other pane will be overlayed and navigation will be available to switch between two panes, regardless the weight.
+- If running on regular single-screen device, there will be only one pane visible. The other pane will be overlaid and navigation will be available to switch between two panes, regardless the weight.
 
 ```kotlin
 @Composable
 fun TwoPaneLayout(
     modifier: Modifier = Modifier,
     paneMode: TwoPaneMode = TwoPaneMode.TwoPane,
+    pane1: @Composable TwoPaneScope.() -> Unit,
+    pane2: @Composable TwoPaneScope.() -> Unit
+)
+
+@Composable
+fun TwoPaneLayout(
+    modifier: Modifier = Modifier,
+    paneMode: TwoPaneMode = TwoPaneMode.TwoPane,
+    navController: NavHostController,
     pane1: @Composable TwoPaneScope.() -> Unit,
     pane2: @Composable TwoPaneScope.() -> Unit
 )
@@ -45,7 +54,7 @@ About some common use case for the two panes, please check out [user interface p
 2. Add dependencies to the module-level **build.gradle** file (current version may be different from what's shown here).
 
     ```gradle
-    implementation "com.microsoft.device.dualscreen:twopanelayout:1.0.0-beta01"
+    implementation "com.microsoft.device.dualscreen:twopanelayout:1.0.0-beta02"
     ```
 
 3. Also ensure the compileSdkVersion and targetSdkVersion are set to API 31 or newer in the module-level build.gradle file.
