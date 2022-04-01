@@ -179,13 +179,19 @@ internal fun SinglePaneContainer(
     }
 
     navigateToPane1Handler = {
-        navController.navigate(Screen.Pane1.route)
-        currentSinglePane = Screen.Pane1.route
+        // Navigate only when pane 1 is not shown
+        if (!isPane1Shown()) {
+            navController.navigate(Screen.Pane1.route)
+            currentSinglePane = Screen.Pane1.route
+        }
     }
 
     navigateToPane2Handler = {
-        navController.navigate(Screen.Pane2.route)
-        currentSinglePane = Screen.Pane2.route
+        // Navigate only when pane 2 is not shown
+        if (isPane1Shown()) {
+            navController.navigate(Screen.Pane2.route)
+            currentSinglePane = Screen.Pane2.route
+        }
     }
 }
 
