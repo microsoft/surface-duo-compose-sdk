@@ -145,7 +145,7 @@ private var currentSinglePane = Screen.Pane1.route
 /**
  * Class that represents a screen in a NavHost
  */
-sealed class Screen(val route: String) {
+private sealed class Screen(val route: String) {
     /**
      * Screen object representing pane 1
      */
