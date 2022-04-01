@@ -127,18 +127,25 @@ fun navigateToPane2() {
     navigateToPane2Handler()
 }
 
+/**
+ * Return whether pane 1 is shown currently, otherwise pane 2
+ */
+fun isPane1Shown(): Boolean {
+    return currentSinglePane == Screen.Pane1.route
+}
+
 private lateinit var navigateToPane1Handler: () -> Unit
 private lateinit var navigateToPane2Handler: () -> Unit
 
 /**
  * The route of the pane shown in the SinglePaneContainer
  */
-var currentSinglePane = Screen.Pane1.route
+private var currentSinglePane = Screen.Pane1.route
 
 /**
  * Class that represents a screen in a NavHost
  */
-sealed class Screen(val route: String) {
+private sealed class Screen(val route: String) {
     /**
      * Screen object representing pane 1
      */
@@ -172,13 +179,19 @@ internal fun SinglePaneContainer(
     }
 
     navigateToPane1Handler = {
-        navController.navigate(Screen.Pane1.route)
-        currentSinglePane = Screen.Pane1.route
+        // Navigate only when pane 1 is not shown
+        if (!isPane1Shown()) {
+            navController.navigate(Screen.Pane1.route)
+            currentSinglePane = Screen.Pane1.route
+        }
     }
 
     navigateToPane2Handler = {
-        navController.navigate(Screen.Pane2.route)
-        currentSinglePane = Screen.Pane2.route
+        // Navigate only when pane 2 is not shown
+        if (isPane1Shown()) {
+            navController.navigate(Screen.Pane2.route)
+            currentSinglePane = Screen.Pane2.route
+        }
     }
 }
 

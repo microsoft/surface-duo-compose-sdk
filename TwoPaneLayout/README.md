@@ -33,6 +33,8 @@ fun TwoPaneLayout(
 fun navigateToPane1()
 
 fun navigateToPane2() 
+
+fun isPane1Shown(): Boolean
 ```
 
 Please refer to [TwoPaneLayout](https://docs.microsoft.com/dual-screen/android/jetpack/compose/two-pane-layout) on Microsoft Dual-screen document for more details.
