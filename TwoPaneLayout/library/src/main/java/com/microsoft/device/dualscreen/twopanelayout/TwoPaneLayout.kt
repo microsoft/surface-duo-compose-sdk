@@ -127,13 +127,20 @@ fun navigateToPane2() {
     navigateToPane2Handler()
 }
 
+/**
+ * Return whether pane 1 is shown currently, otherwise pane 2
+ */
+fun isPane1Shown(): Boolean {
+    return currentSinglePane == Screen.Pane1.route
+}
+
 private lateinit var navigateToPane1Handler: () -> Unit
 private lateinit var navigateToPane2Handler: () -> Unit
 
 /**
  * The route of the pane shown in the SinglePaneContainer
  */
-var currentSinglePane = Screen.Pane1.route
+private var currentSinglePane = Screen.Pane1.route
 
 /**
  * Class that represents a screen in a NavHost
