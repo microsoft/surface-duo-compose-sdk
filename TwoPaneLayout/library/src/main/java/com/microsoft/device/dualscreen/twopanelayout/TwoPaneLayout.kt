@@ -181,7 +181,7 @@ internal fun SinglePaneContainer(
     navigateToPane1Handler = {
         // Navigate only when pane 1 is not shown
         if (!isPane1Shown()) {
-            navController.navigate(Screen.Pane1.route)
+            navController.popBackStack()
             currentSinglePane = Screen.Pane1.route
         }
     }
