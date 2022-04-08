@@ -39,7 +39,7 @@ internal fun twoPaneMeasurePolicy(
         var maxWeight = 0f
 
         val childrenCount = measurables.count()
-        require(childrenCount == 2) { "TwoPaneLayout requires 2 child elements in the two pane mode" }
+        require(childrenCount == 2) { "TwoPaneLayout requires 2 child elements in the two pane mode, but found $childrenCount" }
 
         for (i in measurables.indices) {
             val parentData = twoPaneParentData[i]
