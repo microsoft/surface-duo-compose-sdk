@@ -119,6 +119,11 @@ private lateinit var navigateToPane2Handler: () -> Unit
 private var currentSinglePane = Screen.Pane1.route
 
 /**
+ * Check whether the navGraph starts from Pane1, especially switching from dual-screen to single-screen
+ */
+private var startFromPane1: Boolean = true
+
+/**
  * Class that represents the screens in the NavHost
  */
 sealed class Screen(val route: String) {
@@ -142,6 +147,7 @@ internal fun SinglePaneContainer(
     pane1: @Composable TwoPaneScope.() -> Unit,
     pane2: @Composable TwoPaneScope.() -> Unit
 ) {
+    startFromPane1 = currentSinglePane == Screen.Pane1.route // startDestination(currentSinglePane) may be either Pane1 or Pane2
     NavHost(
         navController = navController,
         startDestination = currentSinglePane
@@ -155,17 +161,29 @@ internal fun SinglePaneContainer(
     }
 
     navigateToPane1Handler = {
-        // Navigate only when pane 1 is not shown
+        // Navigate only when pane 1 is not shown, pane2 is shown
         if (!isPane1Shown()) {
-            navController.popBackStack()
+            if (startFromPane1) {
+                // Pane1 is at the top of the stack, so pop Pane1 out of the stack
+                navController.popBackStack()
+            } else {
+                // Pane2 is at the top of the stack, so push Pane1 to the stack
+                navController.navigate(Screen.Pane1.route)
+            }
             currentSinglePane = Screen.Pane1.route
         }
     }
 
     navigateToPane2Handler = {
-        // Navigate only when pane 2 is not shown
+        // Navigate only when pane 2 is not shown, pane1 is shown
         if (isPane1Shown()) {
-            navController.navigate(Screen.Pane2.route)
+            if (startFromPane1) {
+                // Pane2 is at the top of the stack, so pop Pane2 out of the stack
+                navController.navigate(Screen.Pane2.route)
+            } else {
+                // Pane1 is at the top of the stack, so push Pane2 to the stack
+                navController.popBackStack()
+            }
             currentSinglePane = Screen.Pane2.route
         }
     }
