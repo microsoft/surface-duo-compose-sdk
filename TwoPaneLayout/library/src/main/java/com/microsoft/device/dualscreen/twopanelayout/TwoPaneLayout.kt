@@ -50,7 +50,6 @@ enum class TwoPaneMode {
  *
  * @param modifier: The modifier to be applied to the TwoPaneLayout
  * @param paneMode: The [TwoPaneMode] that determines when one or two panes are shown
- * @param navController: The navController to use when navigating within the single pane container
  * @param pane1: The content to show in pane 1
  * @param pane2: The content to show in pane 2
  */
@@ -58,10 +57,11 @@ enum class TwoPaneMode {
 fun TwoPaneLayout(
     modifier: Modifier = Modifier,
     paneMode: TwoPaneMode = TwoPaneMode.TwoPane,
-    navController: NavHostController,
     pane1: @Composable TwoPaneScope.() -> Unit,
     pane2: @Composable TwoPaneScope.() -> Unit
 ) {
+    twoPaneNavController = rememberNavController()
+
     val activity = (LocalContext.current as? Activity)
         ?: throw ClassCastException("Local context could not be cast as an Activity")
     val windowState = activity.rememberWindowState()
@@ -70,7 +70,7 @@ fun TwoPaneLayout(
 
     if (isSinglePane) {
         SinglePaneContainer(
-            navController = navController,
+            navController = twoPaneNavController,
             pane1 = pane1,
             pane2 = pane2
         )
@@ -82,35 +82,6 @@ fun TwoPaneLayout(
             pane2 = pane2
         )
     }
-}
-
-/**
- * A layout component that places its children in one or two panes vertically or horizontally to
- * support the layout on foldable or dual-screen form factors. One-pane can be used to layout on
- * the single-screen device, or single-screen mode on the foldable or dual-screen devices. Two-pane
- * can be used to layout left/right or top/bottom screens on the foldable or dual-screen devices.
- * The tablet or wide screen devices will display two-pane layout by default.
- *
- * The [TwoPaneLayout] layout is able to assign children widths or heights according to their weights
- * provided using the [TwoPaneScope.weight] modifier. If all the children have not provided a weight,
- * they will be layout equally, with the potential padding in-between based on the
- * physical hinge between two screens.
- *
- * @param modifier: The modifier to be applied to the TwoPaneLayout
- * @param paneMode: The [TwoPaneMode] that determines when one or two panes are shown
- * @param pane1: The content to show in pane 1
- * @param pane2: The content to show in pane 2
- */
-@Composable
-fun TwoPaneLayout(
-    modifier: Modifier = Modifier,
-    paneMode: TwoPaneMode = TwoPaneMode.TwoPane,
-    pane1: @Composable TwoPaneScope.() -> Unit,
-    pane2: @Composable TwoPaneScope.() -> Unit
-) {
-    val navController = rememberNavController()
-
-    TwoPaneLayout(modifier, paneMode, navController, pane1, pane2)
 }
 
 /**
@@ -134,6 +105,11 @@ fun isPane1Shown(): Boolean {
     return currentSinglePane == Screen.Pane1.route
 }
 
+/**
+ * The navHostController used to navigate between two panes
+ */
+lateinit var twoPaneNavController: NavHostController
+
 private lateinit var navigateToPane1Handler: () -> Unit
 private lateinit var navigateToPane2Handler: () -> Unit
 
@@ -143,7 +119,12 @@ private lateinit var navigateToPane2Handler: () -> Unit
 private var currentSinglePane = Screen.Pane1.route
 
 /**
- * Class that represents a screen in a NavHost
+ * Check whether the navGraph starts from Pane1, especially switching from dual-screen to single-screen
+ */
+private var startFromPane1: Boolean = true
+
+/**
+ * Class that represents the screens in the NavHost
  */
 private sealed class Screen(val route: String) {
     /**
@@ -166,6 +147,7 @@ internal fun SinglePaneContainer(
     pane1: @Composable TwoPaneScope.() -> Unit,
     pane2: @Composable TwoPaneScope.() -> Unit
 ) {
+    startFromPane1 = currentSinglePane == Screen.Pane1.route // startDestination(currentSinglePane) may be either Pane1 or Pane2
     NavHost(
         navController = navController,
         startDestination = currentSinglePane
@@ -179,17 +161,29 @@ internal fun SinglePaneContainer(
     }
 
     navigateToPane1Handler = {
-        // Navigate only when pane 1 is not shown
+        // Navigate only when pane 1 is not shown, pane2 is shown
         if (!isPane1Shown()) {
-            navController.navigate(Screen.Pane1.route)
+            if (startFromPane1) {
+                // Pane1 is at the top of the stack, so pop Pane1 out of the stack
+                navController.popBackStack()
+            } else {
+                // Pane2 is at the top of the stack, so push Pane1 to the stack
+                navController.navigate(Screen.Pane1.route)
+            }
             currentSinglePane = Screen.Pane1.route
         }
     }
 
     navigateToPane2Handler = {
-        // Navigate only when pane 2 is not shown
+        // Navigate only when pane 2 is not shown, pane1 is shown
         if (isPane1Shown()) {
-            navController.navigate(Screen.Pane2.route)
+            if (startFromPane1) {
+                // Pane2 is at the top of the stack, so pop Pane2 out of the stack
+                navController.navigate(Screen.Pane2.route)
+            } else {
+                // Pane1 is at the top of the stack, so push Pane2 to the stack
+                navController.popBackStack()
+            }
             currentSinglePane = Screen.Pane2.route
         }
     }
