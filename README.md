@@ -26,7 +26,7 @@ Please check out our page on [Jetpack Compose for Microsoft Surface Duo](https:/
 
 A UI component that helps you build two-pane layout for dual-screen, foldable, and large-screen devices.
 
-#### Latest Update: [1.0.0-beta02](https://github.com/microsoft/surface-duo-compose-sdk/releases/tag/twopanelayout_20220317_beta02) (March 17th, 2022)
+#### Latest Update: [1.0.0-beta04]
 
 ### [WindowState](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/WindowState)
 
