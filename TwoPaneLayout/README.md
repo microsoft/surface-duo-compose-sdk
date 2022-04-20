@@ -21,20 +21,13 @@ fun TwoPaneLayout(
     pane2: @Composable TwoPaneScope.() -> Unit
 )
 
-@Composable
-fun TwoPaneLayout(
-    modifier: Modifier = Modifier,
-    paneMode: TwoPaneMode = TwoPaneMode.TwoPane,
-    navController: NavHostController,
-    pane1: @Composable TwoPaneScope.() -> Unit,
-    pane2: @Composable TwoPaneScope.() -> Unit
-)
-
 fun navigateToPane1()
 
 fun navigateToPane2() 
 
 fun isPane1Shown(): Boolean
+
+lateinit var twoPaneNavController: NavHostController
 ```
 
 Please refer to [TwoPaneLayout](https://docs.microsoft.com/dual-screen/android/jetpack/compose/two-pane-layout) on Microsoft Dual-screen document for more details.

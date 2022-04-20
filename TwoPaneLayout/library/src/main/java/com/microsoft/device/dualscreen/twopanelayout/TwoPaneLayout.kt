@@ -126,7 +126,7 @@ private var startFromPane1: Boolean = true
 /**
  * Class that represents the screens in the NavHost
  */
-sealed class Screen(val route: String) {
+private sealed class Screen(val route: String) {
     /**
      * Screen object representing pane 1
      */
