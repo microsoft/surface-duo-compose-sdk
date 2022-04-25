@@ -10,6 +10,10 @@ import androidx.compose.foundation.layout.LayoutScopeMarker
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.Layout
@@ -61,7 +65,6 @@ fun TwoPaneLayout(
     pane2: @Composable TwoPaneScope.() -> Unit
 ) {
     twoPaneNavController = rememberNavController()
-
     val activity = (LocalContext.current as? Activity)
         ?: throw ClassCastException("Local context could not be cast as an Activity")
     val windowState = activity.rememberWindowState()
@@ -119,11 +122,6 @@ private lateinit var navigateToPane2Handler: () -> Unit
 private var currentSinglePane = Screen.Pane1.route
 
 /**
- * Check whether the navGraph starts from Pane1, especially switching from dual-screen to single-screen
- */
-private var startFromPane1: Boolean = true
-
-/**
  * Class that represents the screens in the NavHost
  */
 private sealed class Screen(val route: String) {
@@ -147,7 +145,7 @@ internal fun SinglePaneContainer(
     pane1: @Composable TwoPaneScope.() -> Unit,
     pane2: @Composable TwoPaneScope.() -> Unit
 ) {
-    startFromPane1 = currentSinglePane == Screen.Pane1.route // startDestination(currentSinglePane) may be either Pane1 or Pane2
+    currentSinglePane = Screen.Pane1.route // always start from Pane1 to maintain the expected backstack
     NavHost(
         navController = navController,
         startDestination = currentSinglePane
@@ -160,32 +158,33 @@ internal fun SinglePaneContainer(
         }
     }
 
+    var topPane: String? by rememberSaveable { mutableStateOf(null) }
+    if (!navController.backQueue.isEmpty()) {
+        topPane = navController.backQueue.last().destination.route
+    }
+
     navigateToPane1Handler = {
-        // Navigate only when pane 1 is not shown, pane2 is shown
-        if (!isPane1Shown()) {
-            if (startFromPane1) {
-                // Pane1 is at the top of the stack, so pop Pane1 out of the stack
-                navController.popBackStack()
-            } else {
-                // Pane2 is at the top of the stack, so push Pane1 to the stack
-                navController.navigate(Screen.Pane1.route)
-            }
-            currentSinglePane = Screen.Pane1.route
+        if (!navController.backQueue.isEmpty()) {
+            topPane = navController.backQueue.last().destination.route
         }
+
+        // Navigate only when pane1 is not shown(not at the top of the backstack)
+        if (topPane != Screen.Pane1.route) {
+            navController.popBackStack()
+        }
+        currentSinglePane = Screen.Pane1.route
     }
 
     navigateToPane2Handler = {
-        // Navigate only when pane 2 is not shown, pane1 is shown
-        if (isPane1Shown()) {
-            if (startFromPane1) {
-                // Pane2 is at the top of the stack, so pop Pane2 out of the stack
-                navController.navigate(Screen.Pane2.route)
-            } else {
-                // Pane1 is at the top of the stack, so push Pane2 to the stack
-                navController.popBackStack()
-            }
-            currentSinglePane = Screen.Pane2.route
+        if (!navController.backQueue.isEmpty()) {
+            topPane = navController.backQueue.last().destination.route
         }
+
+        // Navigate only when pane2 is not shown(not at the top of the backstack)
+        if (topPane != Screen.Pane2.route) {
+            navController.navigate(Screen.Pane2.route)
+        }
+        currentSinglePane = Screen.Pane2.route
     }
 }
 
