@@ -18,18 +18,6 @@ import androidx.navigation.compose.rememberNavController
 import com.microsoft.device.dualscreen.windowstate.rememberWindowState
 
 /**
- * TwoPaneMode
- * TwoPane,          always shows two panes, regardless the orientation, by default
- * HorizontalSingle  shows big single pane in horizontal orientation layout(top/bottom)
- * VerticalSingle    shows big single pane in vertical orientation layout(left/right)
- */
-enum class TwoPaneMode {
-    TwoPane,
-    HorizontalSingle,
-    VerticalSingle
-}
-
-/**
  * A layout component that places its children in one or two panes vertically or horizontally to
  * support the layout on foldable or dual-screen form factors. One-pane can be used to layout on
  * the single-screen device, or single-screen mode on the foldable or dual-screen devices. Two-pane
@@ -125,45 +113,4 @@ fun navigateToPane2() {
  */
 fun isPane1Shown(): Boolean {
     return currentSinglePane == Screen.Pane1.route
-}
-
-/**
- * Class that represents the screens in the NavHost
- */
-internal sealed class Screen(val route: String) {
-    /**
-     * Screen object representing pane 1
-     */
-    object Pane1 : Screen("pane1")
-
-    /**
-     * Screen object representing pane 2
-     */
-    object Pane2 : Screen("pane2")
-}
-
-@LayoutScopeMarker
-@Immutable
-interface TwoPaneScope {
-    @Stable
-    fun Modifier.weight(
-        weight: Float,
-    ): Modifier
-}
-
-internal object TwoPaneScopeInstance : TwoPaneScope {
-    @Stable
-    override fun Modifier.weight(weight: Float): Modifier {
-        require(weight > 0.0) { "invalid weight $weight; must be greater than zero" }
-        return this.then(
-            LayoutWeightImpl(
-                weight = weight,
-                inspectorInfo = debugInspectorInfo {
-                    name = "weight"
-                    value = weight
-                    properties["weight"] = weight
-                }
-            )
-        )
-    }
 }
