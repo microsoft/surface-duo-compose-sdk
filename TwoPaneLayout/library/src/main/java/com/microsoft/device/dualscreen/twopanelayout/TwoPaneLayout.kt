@@ -64,7 +64,6 @@ fun TwoPaneLayout(
     pane1: @Composable TwoPaneScope.() -> Unit,
     pane2: @Composable TwoPaneScope.() -> Unit
 ) {
-    twoPaneNavController = rememberNavController()
     val activity = (LocalContext.current as? Activity)
         ?: throw ClassCastException("Local context could not be cast as an Activity")
     val windowState = activity.rememberWindowState()
@@ -73,7 +72,6 @@ fun TwoPaneLayout(
 
     if (isSinglePane) {
         SinglePaneContainer(
-            navController = twoPaneNavController,
             pane1 = pane1,
             pane2 = pane2
         )
@@ -141,10 +139,11 @@ private sealed class Screen(val route: String) {
  */
 @Composable
 internal fun SinglePaneContainer(
-    navController: NavHostController,
     pane1: @Composable TwoPaneScope.() -> Unit,
     pane2: @Composable TwoPaneScope.() -> Unit
 ) {
+    val navController = rememberNavController()
+    twoPaneNavController = navController
     currentSinglePane = Screen.Pane1.route // always start from Pane1 to maintain the expected backstack
     NavHost(
         navController = navController,
