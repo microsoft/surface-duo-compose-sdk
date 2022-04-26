@@ -10,10 +10,6 @@ import androidx.compose.foundation.layout.LayoutScopeMarker
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.Layout
@@ -157,31 +153,27 @@ internal fun SinglePaneContainer(
         }
     }
 
-    var topPane: String? by rememberSaveable { mutableStateOf(null) }
-    if (!navController.backQueue.isEmpty()) {
-        topPane = navController.backQueue.last().destination.route
-    }
-
     navigateToPane1Handler = {
         if (!navController.backQueue.isEmpty()) {
-            topPane = navController.backQueue.last().destination.route
+            val topPane = navController.backQueue.last().destination.route
+
+            // Navigate only when pane1 is not shown(not at the top of the backstack)
+            if (topPane != Screen.Pane1.route) {
+                navController.popBackStack()
+            }
         }
 
-        // Navigate only when pane1 is not shown(not at the top of the backstack)
-        if (topPane != Screen.Pane1.route) {
-            navController.popBackStack()
-        }
         currentSinglePane = Screen.Pane1.route
     }
 
     navigateToPane2Handler = {
         if (!navController.backQueue.isEmpty()) {
-            topPane = navController.backQueue.last().destination.route
-        }
+            val topPane = navController.backQueue.last().destination.route
 
-        // Navigate only when pane2 is not shown(not at the top of the backstack)
-        if (topPane != Screen.Pane2.route) {
-            navController.navigate(Screen.Pane2.route)
+            // Navigate only when pane2 is not shown(not at the top of the backstack)
+            if (topPane != Screen.Pane2.route) {
+                navController.navigate(Screen.Pane2.route)
+            }
         }
         currentSinglePane = Screen.Pane2.route
     }
