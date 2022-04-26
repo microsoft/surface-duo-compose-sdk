@@ -113,8 +113,8 @@ fun isPane1Shown(): Boolean {
  */
 lateinit var twoPaneNavController: NavHostController
 
-private lateinit var navigateToPane1Handler: () -> Unit
-private lateinit var navigateToPane2Handler: () -> Unit
+private var navigateToPane1Handler: () -> Unit = {}
+private var navigateToPane2Handler: () -> Unit = {}
 
 /**
  * The route of the pane shown in the SinglePaneContainer
