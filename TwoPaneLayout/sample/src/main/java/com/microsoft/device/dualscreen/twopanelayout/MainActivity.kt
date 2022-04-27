@@ -93,7 +93,7 @@ fun TwoPaneScope.Pane1(navController: NavHostController) {
         textColor = Color.White,
         navController = navController,
         to = "pane2",
-        inPane = TwoPaneLayout.PaneContainer.PANE2
+        inPane = PaneContainer.Pane2
     )
 }
 
@@ -103,7 +103,7 @@ fun TwoPaneScope.Pane2(navController: NavHostController) {
         text = R.string.second_pane_text, color = gray, textColor = Color.White,
         navController = navController,
         to = "pane3",
-        inPane = TwoPaneLayout.PaneContainer.PANE2
+        inPane = PaneContainer.Pane2
     )
 }
 
@@ -113,7 +113,7 @@ fun TwoPaneScope.Pane3(navController: NavHostController) {
         text = R.string.third_pane_text, color = yellow, textColor = Color.Black,
         navController = navController,
         to = "pane4",
-        inPane = TwoPaneLayout.PaneContainer.PANE1
+        inPane = PaneContainer.Pane1
     )
 }
 
@@ -123,7 +123,7 @@ fun TwoPaneScope.Pane4(navController: NavHostController) {
         text = R.string.fourth_pane_text, color = red, textColor = Color.White,
         navController = navController,
         to = "pane1",
-        inPane = TwoPaneLayout.PaneContainer.PANE1
+        inPane = PaneContainer.Pane1
     )
 }
 
@@ -135,7 +135,7 @@ private fun TwoPaneScope.BasicPane(
     textColor: Color,
     navController: NavHostController,
     to: String,
-    inPane: TwoPaneLayout.PaneContainer
+    inPane: PaneContainer
 ) {
     Box {
         Text(

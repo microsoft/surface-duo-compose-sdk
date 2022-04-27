@@ -67,8 +67,8 @@ fun TwoPaneLayout(
             pane ?: throw IllegalArgumentException("Origin pane cannot be null when in two pane mode")
 
             when (pane) {
-                TwoPaneLayout.PaneContainer.PANE1 -> navigatePane1To(route)
-                TwoPaneLayout.PaneContainer.PANE2 -> navigatePane2To(route)
+                PaneContainer.Pane1 -> navigatePane1To(route)
+                PaneContainer.Pane2 -> navigatePane2To(route)
             }
         }
     }
@@ -142,12 +142,12 @@ private fun TwoPaneContainer(
     )
 }
 
-private var navigateToPaneHandler: NavHostController.(String, TwoPaneLayout.PaneContainer?) -> Unit =
-    { _: String, _: TwoPaneLayout.PaneContainer? -> }
+private var navigateToPaneHandler: NavHostController.(String, PaneContainer?) -> Unit =
+    { _: String, _: PaneContainer? -> }
 private var navigatePane1ToHandler: NavHostController.(String) -> Unit = { _: String -> }
 private var navigatePane2ToHandler: NavHostController.(String) -> Unit = { _: String -> }
 
-fun NavHostController.navigateToPane(route: String, pane: TwoPaneLayout.PaneContainer? = null) {
+fun NavHostController.navigateToPane(route: String, pane: PaneContainer? = null) {
     navigateToPaneHandler(route, pane)
 }
 
