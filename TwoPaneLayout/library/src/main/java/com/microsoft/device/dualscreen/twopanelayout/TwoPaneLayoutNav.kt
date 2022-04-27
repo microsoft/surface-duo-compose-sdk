@@ -5,12 +5,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.microsoft.device.dualscreen.windowstate.WindowState
@@ -21,16 +18,8 @@ val isSinglePane: Boolean
     get() = isSinglePaneLayout
 
 private var currentPane1 = mutableStateOf("")
-val pane1Route: String
-    get() = currentPane1.value
-
 private var currentPane2 = mutableStateOf("")
-val pane2Route: String
-    get() = currentPane2.value
-
 private var currentSinglePane = mutableStateOf("")
-val singlePaneRoute: String
-    get() = currentSinglePane.value
 
 @Composable
 fun TwoPaneLayout(
@@ -48,6 +37,7 @@ fun TwoPaneLayout(
 
     isSinglePaneLayout = isSinglePaneLayout(windowState.windowMode, paneMode)
 
+    // Initialize start destinations for all panes
     currentPane1.value = pane1StartDestination
     currentPane2.value = pane2StartDestination
     currentSinglePane.value = singlePaneStartDestination
@@ -60,9 +50,9 @@ fun TwoPaneLayout(
         findPane(route, panes)
         currentPane2.value = route
     }
-    navigateToPaneHandler = { route, pane ->
+    navigateToPaneHandler = { route, navOptions, pane ->
         if (isSinglePane) {
-            navigateSinglePaneTo(route)
+            navigateSinglePaneTo(route, navOptions)
         } else {
             pane ?: throw IllegalArgumentException("Origin pane cannot be null when in two pane mode")
 
@@ -75,26 +65,26 @@ fun TwoPaneLayout(
 
     if (isSinglePaneLayout) {
         SinglePaneContainer(
-            navController = navController,
             panes = panes,
-            startDestination = currentSinglePane.value
+            startDestination = singlePaneStartDestination,
+            navController = navController,
         )
     } else {
         TwoPaneContainer(
             windowState = windowState,
             modifier = modifier,
+            panes = panes,
             pane1Route = currentPane1,
-            pane2Route = currentPane2,
-            panes = panes
+            pane2Route = currentPane2
         )
     }
 }
 
 @Composable
-internal fun SinglePaneContainer(
-    navController: NavHostController,
+private fun SinglePaneContainer(
     panes: Array<Pane>,
-    startDestination: String
+    startDestination: String,
+    navController: NavHostController,
 ) {
     NavHost(
         navController = navController,
@@ -112,54 +102,33 @@ internal fun SinglePaneContainer(
 private fun TwoPaneContainer(
     windowState: WindowState,
     modifier: Modifier,
+    panes: Array<Pane>,
     pane1Route: MutableState<String>,
-    pane2Route: MutableState<String>,
-    panes: Array<Pane>
+    pane2Route: MutableState<String>
 ) {
-    val pane1SizePx: Size
-    val pane2SizePx: Size
-    with(LocalDensity.current) {
-        pane1SizePx = windowState.pane1SizeDp.toSize()
-        pane2SizePx = windowState.pane2SizeDp.toSize()
-    }
-
-    val measurePolicy = twoPaneMeasurePolicy(
-        windowMode = windowState.windowMode,
-        isSeparating = windowState.foldIsSeparating,
-        paneSizes = arrayOf(pane1SizePx, pane2SizePx),
-    )
-
-    val pane1 = findPane(pane1Route.value, panes)
-    val pane2 = findPane(pane2Route.value, panes)
-
-    Layout(
-        content = {
-            TwoPaneScopeInstance.(pane1.content)()
-            TwoPaneScopeInstance.(pane2.content)()
-        },
-        measurePolicy = measurePolicy,
-        modifier = modifier
+    TwoPaneContainer(
+        windowState = windowState,
+        modifier = modifier,
+        pane1 = findPane(pane1Route.value, panes).content,
+        pane2 = findPane(pane2Route.value, panes).content,
     )
 }
 
-private var navigateToPaneHandler: NavHostController.(String, PaneContainer?) -> Unit =
-    { _: String, _: PaneContainer? -> }
+private var navigateToPaneHandler: NavHostController.(String, NavOptionsBuilder.() -> Unit, PaneContainer?) -> Unit =
+    { _: String, _: NavOptionsBuilder.() -> Unit, _: PaneContainer? -> }
 private var navigatePane1ToHandler: NavHostController.(String) -> Unit = { _: String -> }
 private var navigatePane2ToHandler: NavHostController.(String) -> Unit = { _: String -> }
 
-fun NavHostController.navigateToPane(route: String, pane: PaneContainer? = null) {
-    navigateToPaneHandler(route, pane)
+fun NavHostController.navigateToPane(
+    route: String,
+    navOptions: NavOptionsBuilder.() -> Unit = { },
+    pane: PaneContainer? = null
+) {
+    navigateToPaneHandler(route, navOptions, pane)
 }
 
-private fun NavHostController.navigateSinglePaneTo(route: String) {
-    navigate(route) {
-        popUpTo(graph.findStartDestination().id) {
-            saveState = true
-        }
-        launchSingleTop = true
-        restoreState = true
-    }
-
+private fun NavHostController.navigateSinglePaneTo(route: String, navOptions: NavOptionsBuilder.() -> Unit) {
+    navigate(route, navOptions)
     currentSinglePane.value = route
 }
 

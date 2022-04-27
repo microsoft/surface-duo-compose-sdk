@@ -6,13 +6,11 @@
 package com.microsoft.device.dualscreen.twopanelayout
 
 import android.app.Activity
-import androidx.compose.foundation.layout.LayoutScopeMarker
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.debugInspectorInfo
+import androidx.compose.ui.platform.LocalDensity
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.microsoft.device.dualscreen.windowstate.rememberWindowState

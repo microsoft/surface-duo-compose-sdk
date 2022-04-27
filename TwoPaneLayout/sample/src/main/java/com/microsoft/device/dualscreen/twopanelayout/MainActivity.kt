@@ -24,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.rememberNavController
 import com.microsoft.device.dualscreen.twopanelayout.ui.theme.TwoPaneLayoutTheme
 import com.microsoft.device.dualscreen.twopanelayout.ui.theme.blue
@@ -122,6 +123,11 @@ fun TwoPaneScope.Pane4(navController: NavHostController) {
     BasicPane(
         text = R.string.fourth_pane_text, color = red, textColor = Color.White,
         navController = navController,
+        navOptions = {
+            launchSingleTop = true
+            restoreState = true
+            popUpTo("pane1")
+        },
         to = "pane1",
         inPane = PaneContainer.Pane1
     )
@@ -134,6 +140,7 @@ private fun TwoPaneScope.BasicPane(
     color: Color,
     textColor: Color,
     navController: NavHostController,
+    navOptions: NavOptionsBuilder.() -> Unit = {},
     to: String,
     inPane: PaneContainer
 ) {
@@ -142,7 +149,7 @@ private fun TwoPaneScope.BasicPane(
             text = stringResource(text),
             modifier = modifier
                 .background(color = color)
-                .clickable { navController.navigateToPane(to, inPane) }
+                .clickable { navController.navigateToPane(to, navOptions, inPane) }
                 .padding(10.dp)
                 .fillMaxSize()
                 .align(Alignment.TopCenter),
