@@ -13,10 +13,7 @@ import androidx.navigation.compose.composable
 import com.microsoft.device.dualscreen.windowstate.WindowState
 import com.microsoft.device.dualscreen.windowstate.rememberWindowState
 
-private var isSinglePaneLayout: Boolean = true
-val isSinglePane: Boolean
-    get() = isSinglePaneLayout
-
+private var isSinglePaneLayout = true
 private var currentPane1 = mutableStateOf("")
 private var currentPane2 = mutableStateOf("")
 private var currentSinglePane = mutableStateOf("")
@@ -50,15 +47,15 @@ fun TwoPaneLayout(
         findPane(route, destinations)
         currentPane2.value = route
     }
-    navigateToPaneHandler = { route, navOptions, pane ->
-        if (isSinglePane) {
+    navigateToPaneHandler = { route, navOptions, screen ->
+        if (isSinglePaneLayout) {
             navigateSinglePaneTo(route, navOptions)
         } else {
-            pane ?: throw IllegalArgumentException("Origin pane cannot be null when in two pane mode")
+            screen ?: throw IllegalArgumentException("Screen cannot be null when in two pane mode")
 
-            when (pane) {
-                PaneContainer.Pane1 -> navigatePane1To(route)
-                PaneContainer.Pane2 -> navigatePane2To(route)
+            when (screen) {
+                Screen.Pane1 -> navigatePane1To(route)
+                Screen.Pane2 -> navigatePane2To(route)
             }
         }
     }
@@ -114,17 +111,17 @@ private fun TwoPaneContainer(
     )
 }
 
-private var navigateToPaneHandler: NavHostController.(String, NavOptionsBuilder.() -> Unit, PaneContainer?) -> Unit =
-    { _: String, _: NavOptionsBuilder.() -> Unit, _: PaneContainer? -> }
+private var navigateToPaneHandler: NavHostController.(String, NavOptionsBuilder.() -> Unit, Screen?) -> Unit =
+    { _: String, _: NavOptionsBuilder.() -> Unit, _: Screen? -> }
 private var navigatePane1ToHandler: NavHostController.(String) -> Unit = { _: String -> }
 private var navigatePane2ToHandler: NavHostController.(String) -> Unit = { _: String -> }
 
 fun NavHostController.navigateToPane(
     route: String,
     navOptions: NavOptionsBuilder.() -> Unit = { },
-    pane: PaneContainer? = null
+    screen: Screen? = null
 ) {
-    navigateToPaneHandler(route, navOptions, pane)
+    navigateToPaneHandler(route, navOptions, screen)
 }
 
 private fun NavHostController.navigateSinglePaneTo(route: String, navOptions: NavOptionsBuilder.() -> Unit) {

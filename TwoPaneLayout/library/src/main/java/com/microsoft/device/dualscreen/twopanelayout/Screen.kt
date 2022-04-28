@@ -3,7 +3,7 @@ package com.microsoft.device.dualscreen.twopanelayout
 /**
  * Class that represents the screens in the NavHost
  */
-internal sealed class Screen(val route: String) {
+sealed class Screen(val route: String) {
     /**
      * Screen object representing pane 1
      */
