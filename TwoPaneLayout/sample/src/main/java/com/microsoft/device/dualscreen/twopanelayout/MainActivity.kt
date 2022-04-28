@@ -50,10 +50,10 @@ class MainActivity : ComponentActivity() {
 fun MainPage() {
     val navController = rememberNavController()
 
-    val pane1 = Pane("pane1") { Pane1(navController) }
-    val pane2 = Pane("pane2") { Pane2(navController) }
-    val pane3 = Pane("pane3") { Pane3(navController) }
-    val pane4 = Pane("pane4") { Pane4(navController) }
+    val pane1 = Destination("pane1") { Pane1(navController) }
+    val pane2 = Destination("pane2") { Pane2(navController) }
+    val pane3 = Destination("pane3") { Pane3(navController) }
+    val pane4 = Destination("pane4") { Pane4(navController) }
 
     Scaffold(
         topBar = { TopAppBar() },
@@ -61,7 +61,7 @@ fun MainPage() {
             TwoPaneLayout(
                 navController = navController,
                 paneMode = TwoPaneMode.HorizontalSingle,
-                panes = arrayOf(pane1, pane2, pane3, pane4),
+                destinations = arrayOf(pane1, pane2, pane3, pane4),
                 singlePaneStartDestination = pane1.route,
                 pane1StartDestination = pane1.route,
                 pane2StartDestination = pane2.route

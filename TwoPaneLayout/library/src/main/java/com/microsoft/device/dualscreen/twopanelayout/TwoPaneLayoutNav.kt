@@ -26,7 +26,7 @@ fun TwoPaneLayout(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     paneMode: TwoPaneMode = TwoPaneMode.TwoPane,
-    panes: Array<Pane>,
+    destinations: Array<Destination>,
     singlePaneStartDestination: String,
     pane1StartDestination: String,
     pane2StartDestination: String
@@ -43,11 +43,11 @@ fun TwoPaneLayout(
     currentSinglePane.value = singlePaneStartDestination
 
     navigatePane1ToHandler = { route ->
-        findPane(route, panes)
+        findPane(route, destinations)
         currentPane1.value = route
     }
     navigatePane2ToHandler = { route ->
-        findPane(route, panes)
+        findPane(route, destinations)
         currentPane2.value = route
     }
     navigateToPaneHandler = { route, navOptions, pane ->
@@ -65,7 +65,7 @@ fun TwoPaneLayout(
 
     if (isSinglePaneLayout) {
         SinglePaneContainer(
-            panes = panes,
+            destinations = destinations,
             startDestination = singlePaneStartDestination,
             navController = navController,
         )
@@ -73,7 +73,7 @@ fun TwoPaneLayout(
         TwoPaneContainer(
             windowState = windowState,
             modifier = modifier,
-            panes = panes,
+            destinations = destinations,
             pane1Route = currentPane1,
             pane2Route = currentPane2
         )
@@ -82,7 +82,7 @@ fun TwoPaneLayout(
 
 @Composable
 private fun SinglePaneContainer(
-    panes: Array<Pane>,
+    destinations: Array<Destination>,
     startDestination: String,
     navController: NavHostController,
 ) {
@@ -90,7 +90,7 @@ private fun SinglePaneContainer(
         navController = navController,
         startDestination = startDestination
     ) {
-        panes.forEach { pane ->
+        destinations.forEach { pane ->
             composable(pane.route) {
                 TwoPaneScopeInstance.(pane.content)()
             }
@@ -102,15 +102,15 @@ private fun SinglePaneContainer(
 private fun TwoPaneContainer(
     windowState: WindowState,
     modifier: Modifier,
-    panes: Array<Pane>,
+    destinations: Array<Destination>,
     pane1Route: MutableState<String>,
     pane2Route: MutableState<String>
 ) {
     TwoPaneContainer(
         windowState = windowState,
         modifier = modifier,
-        pane1 = findPane(pane1Route.value, panes).content,
-        pane2 = findPane(pane2Route.value, panes).content,
+        pane1 = findPane(pane1Route.value, destinations).content,
+        pane2 = findPane(pane2Route.value, destinations).content,
     )
 }
 
@@ -141,7 +141,7 @@ private fun NavHostController.navigatePane2To(route: String) {
     navigatePane2ToHandler(route)
 }
 
-private fun findPane(route: String, panes: Array<Pane>): Pane {
-    return panes.find { pane -> pane.route == route }
-        ?: throw IllegalArgumentException("Invalid route $route, not present in list of panes $panes")
+private fun findPane(route: String, destinations: Array<Destination>): Destination {
+    return destinations.find { pane -> pane.route == route }
+        ?: throw IllegalArgumentException("Invalid route $route, not present in list of panes $destinations")
 }
