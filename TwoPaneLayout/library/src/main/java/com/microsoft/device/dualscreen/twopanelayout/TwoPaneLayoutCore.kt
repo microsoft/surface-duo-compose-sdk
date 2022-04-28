@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalDensity
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -24,11 +25,11 @@ internal var currentSinglePane = Screen.Pane1.route
  */
 @Composable
 internal fun SinglePaneContainer(
+    navController: NavHostController,
     pane1: @Composable TwoPaneScope.() -> Unit,
     pane2: @Composable TwoPaneScope.() -> Unit
 ) {
     val navController = rememberNavController()
-    twoPaneNavController = navController
     currentSinglePane = Screen.Pane1.route // always start from Pane1 to maintain the expected backstack
     NavHost(
         navController = navController,
