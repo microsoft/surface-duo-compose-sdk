@@ -58,7 +58,7 @@ fun MainPage() {
     Scaffold(
         topBar = { TopAppBar() },
         content = {
-            TwoPaneLayout(
+            TwoPaneLayoutNav(
                 navController = navController,
                 paneMode = TwoPaneMode.HorizontalSingle,
                 destinations = arrayOf(pane1, pane2, pane3, pane4),
@@ -87,39 +87,39 @@ fun TopAppBar() {
 }
 
 @Composable
-fun TwoPaneScope.Pane1(navController: NavHostController) {
+fun TwoPaneNavScope.Pane1(navController: NavHostController) {
     BasicPane(
         text = R.string.first_pane_text,
         color = blue,
         textColor = Color.White,
         navController = navController,
         to = "pane2",
-        inPane = PaneContainer.Pane2
+        inPane = Screen.Pane2
     )
 }
 
 @Composable
-fun TwoPaneScope.Pane2(navController: NavHostController) {
+fun TwoPaneNavScope.Pane2(navController: NavHostController) {
     BasicPane(
         text = R.string.second_pane_text, color = gray, textColor = Color.White,
         navController = navController,
         to = "pane3",
-        inPane = PaneContainer.Pane2
+        inPane = Screen.Pane2
     )
 }
 
 @Composable
-fun TwoPaneScope.Pane3(navController: NavHostController) {
+fun TwoPaneNavScope.Pane3(navController: NavHostController) {
     BasicPane(
         text = R.string.third_pane_text, color = yellow, textColor = Color.Black,
         navController = navController,
         to = "pane4",
-        inPane = PaneContainer.Pane1
+        inPane = Screen.Pane1
     )
 }
 
 @Composable
-fun TwoPaneScope.Pane4(navController: NavHostController) {
+fun TwoPaneNavScope.Pane4(navController: NavHostController) {
     BasicPane(
         text = R.string.fourth_pane_text, color = red, textColor = Color.White,
         navController = navController,
@@ -129,12 +129,12 @@ fun TwoPaneScope.Pane4(navController: NavHostController) {
             popUpTo("pane1")
         },
         to = "pane1",
-        inPane = PaneContainer.Pane1
+        inPane = Screen.Pane1
     )
 }
 
 @Composable
-private fun TwoPaneScope.BasicPane(
+private fun TwoPaneNavScope.BasicPane(
     modifier: Modifier = Modifier,
     text: Int,
     color: Color,
@@ -142,14 +142,16 @@ private fun TwoPaneScope.BasicPane(
     navController: NavHostController,
     navOptions: NavOptionsBuilder.() -> Unit = {},
     to: String,
-    inPane: PaneContainer
+    inPane: Screen
 ) {
+    val onClick = { navController.navigateToPane(to, navOptions, inPane) }
+
     Box {
         Text(
             text = stringResource(text),
             modifier = modifier
                 .background(color = color)
-                .clickable { navController.navigateToPane(to, navOptions, inPane) }
+                .clickable { onClick() }
                 .padding(10.dp)
                 .fillMaxSize()
                 .align(Alignment.TopCenter),
@@ -159,7 +161,7 @@ private fun TwoPaneScope.BasicPane(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 20.dp),
-            text = "Navigates to $to, inside $inPane when in two pane mode",
+            text = "Navigates to $to (in $inPane)",
             color = textColor,
             style = MaterialTheme.typography.h4
         )
