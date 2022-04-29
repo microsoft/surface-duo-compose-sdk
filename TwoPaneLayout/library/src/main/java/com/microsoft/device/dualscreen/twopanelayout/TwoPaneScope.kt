@@ -101,7 +101,7 @@ internal object TwoPaneNavScopeInstance : TwoPaneNavScope {
         navOptions: NavOptionsBuilder.() -> Unit,
         screen: Screen?
     ) {
-        if (isSinglePaneLayout()) {
+        if (isSinglePaneLayout) {
             navigateSinglePaneTo(route, navOptions)
         } else {
             screen ?: throw IllegalArgumentException("Screen cannot be null when in two pane mode")
