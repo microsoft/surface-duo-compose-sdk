@@ -5,7 +5,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.NavHost
@@ -18,8 +21,25 @@ private var currentPane1 = mutableStateOf("")
 private var currentPane2 = mutableStateOf("")
 private var currentSinglePane = mutableStateOf("")
 
+internal var navigatePane1To: NavHostController.(String) -> Unit = { _: String -> }
+internal var navigatePane2To: NavHostController.(String) -> Unit = { _: String -> }
+
+internal fun isSinglePaneLayout(): Boolean {
+    return isSinglePaneLayout
+}
+
+internal fun NavHostController.navigateSinglePaneTo(route: String, navOptions: NavOptionsBuilder.() -> Unit) {
+    navigate(route, navOptions)
+    currentSinglePane.value = route
+}
+
+private fun findPane(route: String, destinations: Array<Destination>): Destination {
+    return destinations.find { pane -> pane.route == route }
+        ?: throw IllegalArgumentException("Invalid route $route, not present in list of panes $destinations")
+}
+
 @Composable
-fun TwoPaneLayout(
+fun TwoPaneLayoutNav(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     paneMode: TwoPaneMode = TwoPaneMode.TwoPane,
@@ -39,25 +59,14 @@ fun TwoPaneLayout(
     currentPane2.value = pane2StartDestination
     currentSinglePane.value = singlePaneStartDestination
 
-    navigatePane1ToHandler = { route ->
+    // Initialize navigation method handlers
+    navigatePane1To = { route ->
         findPane(route, destinations)
         currentPane1.value = route
     }
-    navigatePane2ToHandler = { route ->
+    navigatePane2To = { route ->
         findPane(route, destinations)
         currentPane2.value = route
-    }
-    navigateToPaneHandler = { route, navOptions, screen ->
-        if (isSinglePaneLayout) {
-            navigateSinglePaneTo(route, navOptions)
-        } else {
-            screen ?: throw IllegalArgumentException("Screen cannot be null when in two pane mode")
-
-            when (screen) {
-                Screen.Pane1 -> navigatePane1To(route)
-                Screen.Pane2 -> navigatePane2To(route)
-            }
-        }
     }
 
     if (isSinglePaneLayout) {
@@ -89,7 +98,7 @@ private fun SinglePaneContainer(
     ) {
         destinations.forEach { pane ->
             composable(pane.route) {
-                TwoPaneScopeInstance.(pane.content)()
+                TwoPaneNavScopeInstance.(pane.content)()
             }
         }
     }
@@ -103,42 +112,27 @@ private fun TwoPaneContainer(
     pane1Route: MutableState<String>,
     pane2Route: MutableState<String>
 ) {
-    TwoPaneContainer(
-        windowState = windowState,
-        modifier = modifier,
-        pane1 = findPane(pane1Route.value, destinations).content,
-        pane2 = findPane(pane2Route.value, destinations).content,
+    val pane1SizePx: Size
+    val pane2SizePx: Size
+    with(LocalDensity.current) {
+        pane1SizePx = windowState.pane1SizeDp.toSize()
+        pane2SizePx = windowState.pane2SizeDp.toSize()
+    }
+
+    val pane1 = findPane(pane1Route.value, destinations).content
+    val pane2 = findPane(pane2Route.value, destinations).content
+
+    val measurePolicy = twoPaneMeasurePolicy(
+        windowMode = windowState.windowMode,
+        isSeparating = windowState.foldIsSeparating,
+        paneSizes = arrayOf(pane1SizePx, pane2SizePx),
     )
-}
-
-private var navigateToPaneHandler: NavHostController.(String, NavOptionsBuilder.() -> Unit, Screen?) -> Unit =
-    { _: String, _: NavOptionsBuilder.() -> Unit, _: Screen? -> }
-private var navigatePane1ToHandler: NavHostController.(String) -> Unit = { _: String -> }
-private var navigatePane2ToHandler: NavHostController.(String) -> Unit = { _: String -> }
-
-fun NavHostController.navigateToPane(
-    route: String,
-    navOptions: NavOptionsBuilder.() -> Unit = { },
-    screen: Screen? = null
-) {
-    navigateToPaneHandler(route, navOptions, screen)
-}
-
-private fun NavHostController.navigateSinglePaneTo(route: String, navOptions: NavOptionsBuilder.() -> Unit) {
-    navigate(route, navOptions)
-    currentSinglePane.value = route
-}
-
-private fun NavHostController.navigatePane1To(route: String) {
-    navigatePane1ToHandler(route)
-    // TODO: save stack somehow?
-}
-
-private fun NavHostController.navigatePane2To(route: String) {
-    navigatePane2ToHandler(route)
-}
-
-private fun findPane(route: String, destinations: Array<Destination>): Destination {
-    return destinations.find { pane -> pane.route == route }
-        ?: throw IllegalArgumentException("Invalid route $route, not present in list of panes $destinations")
+    Layout(
+        content = {
+            TwoPaneNavScopeInstance.pane1()
+            TwoPaneNavScopeInstance.pane2()
+        },
+        measurePolicy = measurePolicy,
+        modifier = modifier
+    )
 }

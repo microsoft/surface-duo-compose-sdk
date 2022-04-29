@@ -11,13 +11,14 @@ import androidx.navigation.compose.composable
 import com.microsoft.device.dualscreen.windowstate.WindowMode
 import com.microsoft.device.dualscreen.windowstate.WindowState
 
-internal var navigateToPane1Handler: () -> Unit = {}
-internal var navigateToPane2Handler: () -> Unit = {}
-
 /**
  * The route of the pane shown in the SinglePaneContainer
  */
-internal var currentSinglePane = Screen.Pane1.route
+private var currentSinglePane = Screen.Pane1.route
+
+internal var navigateToPane1Handler: () -> Unit = {}
+internal var navigateToPane2Handler: () -> Unit = {}
+internal var isPane1ShownHandler: () -> Boolean = { currentSinglePane == Screen.Pane1.route }
 
 /**
  * The container to hold single pane for single-screen or single pane in dual-screen mode
@@ -25,19 +26,20 @@ internal var currentSinglePane = Screen.Pane1.route
 @Composable
 internal fun SinglePaneContainer(
     navController: NavHostController,
-    pane1: @Composable TwoPaneScope.() -> Unit,
-    pane2: @Composable TwoPaneScope.() -> Unit
+    pane1: @Composable BasicTwoPaneScope.() -> Unit,
+    pane2: @Composable BasicTwoPaneScope.() -> Unit
 ) {
     currentSinglePane = Screen.Pane1.route // always start from Pane1 to maintain the expected backstack
+
     NavHost(
         navController = navController,
         startDestination = currentSinglePane
     ) {
         composable(Screen.Pane1.route) {
-            TwoPaneScopeInstance.pane1()
+            BasicTwoPaneScopeInstance.pane1()
         }
         composable(Screen.Pane2.route) {
-            TwoPaneScopeInstance.pane2()
+            BasicTwoPaneScopeInstance.pane2()
         }
     }
 
@@ -74,8 +76,8 @@ internal fun SinglePaneContainer(
 internal fun TwoPaneContainer(
     windowState: WindowState,
     modifier: Modifier,
-    pane1: @Composable TwoPaneScope.() -> Unit,
-    pane2: @Composable TwoPaneScope.() -> Unit
+    pane1: @Composable BasicTwoPaneScope.() -> Unit,
+    pane2: @Composable BasicTwoPaneScope.() -> Unit,
 ) {
     val pane1SizePx: Size
     val pane2SizePx: Size
@@ -94,8 +96,8 @@ internal fun TwoPaneContainer(
     )
     Layout(
         content = {
-            TwoPaneScopeInstance.pane1()
-            TwoPaneScopeInstance.pane2()
+            BasicTwoPaneScopeInstance.pane1()
+            BasicTwoPaneScopeInstance.pane2()
         },
         measurePolicy = measurePolicy,
         modifier = modifier

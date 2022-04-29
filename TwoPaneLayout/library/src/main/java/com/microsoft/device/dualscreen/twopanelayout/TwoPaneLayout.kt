@@ -9,8 +9,6 @@ import android.app.Activity
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.debugInspectorInfo
-import androidx.compose.ui.platform.LocalDensity
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.microsoft.device.dualscreen.windowstate.rememberWindowState
@@ -36,8 +34,8 @@ import com.microsoft.device.dualscreen.windowstate.rememberWindowState
 fun TwoPaneLayout(
     modifier: Modifier = Modifier,
     paneMode: TwoPaneMode = TwoPaneMode.TwoPane,
-    pane1: @Composable TwoPaneScope.() -> Unit,
-    pane2: @Composable TwoPaneScope.() -> Unit
+    pane1: @Composable BasicTwoPaneScope.() -> Unit,
+    pane2: @Composable BasicTwoPaneScope.() -> Unit
 ) {
     val navController = rememberNavController()
 
@@ -67,8 +65,8 @@ fun TwoPaneLayout(
     modifier: Modifier = Modifier,
     paneMode: TwoPaneMode = TwoPaneMode.TwoPane,
     navController: NavHostController,
-    pane1: @Composable TwoPaneScope.() -> Unit,
-    pane2: @Composable TwoPaneScope.() -> Unit
+    pane1: @Composable BasicTwoPaneScope.() -> Unit,
+    pane2: @Composable BasicTwoPaneScope.() -> Unit
 ) {
     val activity = (LocalContext.current as? Activity)
         ?: throw ClassCastException("Local context could not be cast as an Activity")
@@ -87,28 +85,7 @@ fun TwoPaneLayout(
             windowState = windowState,
             modifier = modifier,
             pane1 = pane1,
-            pane2 = pane2
+            pane2 = pane2,
         )
     }
-}
-
-/**
- * Navigation to the first pane in the single-pane mode
- */
-fun navigateToPane1() {
-    navigateToPane1Handler()
-}
-
-/**
- * Navigation to the second pane in the single-pane mode
- */
-fun navigateToPane2() {
-    navigateToPane2Handler()
-}
-
-/**
- * Return whether pane 1 is shown currently, otherwise pane 2
- */
-fun isPane1Shown(): Boolean {
-    return currentSinglePane == Screen.Pane1.route
 }
