@@ -29,7 +29,6 @@ internal fun SinglePaneContainer(
     pane1: @Composable TwoPaneScope.() -> Unit,
     pane2: @Composable TwoPaneScope.() -> Unit
 ) {
-    val navController = rememberNavController()
     currentSinglePane = Screen.Pane1.route // always start from Pane1 to maintain the expected backstack
     NavHost(
         navController = navController,

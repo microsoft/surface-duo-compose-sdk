@@ -93,7 +93,7 @@ class TwoPaneTest : LayoutTest() {
             Container(width = width, height = height) {
                 MockSinglePaneLayout(
                     navController = rememberNavController(),
-                    firstPane =
+                    pane1 =
                     {
                         Container(
                             Modifier
@@ -104,7 +104,7 @@ class TwoPaneTest : LayoutTest() {
                                 }
                         ) {}
                     },
-                    secondPane =
+                    pane2 =
                     {
                         Container(
                             Modifier
