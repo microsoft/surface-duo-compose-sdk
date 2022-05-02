@@ -63,7 +63,7 @@ fun TopAppBar() {
 }
 
 @Composable
-fun BasicTwoPaneScope.Pane1() {
+fun TwoPaneScope.Pane1() {
     Text(
         text = stringResource(R.string.first_pane_text),
         modifier = Modifier
@@ -77,7 +77,7 @@ fun BasicTwoPaneScope.Pane1() {
 }
 
 @Composable
-fun BasicTwoPaneScope.Pane2() {
+fun TwoPaneScope.Pane2() {
     Text(
         text = stringResource(R.string.second_pane_text),
         modifier = Modifier

@@ -13,11 +13,7 @@ import androidx.navigation.NavOptionsBuilder
 interface TwoPaneScope {
     @Stable
     fun Modifier.weight(weight: Float): Modifier
-}
 
-@LayoutScopeMarker
-@Immutable
-interface BasicTwoPaneScope : TwoPaneScope {
     @Stable
     fun navigateToPane1()
 
@@ -30,16 +26,19 @@ interface BasicTwoPaneScope : TwoPaneScope {
 
 @LayoutScopeMarker
 @Immutable
-interface TwoPaneNavScope : TwoPaneScope {
+interface TwoPaneNavScope {
     @Stable
-    fun NavHostController.navigateToPane(
+    fun Modifier.weight(weight: Float): Modifier
+
+    @Stable
+    fun NavHostController.navigateTo(
         route: String,
         navOptions: NavOptionsBuilder.() -> Unit = { },
         screen: Screen? = null
     )
 }
 
-internal object BasicTwoPaneScopeInstance : BasicTwoPaneScope {
+internal object TwoPaneScopeInstance : TwoPaneScope {
     @Stable
     override fun Modifier.weight(weight: Float): Modifier {
         require(weight > 0.0) { "invalid weight $weight; must be greater than zero" }
@@ -96,7 +95,7 @@ internal object TwoPaneNavScopeInstance : TwoPaneNavScope {
     }
 
     @Stable
-    override fun NavHostController.navigateToPane(
+    override fun NavHostController.navigateTo(
         route: String,
         navOptions: NavOptionsBuilder.() -> Unit,
         screen: Screen?

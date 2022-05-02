@@ -34,8 +34,8 @@ import com.microsoft.device.dualscreen.windowstate.rememberWindowState
 fun TwoPaneLayout(
     modifier: Modifier = Modifier,
     paneMode: TwoPaneMode = TwoPaneMode.TwoPane,
-    pane1: @Composable BasicTwoPaneScope.() -> Unit,
-    pane2: @Composable BasicTwoPaneScope.() -> Unit
+    pane1: @Composable TwoPaneScope.() -> Unit,
+    pane2: @Composable TwoPaneScope.() -> Unit
 ) {
     val navController = rememberNavController()
 
@@ -65,8 +65,8 @@ fun TwoPaneLayout(
     modifier: Modifier = Modifier,
     paneMode: TwoPaneMode = TwoPaneMode.TwoPane,
     navController: NavHostController,
-    pane1: @Composable BasicTwoPaneScope.() -> Unit,
-    pane2: @Composable BasicTwoPaneScope.() -> Unit
+    pane1: @Composable TwoPaneScope.() -> Unit,
+    pane2: @Composable TwoPaneScope.() -> Unit
 ) {
     val activity = (LocalContext.current as? Activity)
         ?: throw ClassCastException("Local context could not be cast as an Activity")

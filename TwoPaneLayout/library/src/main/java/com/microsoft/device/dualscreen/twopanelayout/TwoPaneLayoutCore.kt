@@ -26,8 +26,8 @@ internal var isPane1ShownHandler: () -> Boolean = { currentSinglePane == Screen.
 @Composable
 internal fun SinglePaneContainer(
     navController: NavHostController,
-    pane1: @Composable BasicTwoPaneScope.() -> Unit,
-    pane2: @Composable BasicTwoPaneScope.() -> Unit
+    pane1: @Composable TwoPaneScope.() -> Unit,
+    pane2: @Composable TwoPaneScope.() -> Unit
 ) {
     currentSinglePane = Screen.Pane1.route // always start from Pane1 to maintain the expected backstack
 
@@ -36,10 +36,10 @@ internal fun SinglePaneContainer(
         startDestination = currentSinglePane
     ) {
         composable(Screen.Pane1.route) {
-            BasicTwoPaneScopeInstance.pane1()
+            TwoPaneScopeInstance.pane1()
         }
         composable(Screen.Pane2.route) {
-            BasicTwoPaneScopeInstance.pane2()
+            TwoPaneScopeInstance.pane2()
         }
     }
 
@@ -76,8 +76,8 @@ internal fun SinglePaneContainer(
 internal fun TwoPaneContainer(
     windowState: WindowState,
     modifier: Modifier,
-    pane1: @Composable BasicTwoPaneScope.() -> Unit,
-    pane2: @Composable BasicTwoPaneScope.() -> Unit,
+    pane1: @Composable TwoPaneScope.() -> Unit,
+    pane2: @Composable TwoPaneScope.() -> Unit,
 ) {
     val pane1SizePx: Size
     val pane2SizePx: Size
@@ -96,8 +96,8 @@ internal fun TwoPaneContainer(
     )
     Layout(
         content = {
-            BasicTwoPaneScopeInstance.pane1()
-            BasicTwoPaneScopeInstance.pane2()
+            TwoPaneScopeInstance.pane1()
+            TwoPaneScopeInstance.pane2()
         },
         measurePolicy = measurePolicy,
         modifier = modifier

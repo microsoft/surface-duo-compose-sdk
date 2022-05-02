@@ -46,35 +46,35 @@ class NavSampleTest {
     @Test
     fun app_canNavigateToAllDestinations() {
         // to Destination 2
-        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.first_pane_text)).performClick()
-        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.second_pane_text)).assertIsDisplayed()
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.first_dest_text)).performClick()
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.second_dest_text)).assertIsDisplayed()
 
         // to Destination 3
-        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.second_pane_text)).performClick()
-        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.third_pane_text)).assertIsDisplayed()
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.second_dest_text)).performClick()
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.third_dest_text)).assertIsDisplayed()
 
         // to Destination 4
-        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.third_pane_text)).performClick()
-        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.fourth_pane_text)).assertIsDisplayed()
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.third_dest_text)).performClick()
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.fourth_dest_text)).assertIsDisplayed()
 
         // to Destination 1
-        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.fourth_pane_text)).performClick()
-        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.first_pane_text)).assertIsDisplayed()
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.fourth_dest_text)).performClick()
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.first_dest_text)).assertIsDisplayed()
     }
 
     @Test
     fun app_dualPortrait_showsTwoPanes() {
         publisherRule.simulateVerticalFoldingFeature(composeTestRule)
 
-        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.first_pane_text)).assertIsDisplayed()
-        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.second_pane_text)).assertIsDisplayed()
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.first_dest_text)).assertIsDisplayed()
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.second_dest_text)).assertIsDisplayed()
     }
 
     @Test
     fun app_dualLandscape_showsOnePane() {
         publisherRule.simulateHorizontalFoldingFeature(composeTestRule)
 
-        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.first_pane_text)).assertIsDisplayed()
-        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.second_pane_text)).assertDoesNotExist()
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.first_dest_text)).assertIsDisplayed()
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.second_dest_text)).assertDoesNotExist()
     }
 }
