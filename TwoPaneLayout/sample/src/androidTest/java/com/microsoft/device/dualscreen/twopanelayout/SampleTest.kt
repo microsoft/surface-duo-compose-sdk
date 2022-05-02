@@ -13,7 +13,6 @@ import com.microsoft.device.dualscreen.testing.compose.getString
 import com.microsoft.device.dualscreen.testing.compose.simulateHorizontalFoldingFeature
 import com.microsoft.device.dualscreen.testing.compose.simulateVerticalFoldingFeature
 import com.microsoft.device.dualscreen.testing.createWindowLayoutInfoPublisherRule
-import com.microsoft.device.dualscreen.twopanelayout.R
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
