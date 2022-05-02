@@ -1,7 +1,10 @@
 package com.microsoft.device.dualscreen.twopanelayout
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.Layout
@@ -13,8 +16,6 @@ import androidx.navigation.compose.composable
 import com.microsoft.device.dualscreen.windowstate.WindowState
 
 internal var isSinglePaneLayout = true
-private var currentPane1 = mutableStateOf("")
-private var currentPane2 = mutableStateOf("")
 private var currentSinglePane = mutableStateOf("")
 
 internal var navigatePane1To: NavHostController.(String) -> Unit = { _: String -> }
@@ -29,7 +30,6 @@ private fun findDestination(route: String, destinations: Array<Destination>): De
     return destinations.find { pane -> pane.route == route }
         ?: throw IllegalArgumentException("Invalid route $route, not present in list of destinations $destinations")
 }
-
 
 @Composable
 internal fun SinglePaneContainer(
@@ -68,22 +68,22 @@ internal fun TwoPaneContainer(
     }
 
     // Initialize start destinations
-    currentPane1.value = pane1StartDestination
-    currentPane2.value = pane2StartDestination
+    var currentPane1 by rememberSaveable { mutableStateOf(pane1StartDestination) }
+    var currentPane2 by rememberSaveable { mutableStateOf(pane2StartDestination) }
 
     // Initialize navigation method handlers
     navigatePane1To = { route ->
         findDestination(route, destinations)
-        currentPane1.value = route
+        currentPane1 = route
     }
     navigatePane2To = { route ->
         findDestination(route, destinations)
-        currentPane2.value = route
+        currentPane2 = route
     }
 
     // Find the destinations to display in each pane
-    val pane1 = findDestination(currentPane1.value, destinations).content
-    val pane2 = findDestination(currentPane2.value, destinations).content
+    val pane1 = findDestination(currentPane1, destinations).content
+    val pane2 = findDestination(currentPane2, destinations).content
 
     val measurePolicy = twoPaneMeasurePolicy(
         windowMode = windowState.windowMode,
