@@ -1,7 +1,7 @@
 package com.microsoft.device.dualscreen.twopanelayout
 
 /**
- * Class that represents the screens in the NavHost
+ * Class that represents the two possible screens in TwoPaneLayout (pane 1 and pane 2)
  */
 sealed class Screen(val route: String) {
     override fun toString(): String {
