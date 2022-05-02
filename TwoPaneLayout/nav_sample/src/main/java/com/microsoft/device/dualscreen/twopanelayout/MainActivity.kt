@@ -3,12 +3,14 @@ package com.microsoft.device.dualscreen.twopanelayout
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
@@ -18,19 +20,33 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.rememberNavController
 import com.microsoft.device.dualscreen.twopanelayout.ui.theme.TwoPaneLayoutTheme
 import com.microsoft.device.dualscreen.twopanelayout.ui.theme.blue
-import com.microsoft.device.dualscreen.twopanelayout.ui.theme.gray
+import com.microsoft.device.dualscreen.twopanelayout.ui.theme.green
+import com.microsoft.device.dualscreen.twopanelayout.ui.theme.purple
 import com.microsoft.device.dualscreen.twopanelayout.ui.theme.red
 import com.microsoft.device.dualscreen.twopanelayout.ui.theme.yellow
+
+enum class SampleDestination(
+    number: Int,
+    val color: Color,
+    val text: Int,
+    val changesScreen: Screen,
+    val next: Int
+) {
+    DEST1(1, red, R.string.first_dest_text, Screen.Pane2, R.drawable.pane_2_purple),
+    DEST2(2, purple, R.string.second_dest_text, Screen.Pane2, R.drawable.pane_2_green),
+    DEST3(3, green, R.string.third_dest_text, Screen.Pane1, R.drawable.pane_1_yellow),
+    DEST4(4, yellow, R.string.fourth_dest_text, Screen.Pane1, R.drawable.pane_1_red);
+
+    val route = "destination $number"
+}
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,21 +66,26 @@ class MainActivity : ComponentActivity() {
 fun MainPage() {
     val navController = rememberNavController()
 
-    val pane1 = Destination("pane1") { Pane1(navController) }
-    val pane2 = Destination("pane2") { Pane2(navController) }
-    val pane3 = Destination("pane3") { Pane3(navController) }
-    val pane4 = Destination("pane4") { Pane4(navController) }
-
     Scaffold(
         topBar = { TopAppBar() },
         content = {
             TwoPaneLayoutNav(
                 navController = navController,
                 paneMode = TwoPaneMode.HorizontalSingle,
-                destinations = arrayOf(pane1, pane2, pane3, pane4),
-                singlePaneStartDestination = pane1.route,
-                pane1StartDestination = pane1.route,
-                pane2StartDestination = pane2.route
+                destinations = SampleDestination.values().map {
+                    Destination(it.route) {
+                        BasicDestination(
+                            text = it.text,
+                            color = it.color,
+                            navController = navController,
+                            sampleDestination = it,
+                            inPane = it.changesScreen
+                        )
+                    }
+                }.toTypedArray(),
+                singlePaneStartDestination = SampleDestination.DEST1.route,
+                pane1StartDestination = SampleDestination.DEST1.route,
+                pane2StartDestination = SampleDestination.DEST2.route
             )
         }
     )
@@ -73,97 +94,60 @@ fun MainPage() {
 @Composable
 fun TopAppBar() {
     TopAppBar(
-        title = {
-            BasicText(
-                text = stringResource(R.string.app_name),
-                style = TextStyle(
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
-                )
-            )
-        }
+        title = { Text(text = stringResource(R.string.app_name), color = Color.White) },
+        backgroundColor = blue
     )
 }
 
 @Composable
-fun TwoPaneNavScope.Pane1(navController: NavHostController) {
-    BasicPane(
-        text = R.string.first_pane_text,
-        color = blue,
-        textColor = Color.White,
-        navController = navController,
-        to = "pane2",
-        inPane = Screen.Pane2
-    )
-}
-
-@Composable
-fun TwoPaneNavScope.Pane2(navController: NavHostController) {
-    BasicPane(
-        text = R.string.second_pane_text, color = gray, textColor = Color.White,
-        navController = navController,
-        to = "pane3",
-        inPane = Screen.Pane2
-    )
-}
-
-@Composable
-fun TwoPaneNavScope.Pane3(navController: NavHostController) {
-    BasicPane(
-        text = R.string.third_pane_text, color = yellow, textColor = Color.Black,
-        navController = navController,
-        to = "pane4",
-        inPane = Screen.Pane1
-    )
-}
-
-@Composable
-fun TwoPaneNavScope.Pane4(navController: NavHostController) {
-    BasicPane(
-        text = R.string.fourth_pane_text, color = red, textColor = Color.White,
-        navController = navController,
-        navOptions = {
-            launchSingleTop = true
-            restoreState = true
-            popUpTo("pane1")
-        },
-        to = "pane1",
-        inPane = Screen.Pane1
-    )
-}
-
-@Composable
-private fun TwoPaneNavScope.BasicPane(
+private fun TwoPaneNavScope.BasicDestination(
     modifier: Modifier = Modifier,
     text: Int,
     color: Color,
-    textColor: Color,
+    textColor: Color = Color.Black,
     navController: NavHostController,
-    navOptions: NavOptionsBuilder.() -> Unit = {},
-    to: String,
+    sampleDestination: SampleDestination,
     inPane: Screen
 ) {
-    val onClick = { navController.navigateToPane(to, navOptions, inPane) }
+    val nextDestination =
+        SampleDestination.values().getOrElse(sampleDestination.ordinal + 1) { SampleDestination.DEST1 }
+    val dest4NavOptions: NavOptionsBuilder.() -> Unit = {
+        launchSingleTop = true
+        restoreState = true
+        popUpTo(SampleDestination.DEST1.route)
+    }
+    val emptyNavOptions: NavOptionsBuilder.() -> Unit = {}
+    val navOptions: NavOptionsBuilder.() -> Unit = when (sampleDestination) {
+        SampleDestination.DEST4 -> dest4NavOptions
+        else -> emptyNavOptions
+    }
 
-    Box {
-        Text(
-            text = stringResource(text),
-            modifier = modifier
-                .background(color = color)
-                .clickable { onClick() }
-                .padding(10.dp)
-                .fillMaxSize()
-                .align(Alignment.TopCenter),
-            color = textColor
-        )
-        Text(
+    val onClick = { navController.navigateTo(nextDestination.route, navOptions, inPane) }
+
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .background(color)
+            .clickable { onClick() }
+            .padding(10.dp)
+    ) {
+        Text(modifier = Modifier.align(Alignment.TopCenter), text = stringResource(text), color = textColor)
+        Row(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 20.dp),
-            text = "Navigates to $to (in $inPane)",
-            color = textColor,
-            style = MaterialTheme.typography.h4
-        )
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(20.dp)
+        ) {
+            Text(
+                text = stringResource(R.string.navigates_to, nextDestination.route, inPane),
+                color = textColor,
+                style = MaterialTheme.typography.h4
+            )
+            Image(
+                painter = painterResource(id = sampleDestination.next),
+                contentDescription = stringResource(id = R.string.image_description)
+            )
+        }
     }
 }

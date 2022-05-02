@@ -7,7 +7,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -15,11 +14,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.microsoft.device.dualscreen.twopanelayout.sample.ui.theme.TwoPaneLayoutTheme
+import com.microsoft.device.dualscreen.twopanelayout.ui.theme.TwoPaneLayoutTheme
+import com.microsoft.device.dualscreen.twopanelayout.ui.theme.blue
+import com.microsoft.device.dualscreen.twopanelayout.ui.theme.green
+import com.microsoft.device.dualscreen.twopanelayout.ui.theme.yellow
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,16 +48,8 @@ fun MainPage() {
 @Composable
 fun TopAppBar() {
     TopAppBar(
-        title = {
-            BasicText(
-                text = stringResource(R.string.app_name),
-                style = TextStyle(
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
-                )
-            )
-        }
+        title = { Text(text = stringResource(R.string.app_name), color = Color.White) },
+        backgroundColor = blue
     )
 }
 
@@ -67,7 +58,7 @@ fun TwoPaneScope.Pane1() {
     Text(
         text = stringResource(R.string.first_pane_text),
         modifier = Modifier
-            .background(color = Color.Cyan)
+            .background(color = green)
             .clickable { navigateToPane2() }
             .padding(10.dp)
             .fillMaxSize()
@@ -81,7 +72,7 @@ fun TwoPaneScope.Pane2() {
     Text(
         text = stringResource(R.string.second_pane_text),
         modifier = Modifier
-            .background(color = Color.Magenta)
+            .background(color = yellow)
             .clickable { navigateToPane1() }
             .padding(10.dp)
             .fillMaxSize()

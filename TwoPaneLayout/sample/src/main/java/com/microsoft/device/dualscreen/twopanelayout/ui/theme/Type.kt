@@ -1,4 +1,4 @@
-package com.microsoft.device.dualscreen.twopanelayout.sample.ui.theme
+package com.microsoft.device.dualscreen.twopanelayout.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
