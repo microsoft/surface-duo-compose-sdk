@@ -19,7 +19,7 @@ import org.junit.Test
 import org.junit.rules.RuleChain
 import org.junit.rules.TestRule
 
-class SampleTest {
+class NavSampleTest {
     private val publisherRule = createWindowLayoutInfoPublisherRule()
     private val composeTestRule = createAndroidComposeRule<MainActivity>()
 
@@ -44,15 +44,21 @@ class SampleTest {
     }
 
     @Test
-    fun app_canNavigateToSecondPane() {
+    fun app_canNavigateToAllDestinations() {
+        // to Destination 2
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.first_pane_text)).performClick()
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.second_pane_text)).assertIsDisplayed()
-    }
 
-    @Test
-    fun app_canNavigateToFirstPane() {
-        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.first_pane_text)).performClick()
+        // to Destination 3
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.second_pane_text)).performClick()
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.third_pane_text)).assertIsDisplayed()
+
+        // to Destination 4
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.third_pane_text)).performClick()
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.fourth_pane_text)).assertIsDisplayed()
+
+        // to Destination 1
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.fourth_pane_text)).performClick()
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.first_pane_text)).assertIsDisplayed()
     }
 
