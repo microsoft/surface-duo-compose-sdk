@@ -1,4 +1,4 @@
-package com.microsoft.device.dualscreen.twopanelayout
+package com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -13,9 +13,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.microsoft.device.dualscreen.twopanelayout.common.twoPaneMeasurePolicy
 import com.microsoft.device.dualscreen.windowstate.WindowState
 
-internal var isSinglePaneLayout = true
+
+internal var isSinglePaneLayout = true // make a handler
 private var currentSinglePane = mutableStateOf("")
 
 internal var navigatePane1To: NavHostController.(String) -> Unit = { _: String -> }

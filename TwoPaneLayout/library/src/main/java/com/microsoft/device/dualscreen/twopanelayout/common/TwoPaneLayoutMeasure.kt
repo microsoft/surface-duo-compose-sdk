@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.microsoft.device.dualscreen.twopanelayout
+package com.microsoft.device.dualscreen.twopanelayout.common
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.geometry.Size

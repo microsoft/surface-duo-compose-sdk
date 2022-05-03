@@ -1,4 +1,4 @@
-package com.microsoft.device.dualscreen.twopanelayout
+package com.microsoft.device.dualscreen.twopanelayout.twopanelayout
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -8,6 +8,9 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.microsoft.device.dualscreen.twopanelayout.common.Screen
+import com.microsoft.device.dualscreen.twopanelayout.common.TwoPaneMode
+import com.microsoft.device.dualscreen.twopanelayout.common.twoPaneMeasurePolicy
 import com.microsoft.device.dualscreen.windowstate.WindowMode
 import com.microsoft.device.dualscreen.windowstate.WindowState
 

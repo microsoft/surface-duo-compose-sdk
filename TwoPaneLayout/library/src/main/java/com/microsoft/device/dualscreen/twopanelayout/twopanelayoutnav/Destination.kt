@@ -1,6 +1,7 @@
-package com.microsoft.device.dualscreen.twopanelayout
+package com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav
 
 import androidx.compose.runtime.Composable
+import com.microsoft.device.dualscreen.twopanelayout.TwoPaneNavScope
 
 /**
  * Class that represents TwoPaneLayoutNav destinations

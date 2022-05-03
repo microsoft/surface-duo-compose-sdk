@@ -15,6 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.microsoft.device.dualscreen.twopanelayout.common.TwoPaneMode
+import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.TwoPaneScope
 import com.microsoft.device.dualscreen.twopanelayout.ui.theme.TwoPaneLayoutTheme
 import com.microsoft.device.dualscreen.twopanelayout.ui.theme.blue
 import com.microsoft.device.dualscreen.twopanelayout.ui.theme.green

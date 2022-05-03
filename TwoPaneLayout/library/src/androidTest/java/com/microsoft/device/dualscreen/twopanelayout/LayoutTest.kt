@@ -34,6 +34,10 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.IntSize
 import androidx.navigation.NavHostController
+import com.microsoft.device.dualscreen.twopanelayout.common.twoPaneMeasurePolicy
+import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.SinglePaneContainer
+import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.TwoPaneScope
+import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.TwoPaneScopeInstance
 import com.microsoft.device.dualscreen.windowstate.WindowState
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
