@@ -13,19 +13,29 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.microsoft.device.dualscreen.twopanelayout.Destination
 import com.microsoft.device.dualscreen.twopanelayout.common.twoPaneMeasurePolicy
 import com.microsoft.device.dualscreen.windowstate.WindowState
 
-
-internal var isSinglePaneLayout = true // make a handler
 private var currentSinglePane = mutableStateOf("")
+private var isSinglePane = true
 
 internal var navigatePane1To: NavHostController.(String) -> Unit = { _: String -> }
 internal var navigatePane2To: NavHostController.(String) -> Unit = { _: String -> }
+internal var getPane1Destination: () -> String = { "" }
+internal var getPane2Destination: () -> String = { "" }
 
 internal fun NavHostController.navigateSinglePaneTo(route: String, navOptions: NavOptionsBuilder.() -> Unit) {
     navigate(route, navOptions)
     currentSinglePane.value = route
+}
+
+internal fun getSinglePaneDestination(): String {
+    return currentSinglePane.value
+}
+
+internal fun isSinglePane(): Boolean {
+    return isSinglePane
 }
 
 private fun findDestination(route: String, destinations: Array<Destination>): Destination {
@@ -40,6 +50,7 @@ internal fun SinglePaneContainer(
     navController: NavHostController,
 ) {
     currentSinglePane.value = startDestination
+    isSinglePane = true
 
     NavHost(
         navController = navController,
@@ -61,6 +72,8 @@ internal fun TwoPaneContainer(
     pane1StartDestination: String,
     pane2StartDestination: String
 ) {
+    isSinglePane = false
+
     // Calculate pane sizes
     val pane1SizePx: Size
     val pane2SizePx: Size
@@ -69,9 +82,11 @@ internal fun TwoPaneContainer(
         pane2SizePx = windowState.pane2SizeDp.toSize()
     }
 
-    // Initialize start destinations
+    // Initialize start destinations and handlers
     var currentPane1 by rememberSaveable { mutableStateOf(pane1StartDestination) }
     var currentPane2 by rememberSaveable { mutableStateOf(pane2StartDestination) }
+    getPane1Destination = { currentPane1 }
+    getPane2Destination = { currentPane2 }
 
     // Initialize navigation method handlers
     navigatePane1To = { route ->

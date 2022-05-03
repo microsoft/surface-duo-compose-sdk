@@ -26,9 +26,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.rememberNavController
-import com.microsoft.device.dualscreen.twopanelayout.common.Screen
-import com.microsoft.device.dualscreen.twopanelayout.common.TwoPaneMode
-import com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav.Destination
 import com.microsoft.device.dualscreen.twopanelayout.ui.theme.TwoPaneLayoutTheme
 import com.microsoft.device.dualscreen.twopanelayout.ui.theme.blue
 import com.microsoft.device.dualscreen.twopanelayout.ui.theme.green

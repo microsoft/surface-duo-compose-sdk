@@ -1,4 +1,4 @@
-package com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav
+package com.microsoft.device.dualscreen.twopanelayout
 
 import androidx.compose.runtime.Composable
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneNavScope

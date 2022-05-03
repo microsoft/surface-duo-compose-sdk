@@ -1,4 +1,4 @@
-package com.microsoft.device.dualscreen.twopanelayout.common
+package com.microsoft.device.dualscreen.twopanelayout
 
 /**
  * TwoPaneMode

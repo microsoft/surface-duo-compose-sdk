@@ -1,4 +1,4 @@
-package com.microsoft.device.dualscreen.twopanelayout.common
+package com.microsoft.device.dualscreen.twopanelayout
 
 /**
  * Class that represents the two possible screens in TwoPaneLayout (pane 1 and pane 2)

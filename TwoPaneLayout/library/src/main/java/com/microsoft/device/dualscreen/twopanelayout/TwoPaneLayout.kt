@@ -11,12 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.microsoft.device.dualscreen.twopanelayout.common.TwoPaneMode
 import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.SinglePaneContainer
 import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.TwoPaneContainer
-import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.TwoPaneScope
 import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.isSinglePaneLayout
-import com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav.Destination
+import com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav.SinglePaneContainer
+import com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav.TwoPaneContainer
 import com.microsoft.device.dualscreen.windowstate.rememberWindowState
 
 /**
@@ -135,17 +134,16 @@ fun TwoPaneLayoutNav(
         ?: throw ClassCastException("Local context could not be cast as an Activity")
     val windowState = activity.rememberWindowState()
 
-    com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav.isSinglePaneLayout =
-        isSinglePaneLayout(windowState.windowMode, paneMode)
+    val isSinglePane = isSinglePaneLayout(windowState.windowMode, paneMode)
 
-    if (com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav.isSinglePaneLayout) {
-        com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav.SinglePaneContainer(
+    if (isSinglePane) {
+        SinglePaneContainer(
             destinations = destinations,
             startDestination = singlePaneStartDestination,
             navController = navController,
         )
     } else {
-        com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav.TwoPaneContainer(
+        TwoPaneContainer(
             windowState = windowState,
             modifier = modifier,
             destinations = destinations,

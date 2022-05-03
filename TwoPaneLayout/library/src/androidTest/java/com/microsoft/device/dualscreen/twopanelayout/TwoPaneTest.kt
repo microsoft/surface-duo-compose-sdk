@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.DpRect
 import androidx.compose.ui.unit.IntSize
 import androidx.navigation.compose.rememberNavController
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.microsoft.device.dualscreen.twopanelayout.common.TwoPaneMode
 import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.isSinglePaneLayout
 import com.microsoft.device.dualscreen.windowstate.WindowMode
 import com.microsoft.device.dualscreen.windowstate.WindowState
