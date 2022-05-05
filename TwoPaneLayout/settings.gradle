@@ -1,3 +1,4 @@
 rootProject.name = "TwoPaneLayout"
 include ':library'
 include ':sample'
+include ':nav_sample'

@@ -1,0 +1,72 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        applicationId "com.microsoft.device.dualscreen.twopanelayout.nav_sample"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion composeVersion
+    }
+    packagingOptions {
+        resources {
+            excludes += ['META-INF/LGPL2.1', 'META-INF/AL2.0']
+        }
+    }
+
+}
+
+dependencies {
+
+    implementation "androidx.compose.ui:ui-tooling-preview:$composeVersion"
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
+    implementation project(path: ':library')
+
+    implementation kotlinDependencies.kotlinStdlib
+    implementation androidxDependencies.ktxCore
+    implementation androidxDependencies.appCompat
+    implementation composeDependencies.composeUI
+    implementation composeDependencies.composeMaterial
+    implementation composeDependencies.composeUITooling
+    implementation composeDependencies.activityCompose
+    implementation composeDependencies.navigationCompose
+
+    implementation googleDependencies.material
+
+    androidTestImplementation(testDependencies.androidxTestCore)
+    androidTestImplementation(testDependencies.androidxTestRules)
+    androidTestImplementation(testDependencies.androidxTestRunner)
+    androidTestImplementation(testDependencies.composeUITest)
+    androidTestImplementation(testDependencies.composeJunit)
+    androidTestImplementation(microsoftDependencies.composeTesting)
+
+    debugImplementation(testDependencies.composeUITestManifest)
+}
