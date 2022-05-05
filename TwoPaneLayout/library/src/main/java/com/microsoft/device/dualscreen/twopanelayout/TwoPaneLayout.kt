@@ -6,13 +6,9 @@
 package com.microsoft.device.dualscreen.twopanelayout
 
 import android.app.Activity
-import androidx.compose.foundation.layout.LayoutScopeMarker
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.microsoft.device.dualscreen.windowstate.rememberWindowState
@@ -92,25 +88,4 @@ fun TwoPaneLayout(
             pane2 = pane2
         )
     }
-}
-
-/**
- * Navigation to the first pane in the single-pane mode
- */
-fun navigateToPane1() {
-    navigateToPane1Handler()
-}
-
-/**
- * Navigation to the second pane in the single-pane mode
- */
-fun navigateToPane2() {
-    navigateToPane2Handler()
-}
-
-/**
- * Return whether pane 1 is shown currently, otherwise pane 2
- */
-fun isPane1Shown(): Boolean {
-    return currentSinglePane == Screen.Pane1.route
 }
