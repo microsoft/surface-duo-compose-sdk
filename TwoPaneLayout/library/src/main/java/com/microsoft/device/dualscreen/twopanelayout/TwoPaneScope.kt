@@ -4,10 +4,6 @@ import androidx.compose.foundation.layout.LayoutScopeMarker
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.debugInspectorInfo
-import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.currentSinglePane
-import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.navigateToPane1Handler
-import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.navigateToPane2Handler
 
 @LayoutScopeMarker
 @Immutable
@@ -39,32 +35,4 @@ interface TwoPaneScope {
      */
     @Stable
     fun isPane1Shown(): Boolean
-}
-
-internal object TwoPaneScopeInstance : TwoPaneScope {
-    override fun Modifier.weight(weight: Float): Modifier {
-        require(weight > 0.0) { "invalid weight $weight; must be greater than zero" }
-        return this.then(
-            LayoutWeightImpl(
-                weight = weight,
-                inspectorInfo = debugInspectorInfo {
-                    name = "weight"
-                    value = weight
-                    properties["weight"] = weight
-                }
-            )
-        )
-    }
-
-    override fun navigateToPane1() {
-        navigateToPane1Handler()
-    }
-
-    override fun navigateToPane2() {
-        navigateToPane2Handler()
-    }
-
-    override fun isPane1Shown(): Boolean {
-        return currentSinglePane == Screen.Pane1.route
-    }
 }

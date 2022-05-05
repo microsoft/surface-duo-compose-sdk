@@ -11,6 +11,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.SinglePaneContainer
+import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.TwoPaneContainer
+import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.isSinglePaneLayout
 import com.microsoft.device.dualscreen.windowstate.rememberWindowState
 
 /**
