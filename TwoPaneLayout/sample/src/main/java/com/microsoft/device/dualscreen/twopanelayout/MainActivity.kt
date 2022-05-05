@@ -41,9 +41,9 @@ fun MainPage() {
 }
 
 @Composable
-fun TopAppBar() {
+fun TopAppBar(paneAnnotation: String) {
     TopAppBar(
-        title = { Text(text = stringResource(R.string.app_name), color = Color.White) },
+        title = { Text(text = stringResource(R.string.app_name) + paneAnnotation, color = Color.White) },
         backgroundColor = blue
     )
 }
@@ -51,7 +51,7 @@ fun TopAppBar() {
 @Composable
 fun TwoPaneScope.Pane1() {
     Scaffold(
-        topBar = { TopAppBar() }
+        topBar = { TopAppBar(if (!isSinglePane) " - pane 1" else "") }
     ) {
         Text(
             text = stringResource(R.string.first_pane_text),
@@ -69,7 +69,7 @@ fun TwoPaneScope.Pane1() {
 @Composable
 fun TwoPaneScope.Pane2() {
     Scaffold(
-        topBar = { TopAppBar() }
+        topBar = { TopAppBar(if (!isSinglePane) " - pane 2" else "") }
     ) {
         Text(
             text = stringResource(R.string.second_pane_text),
