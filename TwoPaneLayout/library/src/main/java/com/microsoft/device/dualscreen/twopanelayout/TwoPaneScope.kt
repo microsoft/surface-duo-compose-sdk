@@ -33,10 +33,17 @@ interface TwoPaneScope {
     fun navigateToPane2()
 
     /**
-     * Returns true when pane 1 is shown currently in single pane mode, otherwise false when pane 2 is shown
+     * The route of the destination currently shown in the single pane layout (either [Screen.Pane1.route] or
+     * [Screen.Pane2.route])
      */
     @Stable
-    fun isPane1Shown(): Boolean
+    val currentSinglePaneDestination: String
+
+    /**
+     * Returns true when in single pane mode, false when in two pane mode
+     */
+    @Stable
+    val isSinglePane: Boolean
 }
 
 @LayoutScopeMarker
@@ -82,4 +89,10 @@ interface TwoPaneNavScope {
      */
     @Stable
     val currentPane2Destination: String
+
+    /**
+     * Returns true when in single pane mode, false when in two pane mode
+     */
+    @Stable
+    val isSinglePane: Boolean
 }

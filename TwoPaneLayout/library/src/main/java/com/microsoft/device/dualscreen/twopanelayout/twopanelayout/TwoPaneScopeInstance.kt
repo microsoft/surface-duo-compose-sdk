@@ -2,7 +2,6 @@ package com.microsoft.device.dualscreen.twopanelayout.twopanelayout
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.debugInspectorInfo
-import com.microsoft.device.dualscreen.twopanelayout.Screen
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneScope
 import com.microsoft.device.dualscreen.twopanelayout.common.LayoutWeightImpl
 
@@ -29,7 +28,9 @@ internal object TwoPaneScopeInstance : TwoPaneScope {
         navigateToPane2Handler()
     }
 
-    override fun isPane1Shown(): Boolean {
-        return currentSinglePane == Screen.Pane1.route
-    }
+    override val currentSinglePaneDestination: String
+        get() = getSinglePaneDestination()
+
+    override val isSinglePane: Boolean
+        get() = isSinglePaneHandler()
 }

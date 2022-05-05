@@ -28,7 +28,7 @@ internal object TwoPaneNavScopeInstance : TwoPaneNavScope {
         screen: Screen,
         navOptions: NavOptionsBuilder.() -> Unit,
     ) {
-        if (isSinglePaneHandler()) {
+        if (isSinglePane) {
             navigateSinglePaneTo(route, navOptions)
         } else {
             when (screen) {
@@ -46,4 +46,7 @@ internal object TwoPaneNavScopeInstance : TwoPaneNavScope {
 
     override val currentPane2Destination: String
         get() = getPane2Destination()
+
+    override val isSinglePane: Boolean
+        get() = isSinglePaneHandler()
 }
