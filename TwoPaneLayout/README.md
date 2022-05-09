@@ -1,16 +1,34 @@
 # TwoPaneLayout - Surface Duo Compose SDK
 
-**TwoPaneLayout** is a UI component for Jetpack Compose, which contains the layouts that help you create UI for dual-screen, foldable, and large-screen devices. TwoPaneLayout provides a two-pane layout for use at the top level of a UI. The component will place two panes side-by-side when the app is spanned on dual-screen, foldable and large-screen devices. The two panes can be horizontal or vertical, based on the orientation of the device, unless `paneMode` is configured.
+**TwoPaneLayout** is a Jetpack Compose component that helps you create UI for dual-screen, foldable, and large-screen devices. TwoPaneLayout provides a two-pane layout for use at the top level of a UI. The component will place two panes side-by-side when the app is spanned on dual-screen, foldable and large-screen devices. These panes can be horizontal or vertical, depending on the orientation of the device and the selected `paneMode`.
 
-When the app is spanned across a vertical hinge or fold, or when the width is larger than height of screen on large-screen device, pane 1 will be placed on the left, while pane 2 will be on the right. If the device rotates, the app is spanned across a horizontal hinge or fold, or the width is smaller than the height of screen on large-screen device, pane 1 will be placed on the top and pane 2 will be on the bottom.
+## Pane orientation
 
-The TwoPaneLayout is able to assign children widths or heights according to their weights provided using the `TwoPaneScope.weight` modifier. If no weight is provided, the two panes will be displayed equally. The proportional layout only applies when the folding feature is not separating, meaning the foldable device is fully open or running on the large screen device. For dual-screen device with a hinge in the middle, the two panes would always layout equally.
+When the app is spanned across a vertical hinge or fold, or when the width is larger than height of the screen on a large-screen device, pane 1 will be placed on the left, while pane 2 will be on the right. If the device rotates, the app is spanned across a horizontal hinge or fold, or the width is smaller than the height of screen on large-screen device, pane 1 will be placed on the top and pane 2 will be on the bottom.
 
-The TwoPaneLayout is able to assign children widths or heights according to their weights provided using the TwoPaneScope.weight modifier.
+## Weight modifier
 
-- For large screens, if no weight is provided, the two panes will be displayed equally. If weight is provided, then the layout will be split up proportionally according to the weight.
-- For foldables with a separating folding feature, the two panes will always be split up according to the folding feature boundaries (with or without weight). A folding feature is considered separating when a foldable device is half-opened or has a hinge that physically divides the screens. If a foldable device does not have a separating folding feature, then it will either be treated as a large screen or a single screen depending on its size and the provided weight.
-- If running on regular single-screen device, there will be only one pane visible. The other pane will be overlaid and navigation will be available to switch between two panes, regardless the weight.
+TwoPaneLayout is able to assign children widths or heights according to their weights provided using the `TwoPaneScope.weight` modifier. This only effects the layout for large screen and foldable devices, but for single-screen devices, there will still only be one pane visible, regardless of the weight.
+
+For large screens:
+
+- No weight &rarr; two panes displayed equally
+- Weight &rarr; layout split up proportionally according to the weight
+
+For foldables:
+
+- Separating fold &rarr; layout split up according to fold boundaries (with or without weight)
+- Non-separating fold &rarr; device treated as a large screen or single-screen depending on its size
+
+## Navigation support
+
+TwoPaneLayout offers two constructors with customizable navigation support.
+
+The first is the original `TwoPaneLayout` constructor with an extra `NavHostController` parameter. This gives you the option to create and control your own navController, which will still be used to navigate between panes 1 and 2 in single pane mode. The content passed into this constructor should be under the `TwoPaneScope`.
+
+The second is the `TwoPaneLayoutNav` constructor, which accepts an array of destinations, instead of only two panes of content. This highly customizable constructor can be used in cases where an app has more than two app-level destinations, and provides more flexibility with navigation options and the navigation flow. The content passed into this constructor should be under the `TwoPaneNavScope`.
+
+## API reference
 
 ```kotlin
 @Composable
@@ -30,11 +48,48 @@ fun TwoPaneLayout(
     pane2: @Composable TwoPaneScope.() -> Unit
 )
 
-fun navigateToPane1()
+interface TwoPaneScope {
 
-fun navigateToPane2() 
+    fun Modifier.weight(weight: Float): Modifier
 
-fun isPane1Shown(): Boolean
+    fun navigateToPane1()
+
+    fun navigateToPane2()
+
+    val currentSinglePaneDestination: String
+
+    val isSinglePane: Boolean
+}
+
+@Composable
+fun TwoPaneLayoutNav(
+    modifier: Modifier = Modifier,
+    navController: NavHostController,
+    paneMode: TwoPaneMode = TwoPaneMode.TwoPane,
+    destinations: Array<Destination>,
+    singlePaneStartDestination: String,
+    pane1StartDestination: String,
+    pane2StartDestination: String
+) 
+
+interface TwoPaneNavScope {
+
+    fun Modifier.weight(weight: Float): Modifier
+
+    fun NavHostController.navigateTo(
+        route: String,
+        screen: Screen,
+        navOptions: NavOptionsBuilder.() -> Unit = { },
+    )
+
+    val currentSinglePaneDestination: String
+
+    val currentPane1Destination: String
+
+    val currentPane2Destination: String
+
+    val isSinglePane: Boolean
+}
 
 ```
 
@@ -43,7 +98,7 @@ About some common use case for the two panes, please check out [user interface p
 
 ## Add to your project
 
-1. Make sure you have **mavenCentral()** repository in your top level **build.gradle** file:
+1. Make sure you have `mavenCentral()` repository in your top level **build.gradle** file:
 
     ```gradle
     allprojects {
@@ -57,10 +112,10 @@ About some common use case for the two panes, please check out [user interface p
 2. Add dependencies to the module-level **build.gradle** file (current version may be different from what's shown here).
 
     ```gradle
-    implementation "com.microsoft.device.dualscreen:twopanelayout:1.0.0"
+    implementation "com.microsoft.device.dualscreen:twopanelayout:1.0.1-alpha01"
     ```
 
-3. Also ensure the compileSdkVersion and targetSdkVersion are set to API 31 or newer in the module-level build.gradle file.
+3. Also ensure the compileSdkVersion and targetSdkVersion are set to API 31 or newer in the module-level **build.gradle** file.
 
     ```gradle
     android { 
@@ -73,7 +128,7 @@ About some common use case for the two panes, please check out [user interface p
     }
     ```
 
-4. Build layout with **TwoPaneLayout**. Please refer to the [sample](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/TwoPaneLayout/sample) for more details.
+4. Build layout with **TwoPaneLayout** or **TwoPaneLayoutNav**. Please refer to the [sample](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/TwoPaneLayout/sample) and [nav sample](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/TwoPaneLayout/nav_sample) for more details.
 
 - Dual-screen device(Surface Duo device, 1:1)
 

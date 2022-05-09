@@ -16,9 +16,7 @@ interface TwoPaneScope {
      * @param weight: percentage of the screen to fill (between 0-1)
      */
     @Stable
-    fun Modifier.weight(
-        weight: Float,
-    ): Modifier
+    fun Modifier.weight(weight: Float): Modifier
 
     /**
      * Navigates to the content in the first pane in single pane mode, otherwise does nothing in two pane mode
