@@ -19,7 +19,7 @@ import com.microsoft.device.dualscreen.windowstate.WindowState
  * The route of the pane shown in the SinglePaneContainer
  */
 private var currentSinglePane = Screen.Pane1.route
-private var isSinglePane = true
+internal var isSinglePane = true
 
 internal var navigateToPane1Handler: () -> Unit = {}
 internal var navigateToPane2Handler: () -> Unit = {}
@@ -42,7 +42,6 @@ internal fun SinglePaneContainer(
     pane2: @Composable TwoPaneScope.() -> Unit
 ) {
     currentSinglePane = Screen.Pane1.route // always start from Pane1 to maintain the expected backstack
-    isSinglePane = true
 
     NavHost(
         navController = navController,
@@ -101,7 +100,6 @@ internal fun TwoPaneContainer(
 
     navigateToPane1Handler = { }
     navigateToPane2Handler = { }
-    isSinglePane = false
 
     val measurePolicy = twoPaneMeasurePolicy(
         windowMode = windowState.windowMode,

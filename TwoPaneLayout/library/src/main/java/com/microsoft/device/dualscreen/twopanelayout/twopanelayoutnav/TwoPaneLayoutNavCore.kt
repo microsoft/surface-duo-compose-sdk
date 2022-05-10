@@ -18,7 +18,7 @@ import com.microsoft.device.dualscreen.twopanelayout.common.twoPaneMeasurePolicy
 import com.microsoft.device.dualscreen.windowstate.WindowState
 
 private var currentSinglePane = mutableStateOf("")
-private var isSinglePane = true
+internal var isSinglePane = true
 
 internal var navigatePane1To: NavHostController.(String) -> Unit = { _: String -> }
 internal var navigatePane2To: NavHostController.(String) -> Unit = { _: String -> }
@@ -50,7 +50,6 @@ internal fun SinglePaneContainer(
     navController: NavHostController,
 ) {
     currentSinglePane.value = startDestination
-    isSinglePane = true
 
     NavHost(
         navController = navController,
@@ -72,8 +71,6 @@ internal fun TwoPaneContainer(
     pane1StartDestination: String,
     pane2StartDestination: String
 ) {
-    isSinglePane = false
-
     // Calculate pane sizes
     val pane1SizePx: Size
     val pane2SizePx: Size
