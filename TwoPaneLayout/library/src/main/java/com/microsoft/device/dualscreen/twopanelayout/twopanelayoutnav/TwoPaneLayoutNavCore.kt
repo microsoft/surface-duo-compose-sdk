@@ -26,8 +26,13 @@ internal var getPane1Destination: () -> String = { "" }
 internal var getPane2Destination: () -> String = { "" }
 
 internal fun NavHostController.navigateSinglePaneTo(route: String, navOptions: NavOptionsBuilder.() -> Unit) {
-    navigate(route, navOptions)
-    currentSinglePane.value = route
+    val topDestination = backQueue.lastOrNull()?.destination?.route
+
+    // Navigate only when necessary
+    if (topDestination != route) {
+        navigate(route, navOptions)
+        currentSinglePane.value = route
+    }
 }
 
 internal fun getSinglePaneDestination(): String {
@@ -87,12 +92,16 @@ internal fun TwoPaneContainer(
 
     // Initialize navigation method handlers
     navigatePane1To = { route ->
-        findDestination(route, destinations)
-        currentPane1 = route
+        if (currentPane1 != route) {
+            findDestination(route, destinations)
+            currentPane1 = route
+        }
     }
     navigatePane2To = { route ->
-        findDestination(route, destinations)
-        currentPane2 = route
+        if (currentPane2 != route) {
+            findDestination(route, destinations)
+            currentPane2 = route
+        }
     }
 
     // Find the destinations to display in each pane
