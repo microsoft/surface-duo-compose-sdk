@@ -108,7 +108,7 @@ There are three pane modes available for TwoPaneLayout:
 
 ### Weight modifier
 
-TwoPaneLayout is able to assign children widths or heights according to their weights provided using the `TwoPaneScope.weight` and `TwoPaneNavScope.weight` modifiers. This only effects the layout for large screen and foldable devices, but for single-screen devices, there will still only be one pane visible, regardless of the weight.
+TwoPaneLayout is able to assign children widths or heights according to their weights provided using the `TwoPaneScope.weight` and `TwoPaneNavScope.weight` modifiers. This only affects the layout for large screen and foldable devices, but for single-screen devices, there will still only be one pane visible, regardless of the weight.
 
 ```kotlin
 fun Modifier.weight(weight: Float): Modifier
@@ -184,7 +184,7 @@ sealed class Screen(val route: String) {
 }
 ```
 
-The animation below shows an example of how to use `TwoPaneLayoutNav` to create custom navigation flows. The layout was created with four app destinations, where destination 1 was passed in as the `singlePaneStartDestination` and `pane1StartDestination` and destination two was passed in as the `pane2StartDestination`. The navigation flow, which works in both single and two pane modes, uses `navigateTo` to go from destination 1-4 in panes 1, 2, 2, and 1 respectively.
+The animation below shows an example of how to use TwoPaneLayoutNav to create custom navigation flows. The layout was created with four app destinations, where destination 1 was passed in as the `singlePaneStartDestination` and `pane1StartDestination` and destination two was passed in as the `pane2StartDestination`. The navigation flow, which works in both single and two pane modes, uses `navigateTo` to go from destination 1-4 in panes 1, 2, 2, and 1 respectively.
 ![Example usage of the TwoPaneLayout nav in the nav sample](screenshots/twopanelayoutnav.gif)
 
 ## Contributing
