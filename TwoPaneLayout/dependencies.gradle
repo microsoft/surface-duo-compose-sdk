@@ -14,11 +14,11 @@ ext {
 
     // TwoPaneLayout library version code:
     // If you want to publish a new version, bump in one (1) the specific line(s)
-    twoPaneLayoutVersionCode = 16
+    twoPaneLayoutVersionCode = 17
 
     // TwoPaneLayout library version name:
     // If you want to publish a new version, bump the specific line
-    twoPaneLayoutVersionName = '1.0.0'
+    twoPaneLayoutVersionName = '1.0.1-alpha01'
 
     // ----------------------------------
 

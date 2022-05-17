@@ -6,28 +6,19 @@
 package com.microsoft.device.dualscreen.twopanelayout
 
 import android.app.Activity
-import androidx.compose.foundation.layout.LayoutScopeMarker
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.SinglePaneContainer
+import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.TwoPaneContainer
+import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.isSinglePane
+import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.isSinglePaneLayout
+import com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav.SinglePaneContainer
+import com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav.TwoPaneContainer
 import com.microsoft.device.dualscreen.windowstate.rememberWindowState
-
-/**
- * TwoPaneMode
- * TwoPane,          always shows two panes, regardless the orientation, by default
- * HorizontalSingle  shows big single pane in horizontal orientation layout(top/bottom)
- * VerticalSingle    shows big single pane in vertical orientation layout(left/right)
- */
-enum class TwoPaneMode {
-    TwoPane,
-    HorizontalSingle,
-    VerticalSingle
-}
+import com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav.isSinglePane as isSinglePaneNav
 
 /**
  * A layout component that places its children in one or two panes vertically or horizontally to
@@ -88,7 +79,7 @@ fun TwoPaneLayout(
         ?: throw ClassCastException("Local context could not be cast as an Activity")
     val windowState = activity.rememberWindowState()
 
-    val isSinglePane = isSinglePaneLayout(windowState.windowMode, paneMode)
+    isSinglePane = isSinglePaneLayout(windowState.windowMode, paneMode)
 
     if (isSinglePane) {
         SinglePaneContainer(
@@ -107,63 +98,59 @@ fun TwoPaneLayout(
 }
 
 /**
- * Navigation to the first pane in the single-pane mode
+ * A layout component that places its children in one or two panes vertically or horizontally to
+ * support the layout on foldable or dual-screen form factors. One-pane can be used to layout on
+ * the single-screen device, or single-screen mode on the foldable or dual-screen devices. Two-pane
+ * can be used to layout left/right or top/bottom screens on the foldable or dual-screen devices.
+ * The tablet or wide screen devices will display two-pane layout by default.
+ *
+ * Like [TwoPaneLayout], the [TwoPaneLayoutNav] layout is able to assign children widths or heights according to their weights
+ * provided using the [TwoPaneNavScope.weight] modifier. If all the children have not provided a weight,
+ * they will be layout equally, with the potential padding in-between based on the
+ * physical hinge between two screens.
+ *
+ * Instead of the fixed pane 1 and pane 2 parameters in the original [TwoPaneLayout], [TwoPaneLayoutNav] was made
+ * to be more flexible and customizable by accepting NavHostController parameters and an array of multiple
+ * destinations. In single pane mode, navigation is done with a NavHost, but in two pane mode, the content in
+ * each screen/pane is updated manually by changing the content shown in the layout.
+ *
+ * @param modifier: The modifier to be applied to the TwoPaneLayout
+ * @param navController: The navController to use when navigating within the single pane container
+ * @param paneMode: The [TwoPaneMode] that determines when one or two panes are shown
+ * @param destinations: The destinations that will be displayed in the layout
+ * @param singlePaneStartDestination: The start destination for single pane mode
+ * @param pane1StartDestination: The start destination for pane 1 in two pane mode
+ * @param pane2StartDestination: The start destination for pane 2 in two pane mode
  */
-fun navigateToPane1() {
-    navigateToPane1Handler()
-}
+@Composable
+fun TwoPaneLayoutNav(
+    modifier: Modifier = Modifier,
+    navController: NavHostController,
+    paneMode: TwoPaneMode = TwoPaneMode.TwoPane,
+    destinations: Array<Destination>,
+    singlePaneStartDestination: String,
+    pane1StartDestination: String,
+    pane2StartDestination: String
+) {
+    val activity = (LocalContext.current as? Activity)
+        ?: throw ClassCastException("Local context could not be cast as an Activity")
+    val windowState = activity.rememberWindowState()
 
-/**
- * Navigation to the second pane in the single-pane mode
- */
-fun navigateToPane2() {
-    navigateToPane2Handler()
-}
+    isSinglePaneNav = isSinglePaneLayout(windowState.windowMode, paneMode)
 
-/**
- * Return whether pane 1 is shown currently, otherwise pane 2
- */
-fun isPane1Shown(): Boolean {
-    return currentSinglePane == Screen.Pane1.route
-}
-
-/**
- * Class that represents the screens in the NavHost
- */
-internal sealed class Screen(val route: String) {
-    /**
-     * Screen object representing pane 1
-     */
-    object Pane1 : Screen("pane1")
-
-    /**
-     * Screen object representing pane 2
-     */
-    object Pane2 : Screen("pane2")
-}
-
-@LayoutScopeMarker
-@Immutable
-interface TwoPaneScope {
-    @Stable
-    fun Modifier.weight(
-        weight: Float,
-    ): Modifier
-}
-
-internal object TwoPaneScopeInstance : TwoPaneScope {
-    @Stable
-    override fun Modifier.weight(weight: Float): Modifier {
-        require(weight > 0.0) { "invalid weight $weight; must be greater than zero" }
-        return this.then(
-            LayoutWeightImpl(
-                weight = weight,
-                inspectorInfo = debugInspectorInfo {
-                    name = "weight"
-                    value = weight
-                    properties["weight"] = weight
-                }
-            )
+    if (isSinglePaneNav) {
+        SinglePaneContainer(
+            destinations = destinations,
+            startDestination = singlePaneStartDestination,
+            navController = navController,
+        )
+    } else {
+        TwoPaneContainer(
+            windowState = windowState,
+            modifier = modifier,
+            destinations = destinations,
+            pane1StartDestination = pane1StartDestination,
+            pane2StartDestination = pane2StartDestination
         )
     }
 }
