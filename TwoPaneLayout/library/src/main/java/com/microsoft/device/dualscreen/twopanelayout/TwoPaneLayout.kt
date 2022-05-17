@@ -42,11 +42,13 @@ fun TwoPaneLayout(
     modifier: Modifier = Modifier,
     paneMode: TwoPaneMode = TwoPaneMode.TwoPane,
     pane1: @Composable TwoPaneScope.() -> Unit,
-    pane2: @Composable TwoPaneScope.() -> Unit
+    pane2: @Composable TwoPaneScope.() -> Unit,
+    onPaneIncrease: TwoPaneScope.() -> Unit = {},
+    onPaneDecrease: TwoPaneScope.() -> Unit = {}
 ) {
     val navController = rememberNavController()
 
-    TwoPaneLayout(modifier, paneMode, navController, pane1, pane2)
+    TwoPaneLayout(modifier, paneMode, navController, pane1, pane2, onPaneIncrease, onPaneDecrease)
 }
 
 /**
@@ -66,6 +68,8 @@ fun TwoPaneLayout(
  * @param navController: The navController to use when navigating within the single pane container
  * @param pane1: The content to show in pane 1
  * @param pane2: The content to show in pane 2
+ * @param onPaneIncrease: method to execute when switching from single pane to two panes
+ * @param onPaneDecrease: method to execute when switching from two panes to single pane
  */
 @Composable
 fun TwoPaneLayout(
@@ -73,26 +77,37 @@ fun TwoPaneLayout(
     paneMode: TwoPaneMode = TwoPaneMode.TwoPane,
     navController: NavHostController,
     pane1: @Composable TwoPaneScope.() -> Unit,
-    pane2: @Composable TwoPaneScope.() -> Unit
+    pane2: @Composable TwoPaneScope.() -> Unit,
+    onPaneIncrease: TwoPaneScope.() -> Unit = {},
+    onPaneDecrease: TwoPaneScope.() -> Unit = {}
 ) {
     val activity = (LocalContext.current as? Activity)
         ?: throw ClassCastException("Local context could not be cast as an Activity")
     val windowState = activity.rememberWindowState()
 
+    val prevIsSinglePane = isSinglePane
     isSinglePane = isSinglePaneLayout(windowState.windowMode, paneMode)
+
+    // If switching from single pane to two panes or vice versa, set up pane change methods
+    val isPaneDecrease = isSinglePane && !prevIsSinglePane
+    val isPaneIncrease = !isSinglePane && prevIsSinglePane
 
     if (isSinglePane) {
         SinglePaneContainer(
             navController = navController,
             pane1 = pane1,
-            pane2 = pane2
+            pane2 = pane2,
+            isPaneDecrease = isPaneDecrease,
+            onPaneDecrease = onPaneDecrease
         )
     } else {
         TwoPaneContainer(
             windowState = windowState,
             modifier = modifier,
             pane1 = pane1,
-            pane2 = pane2
+            pane2 = pane2,
+            isPaneIncrease = isPaneIncrease,
+            onPaneIncrease = onPaneIncrease
         )
     }
 }
@@ -121,6 +136,8 @@ fun TwoPaneLayout(
  * @param singlePaneStartDestination: The start destination for single pane mode
  * @param pane1StartDestination: The start destination for pane 1 in two pane mode
  * @param pane2StartDestination: The start destination for pane 2 in two pane mode
+ * @param onPaneIncrease: method to execute when switching from single pane to two panes
+ * @param onPaneDecrease: method to execute when switching from two panes to single pane
  */
 @Composable
 fun TwoPaneLayoutNav(
@@ -130,19 +147,28 @@ fun TwoPaneLayoutNav(
     destinations: Array<Destination>,
     singlePaneStartDestination: String,
     pane1StartDestination: String,
-    pane2StartDestination: String
+    pane2StartDestination: String,
+    onPaneIncrease: TwoPaneNavScope.() -> Unit = {},
+    onPaneDecrease: TwoPaneNavScope.() -> Unit = {}
 ) {
     val activity = (LocalContext.current as? Activity)
         ?: throw ClassCastException("Local context could not be cast as an Activity")
     val windowState = activity.rememberWindowState()
 
+    val prevIsSinglePane = isSinglePaneNav
     isSinglePaneNav = isSinglePaneLayout(windowState.windowMode, paneMode)
+
+    // If switching from single pane to two panes or vice versa, set up pane change methods
+    val isPaneDecrease = isSinglePaneNav && !prevIsSinglePane
+    val isPaneIncrease = !isSinglePaneNav && prevIsSinglePane
 
     if (isSinglePaneNav) {
         SinglePaneContainer(
             destinations = destinations,
             startDestination = singlePaneStartDestination,
             navController = navController,
+            isPaneDecrease = isPaneDecrease,
+            onPaneDecrease = onPaneDecrease
         )
     } else {
         TwoPaneContainer(
@@ -150,7 +176,9 @@ fun TwoPaneLayoutNav(
             modifier = modifier,
             destinations = destinations,
             pane1StartDestination = pane1StartDestination,
-            pane2StartDestination = pane2StartDestination
+            pane2StartDestination = pane2StartDestination,
+            isPaneIncrease = isPaneIncrease,
+            onPaneIncrease = onPaneIncrease
         )
     }
 }
