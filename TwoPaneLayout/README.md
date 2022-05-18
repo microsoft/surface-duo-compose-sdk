@@ -46,7 +46,7 @@ To learn more about common use cases for two-pane layouts, please check out the 
 
 ### TwoPaneLayout
 
-The main TwoPaneLayout constructors both accept parameters for a modifier, [pane mode](#pane-mode), and content to show in pane 1 and pane 2. The second constructor also accepts a `NavHostController` parameter, which is useful for accessing navigation information in your app.
+The main TwoPaneLayout constructors both accept parameters for a modifier, [pane mode](#pane-mode), content to show in pane 1 and pane 2, and methods to execute when the number of panes shown changes. The second constructor also accepts a `NavHostController` parameter, which is useful for accessing navigation information in your app.
 
 ```kotlin
 @Composable
@@ -54,7 +54,9 @@ fun TwoPaneLayout(
     modifier: Modifier = Modifier,
     paneMode: TwoPaneMode = TwoPaneMode.TwoPane,
     pane1: @Composable TwoPaneScope.() -> Unit,
-    pane2: @Composable TwoPaneScope.() -> Unit
+    pane2: @Composable TwoPaneScope.() -> Unit,
+    onPaneIncrease: () -> Unit = {},
+    onPaneDecrease: () -> Unit = {}
 )
 
 @Composable
@@ -63,7 +65,9 @@ fun TwoPaneLayout(
     paneMode: TwoPaneMode = TwoPaneMode.TwoPane,
     navController: NavHostController,
     pane1: @Composable TwoPaneScope.() -> Unit,
-    pane2: @Composable TwoPaneScope.() -> Unit
+    pane2: @Composable TwoPaneScope.() -> Unit,
+    onPaneIncrease: () -> Unit = {},
+    onPaneDecrease: () -> Unit = {}
 )
 ```
 
@@ -85,6 +89,18 @@ interface TwoPaneScope {
 ```
 
 The [weight modifier](#weight-modifier) is described in more detail below.
+
+There is also a test instance of this scope, called `TestTwoPaneScopeInstance`, that can be used when testing composables that use `TwoPaneScope`. In addition to providing empty implementations of `TwoPaneScope` methods, this test instance also allows you to manually set the values of `currentSinglePaneDestination` and `isSinglePane` before running your tests.
+
+```kotlin
+object TestTwoPaneScopeInstance : TwoPaneScope {
+    ...
+
+    fun setSinglePaneDestination(route: String)
+
+    fun setIsSinglePane(value: Boolean)
+}
+```
 
 ### Pane mode
 
@@ -129,7 +145,7 @@ For foldables:
 
 ## TwoPaneLayoutNav
 
-The TwoPaneLayoutNav constructor can be used for more complicated navigation scenarios. It accepts parameters for a modifier, pane mode, `NavHostController`, content for multiple app destinations, and start destinations.
+The TwoPaneLayoutNav constructor can be used for more complicated navigation scenarios. It accepts parameters for a modifier, [pane mode](#pane-mode), `NavHostController`, content for multiple app destinations, start destinations, and methods to execute when the number of panes shown changes.
 
 ```kotlin
 @Composable
@@ -140,7 +156,9 @@ fun TwoPaneLayoutNav(
     destinations: Array<Destination>,
     singlePaneStartDestination: String,
     pane1StartDestination: String,
-    pane2StartDestination: String
+    pane2StartDestination: String,
+    onPaneIncrease: () -> Unit = {},
+    onPaneDecrease: () -> Unit = {}
 ) 
 ```
 
@@ -181,6 +199,22 @@ sealed class Screen(val route: String) {
     object Pane1 : Screen("pane1")
 
     object Pane2 : Screen("pane2")
+}
+```
+
+There is also a test instance of this scope, called `TestTwoPaneNavScopeInstance`, that can be used when testing composables that use `TwoPaneNavScope`. In addition to providing empty implementations of `TwoPaneNavScope` methods, this test instance also allows you to manually set the values of `currentSinglePaneDestination`, `currentPane1Destination`, `currentPane2Destination`, and `isSinglePane` before running your tests.
+
+```kotlin
+object TestTwoPaneNavScopeInstance : TwoPaneNavScope {
+    ...
+
+    fun setSinglePaneDestination(route: String)
+
+    fun setPane1Destination(route: String)
+
+    fun setPane2Destination(route: String)
+
+    fun setIsSinglePane(value: Boolean)
 }
 ```
 
