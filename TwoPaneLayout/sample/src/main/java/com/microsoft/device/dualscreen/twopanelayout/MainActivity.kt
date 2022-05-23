@@ -64,6 +64,7 @@ fun TwoPaneScope.TopAppBar(pane: Int) {
 @Composable
 fun TwoPaneScope.Pane1() {
     Scaffold(
+        modifier = Modifier.weight(.3f),
         topBar = { TopAppBar(R.string.pane1) }
     ) {
         Text(
@@ -72,8 +73,7 @@ fun TwoPaneScope.Pane1() {
                 .background(color = green)
                 .clickable { navigateToPane2() }
                 .padding(10.dp)
-                .fillMaxSize()
-                .weight(.3f),
+                .fillMaxSize(),
             color = Color.Black
         )
     }
@@ -82,6 +82,7 @@ fun TwoPaneScope.Pane1() {
 @Composable
 fun TwoPaneScope.Pane2() {
     Scaffold(
+        modifier = Modifier.weight(.7f),
         topBar = { TopAppBar(R.string.pane2) }
     ) {
         Text(
@@ -90,8 +91,7 @@ fun TwoPaneScope.Pane2() {
                 .background(color = yellow)
                 .clickable { navigateToPane1() }
                 .padding(10.dp)
-                .fillMaxSize()
-                .weight(.7f),
+                .fillMaxSize(),
             color = Color.Black
         )
     }
