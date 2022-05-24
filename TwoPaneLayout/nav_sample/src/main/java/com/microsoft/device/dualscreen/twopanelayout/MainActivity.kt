@@ -41,26 +41,7 @@ fun MainPage() {
         }.toTypedArray(),
         singlePaneStartDestination = SampleDestination.DEST1.route,
         pane1StartDestination = SampleDestination.DEST1.route,
-        pane2StartDestination = SampleDestination.DEST2.route,
-        onPaneIncrease = {
-            when (currentSinglePaneDestination) {
-                SampleDestination.DEST3.route, SampleDestination.DEST4.route -> {
-                    navController.navigateTo(SampleDestination.DEST3.route, Screen.Pane2)
-                    navController.navigateTo(SampleDestination.DEST4.route, Screen.Pane1)
-                }
-                else -> {
-                    navController.navigateTo(SampleDestination.DEST2.route, Screen.Pane2)
-                    navController.navigateTo(SampleDestination.DEST1.route, Screen.Pane1)
-                }
-            }
-        },
-        onPaneDecrease = {
-            if (currentPane1Destination == SampleDestination.DEST4.route)
-                navController.navigateTo(currentPane1Destination, Screen.Pane1)
-            else {
-                navController.navigateTo(currentPane2Destination, Screen.Pane2)
-            }
-        }
+        pane2StartDestination = SampleDestination.DEST2.route
     )
 }
 

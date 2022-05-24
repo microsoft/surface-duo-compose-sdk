@@ -39,9 +39,7 @@ internal fun isSinglePaneHandler(): Boolean {
 internal fun SinglePaneContainer(
     navController: NavHostController,
     pane1: @Composable TwoPaneScope.() -> Unit,
-    pane2: @Composable TwoPaneScope.() -> Unit,
-    isPaneDecrease: Boolean,
-    onPaneDecrease: TwoPaneScope.() -> Unit
+    pane2: @Composable TwoPaneScope.() -> Unit
 ) {
     currentSinglePane = Screen.Pane1.route // always start from Pane1 to maintain the expected backstack
 
@@ -80,9 +78,6 @@ internal fun SinglePaneContainer(
         }
         currentSinglePane = Screen.Pane2.route
     }
-
-    if (isPaneDecrease)
-        TwoPaneScopeInstance.onPaneDecrease()
 }
 
 /**
@@ -93,9 +88,7 @@ internal fun TwoPaneContainer(
     windowState: WindowState,
     modifier: Modifier,
     pane1: @Composable TwoPaneScope.() -> Unit,
-    pane2: @Composable TwoPaneScope.() -> Unit,
-    isPaneIncrease: Boolean,
-    onPaneIncrease: TwoPaneScope.() -> Unit
+    pane2: @Composable TwoPaneScope.() -> Unit
 ) {
     val pane1SizePx: Size
     val pane2SizePx: Size
@@ -106,9 +99,6 @@ internal fun TwoPaneContainer(
 
     navigateToPane1Handler = { }
     navigateToPane2Handler = { }
-
-    if (isPaneIncrease)
-        TwoPaneScopeInstance.onPaneIncrease()
 
     val measurePolicy = twoPaneMeasurePolicy(
         windowMode = windowState.windowMode,

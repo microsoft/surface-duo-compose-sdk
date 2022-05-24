@@ -15,7 +15,6 @@ import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.microsoft.device.dualscreen.twopanelayout.Destination
-import com.microsoft.device.dualscreen.twopanelayout.TwoPaneNavScope
 import com.microsoft.device.dualscreen.twopanelayout.common.twoPaneMeasurePolicy
 import com.microsoft.device.dualscreen.windowstate.WindowState
 
@@ -41,8 +40,6 @@ internal fun SinglePaneContainer(
     destinations: Array<Destination>,
     startDestination: String,
     navController: NavHostController,
-    isPaneDecrease: Boolean,
-    onPaneDecrease: TwoPaneNavScope.() -> Unit
 ) {
     var currentSinglePane by remember { mutableStateOf(startDestination) }
     getSinglePaneDestination = { currentSinglePane }
@@ -66,9 +63,6 @@ internal fun SinglePaneContainer(
             }
         }
     }
-
-    if (isPaneDecrease)
-        TwoPaneNavScopeInstance.onPaneDecrease()
 }
 
 @Composable
@@ -77,9 +71,7 @@ internal fun TwoPaneContainer(
     modifier: Modifier,
     destinations: Array<Destination>,
     pane1StartDestination: String,
-    pane2StartDestination: String,
-    isPaneIncrease: Boolean,
-    onPaneIncrease: TwoPaneNavScopeInstance.() -> Unit,
+    pane2StartDestination: String
 ) {
     // Calculate pane sizes
     val pane1SizePx: Size
@@ -108,9 +100,6 @@ internal fun TwoPaneContainer(
             currentPane2 = route
         }
     }
-
-    if (isPaneIncrease)
-        TwoPaneNavScopeInstance.onPaneIncrease()
 
     // Find the destinations to display in each pane
     val pane1 = findDestination(currentPane1, destinations).content

@@ -35,14 +35,10 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainPage() {
-    val context = LocalContext.current
-
     TwoPaneLayout(
         paneMode = TwoPaneMode.HorizontalSingle,
         pane1 = { Pane1() },
         pane2 = { Pane2() },
-        onPaneIncrease = { Toast.makeText(context, R.string.pane_increase, Toast.LENGTH_SHORT).show() },
-        onPaneDecrease = { Toast.makeText(context, R.string.pane_decrease, Toast.LENGTH_SHORT).show() }
     )
 }
 

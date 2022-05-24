@@ -7,7 +7,7 @@ import com.microsoft.device.dualscreen.twopanelayout.ui.theme.red
 import com.microsoft.device.dualscreen.twopanelayout.ui.theme.yellow
 
 enum class SampleDestination(
-    val number: Int,
+    number: Int,
     val color: Color,
     val text: Int,
     val changesScreen: Screen,
