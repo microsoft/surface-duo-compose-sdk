@@ -14,7 +14,7 @@ import com.microsoft.device.dualscreen.testing.compose.getString
 import com.microsoft.device.dualscreen.testing.compose.simulateHorizontalFoldingFeature
 import com.microsoft.device.dualscreen.testing.compose.simulateVerticalFoldingFeature
 import com.microsoft.device.dualscreen.testing.createWindowLayoutInfoPublisherRule
-import com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav.TestTwoPaneNavScopeInstance
+import com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav.TwoPaneNavScopeTest
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
@@ -87,9 +87,9 @@ class NavSampleTest {
     fun basicDestination_singlePane_showsCorrectPaneString() {
         composeTestRule.setContent {
             val navController = rememberNavController()
-            TestTwoPaneNavScopeInstance.setIsSinglePane(true)
 
-            TestTwoPaneNavScopeInstance.BasicDestination(
+            val twoPaneNavScopeTest = TwoPaneNavScopeTest(isSinglePane = false)
+            twoPaneNavScopeTest.BasicDestination(
                 navController = navController,
                 sampleDestination = SampleDestination.DEST4,
             )
@@ -105,10 +105,11 @@ class NavSampleTest {
     fun basicDestination_twoPanes_showsCorrectPaneString() {
         composeTestRule.setContent {
             val navController = rememberNavController()
-            TestTwoPaneNavScopeInstance.setIsSinglePane(false)
-            TestTwoPaneNavScopeInstance.setPane1Destination(SampleDestination.DEST4.route)
 
-            TestTwoPaneNavScopeInstance.BasicDestination(
+            val twoPaneNavScopeTest = TwoPaneNavScopeTest(
+                isSinglePane = false,
+                currentPane1Destination = SampleDestination.DEST4.route)
+            twoPaneNavScopeTest.BasicDestination(
                 navController = navController,
                 sampleDestination = SampleDestination.DEST4,
             )
@@ -125,7 +126,8 @@ class NavSampleTest {
         composeTestRule.setContent {
             val navController = rememberNavController()
 
-            TestTwoPaneNavScopeInstance.BasicDestination(
+            val twoPaneNavScopeTest = TwoPaneNavScopeTest()
+            twoPaneNavScopeTest.BasicDestination(
                 navController = navController,
                 sampleDestination = SampleDestination.DEST4,
             )

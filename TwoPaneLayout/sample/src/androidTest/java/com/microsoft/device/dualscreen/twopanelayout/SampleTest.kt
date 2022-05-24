@@ -13,7 +13,7 @@ import com.microsoft.device.dualscreen.testing.compose.getString
 import com.microsoft.device.dualscreen.testing.compose.simulateHorizontalFoldingFeature
 import com.microsoft.device.dualscreen.testing.compose.simulateVerticalFoldingFeature
 import com.microsoft.device.dualscreen.testing.createWindowLayoutInfoPublisherRule
-import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.TestTwoPaneScopeInstance
+import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.TwoPaneScopeTest
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
@@ -79,8 +79,8 @@ class SampleTest {
     @Test
     fun topBar_singlePane_showsCorrectPaneString() {
         composeTestRule.setContent {
-            TestTwoPaneScopeInstance.setIsSinglePane(true)
-            TestTwoPaneScopeInstance.TopAppBar(pane = R.string.pane1)
+            val twoPaneScopeTest = TwoPaneScopeTest(isSinglePane = true)
+            twoPaneScopeTest.TopAppBar(pane = R.string.pane1)
         }
 
         composeTestRule.onNodeWithText(
@@ -92,8 +92,8 @@ class SampleTest {
     @Test
     fun topBar_twoPanes_showsCorrectPaneString() {
         composeTestRule.setContent {
-            TestTwoPaneScopeInstance.setIsSinglePane(false)
-            TestTwoPaneScopeInstance.TopAppBar(pane = R.string.pane1)
+            val twoPaneScopeTest = TwoPaneScopeTest(isSinglePane = false)
+            twoPaneScopeTest.TopAppBar(pane = R.string.pane1)
         }
 
         composeTestRule.onNodeWithText(
