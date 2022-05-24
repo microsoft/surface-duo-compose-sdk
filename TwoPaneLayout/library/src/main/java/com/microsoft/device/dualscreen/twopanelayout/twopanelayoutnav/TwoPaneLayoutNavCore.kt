@@ -1,6 +1,5 @@
 package com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -19,8 +18,6 @@ import com.microsoft.device.dualscreen.twopanelayout.Destination
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneNavScope
 import com.microsoft.device.dualscreen.twopanelayout.common.twoPaneMeasurePolicy
 import com.microsoft.device.dualscreen.windowstate.WindowState
-
-private const val DEBUG_TAG = "TwoPaneLayoutNav"
 
 internal var isSinglePane = true
 internal var navigatePane1To: NavHostController.(String) -> Unit = { _ -> }
@@ -54,7 +51,6 @@ internal fun SinglePaneContainer(
 
         // Navigate only when necessary
         if (topDestination != route) {
-            Log.d(DEBUG_TAG, "Single pane: $currentSinglePane -> $route ")
             navigate(route, navOptions)
             currentSinglePane = route
         }
@@ -102,14 +98,12 @@ internal fun TwoPaneContainer(
     // Initialize navigation method handlers
     navigatePane1To = { route ->
         if (currentPane1 != route) {
-            Log.d(DEBUG_TAG, "Pane 1: $currentPane1 -> $route ")
             findDestination(route, destinations)
             currentPane1 = route
         }
     }
     navigatePane2To = { route ->
         if (currentPane2 != route) {
-            Log.d(DEBUG_TAG, "Pane 2: $currentPane2 -> $route ")
             findDestination(route, destinations)
             currentPane2 = route
         }

@@ -1,6 +1,5 @@
 package com.microsoft.device.dualscreen.twopanelayout.twopanelayout
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
@@ -20,7 +19,6 @@ import com.microsoft.device.dualscreen.windowstate.WindowState
  * The route of the pane shown in the SinglePaneContainer
  */
 private var currentSinglePane = Screen.Pane1.route
-private const val DEBUG_TAG = "TwoPaneLayout"
 
 internal var isSinglePane = true
 internal var navigateToPane1Handler: () -> Unit = {}
@@ -65,7 +63,6 @@ internal fun SinglePaneContainer(
 
             // Navigate only when pane1 is not shown(not at the top of the backstack)
             if (topPane != Screen.Pane1.route) {
-                Log.d(DEBUG_TAG, "$currentSinglePane -> ${Screen.Pane1.route}")
                 navController.popBackStack()
             }
         }
@@ -78,7 +75,6 @@ internal fun SinglePaneContainer(
 
             // Navigate only when pane2 is not shown (not at the top of the backstack)
             if (topPane != Screen.Pane2.route) {
-                Log.d(DEBUG_TAG, "$currentSinglePane -> ${Screen.Pane2.route}")
                 navController.navigate(Screen.Pane2.route)
             }
         }
