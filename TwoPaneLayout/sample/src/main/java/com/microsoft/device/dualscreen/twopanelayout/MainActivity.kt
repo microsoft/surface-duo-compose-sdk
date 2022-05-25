@@ -36,14 +36,22 @@ fun MainPage() {
     TwoPaneLayout(
         paneMode = TwoPaneMode.HorizontalSingle,
         pane1 = { Pane1() },
-        pane2 = { Pane2() }
+        pane2 = { Pane2() },
     )
 }
 
 @Composable
-fun TopAppBar(paneAnnotation: String) {
+fun TwoPaneScope.TopAppBar(pane: Int) {
+    // Customize top bar text depending on the pane
+    val paneString = if (!isSinglePane) " " + stringResource(pane) else ""
+
     TopAppBar(
-        title = { Text(text = stringResource(R.string.app_name) + paneAnnotation, color = Color.White) },
+        title = {
+            Text(
+                text = stringResource(R.string.app_name) + paneString,
+                color = Color.White
+            )
+        },
         backgroundColor = blue
     )
 }
@@ -51,7 +59,8 @@ fun TopAppBar(paneAnnotation: String) {
 @Composable
 fun TwoPaneScope.Pane1() {
     Scaffold(
-        topBar = { TopAppBar(if (!isSinglePane) " - pane 1" else "") }
+        modifier = Modifier.weight(.3f),
+        topBar = { TopAppBar(R.string.pane1) }
     ) {
         Text(
             text = stringResource(R.string.first_pane_text),
@@ -59,8 +68,7 @@ fun TwoPaneScope.Pane1() {
                 .background(color = green)
                 .clickable { navigateToPane2() }
                 .padding(10.dp)
-                .fillMaxSize()
-                .weight(.3f),
+                .fillMaxSize(),
             color = Color.Black
         )
     }
@@ -69,7 +77,8 @@ fun TwoPaneScope.Pane1() {
 @Composable
 fun TwoPaneScope.Pane2() {
     Scaffold(
-        topBar = { TopAppBar(if (!isSinglePane) " - pane 2" else "") }
+        modifier = Modifier.weight(.7f),
+        topBar = { TopAppBar(R.string.pane2) }
     ) {
         Text(
             text = stringResource(R.string.second_pane_text),
@@ -77,8 +86,7 @@ fun TwoPaneScope.Pane2() {
                 .background(color = yellow)
                 .clickable { navigateToPane1() }
                 .padding(10.dp)
-                .fillMaxSize()
-                .weight(.7f),
+                .fillMaxSize(),
             color = Color.Black
         )
     }

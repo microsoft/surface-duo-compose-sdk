@@ -1,9 +1,9 @@
 package com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -18,29 +18,13 @@ import com.microsoft.device.dualscreen.twopanelayout.Destination
 import com.microsoft.device.dualscreen.twopanelayout.common.twoPaneMeasurePolicy
 import com.microsoft.device.dualscreen.windowstate.WindowState
 
-private var currentSinglePane = mutableStateOf("")
-private const val DEBUG_TAG = "TwoPaneLayoutNav"
-
 internal var isSinglePane = true
-internal var navigatePane1To: NavHostController.(String) -> Unit = { _: String -> }
-internal var navigatePane2To: NavHostController.(String) -> Unit = { _: String -> }
+internal var navigatePane1To: NavHostController.(String) -> Unit = { _ -> }
+internal var navigatePane2To: NavHostController.(String) -> Unit = { _ -> }
+internal var navigateSinglePaneTo: NavHostController.(String, NavOptionsBuilder.() -> Unit) -> Unit = { _, _ -> }
 internal var getPane1Destination: () -> String = { "" }
 internal var getPane2Destination: () -> String = { "" }
-
-internal fun NavHostController.navigateSinglePaneTo(route: String, navOptions: NavOptionsBuilder.() -> Unit) {
-    val topDestination = backQueue.lastOrNull()?.destination?.route
-
-    // Navigate only when necessary
-    if (topDestination != route) {
-        Log.d(DEBUG_TAG, "Single pane: ${currentSinglePane.value} -> $route ")
-        navigate(route, navOptions)
-        currentSinglePane.value = route
-    }
-}
-
-internal fun getSinglePaneDestination(): String {
-    return currentSinglePane.value
-}
+internal var getSinglePaneDestination: () -> String = { "" }
 
 internal fun isSinglePaneHandler(): Boolean {
     return isSinglePane
@@ -57,7 +41,17 @@ internal fun SinglePaneContainer(
     startDestination: String,
     navController: NavHostController,
 ) {
-    currentSinglePane.value = startDestination
+    var currentSinglePane by remember { mutableStateOf(startDestination) }
+    getSinglePaneDestination = { currentSinglePane }
+    navigateSinglePaneTo = { route, navOptions ->
+        val topDestination = backQueue.lastOrNull()?.destination?.route
+
+        // Navigate only when necessary
+        if (topDestination != route) {
+            navigate(route, navOptions)
+            currentSinglePane = route
+        }
+    }
 
     NavHost(
         navController = navController,
@@ -96,14 +90,12 @@ internal fun TwoPaneContainer(
     // Initialize navigation method handlers
     navigatePane1To = { route ->
         if (currentPane1 != route) {
-            Log.d(DEBUG_TAG, "Pane 1: $currentPane1 -> $route ")
             findDestination(route, destinations)
             currentPane1 = route
         }
     }
     navigatePane2To = { route ->
         if (currentPane2 != route) {
-            Log.d(DEBUG_TAG, "Pane 2: $currentPane2 -> $route ")
             findDestination(route, destinations)
             currentPane2 = route
         }
