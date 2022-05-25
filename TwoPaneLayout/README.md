@@ -1,6 +1,6 @@
 # TwoPaneLayout - Surface Duo Compose SDK
 
-**TwoPaneLayout** is a Jetpack Compose component that helps you create UI for dual-screen, foldable, and large-screen devices. TwoPaneLayout provides a two-pane layout for use at the top level of a UI. The component will place two panes side-by-side when the app is spanned on dual-screen, foldable and large-screen devices. These panes can be horizontal or vertical, depending on the orientation of the device and the selected `paneMode`.
+**TwoPaneLayout** is a Jetpack Compose component that helps you create UI for dual-screen, foldable, and large-screen devices. TwoPaneLayout provides a two-pane layout for use at the top level of a UI. The component will place two panes side-by-side when the app is spanned on dual-screen, foldable and large-screen devices, otherwise only one pane will be shown. These panes can be horizontal or vertical, depending on the orientation of the device and the selected `paneMode`.
 
 When the app is spanned across a separating vertical hinge or fold, or when the width is larger than height of the screen on a large-screen device, pane 1 will be placed on the left, while pane 2 will be on the right. If the device rotates, the app is spanned across a separating horizontal hinge or fold, or the width is smaller than the height of screen on large-screen device, pane 1 will be placed on the top and pane 2 will be on the bottom.
 
@@ -20,7 +20,7 @@ When the app is spanned across a separating vertical hinge or fold, or when the 
 2. Add dependencies to the module-level **build.gradle** file (current version may be different from what's shown here).
 
     ```gradle
-    implementation "com.microsoft.device.dualscreen:twopanelayout:1.0.1-alpha01"
+    implementation "com.microsoft.device.dualscreen:twopanelayout:1.0.1-alpha02"
     ```
 
 3. Also ensure the compileSdkVersion and targetSdkVersion are set to API 31 or newer in the module-level **build.gradle** file.
@@ -36,7 +36,7 @@ When the app is spanned across a separating vertical hinge or fold, or when the 
     }
     ```
 
-4. Build layout with **TwoPaneLayout** or **TwoPaneLayoutNav**. Please refer to the [sample](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/TwoPaneLayout/sample) and [nav sample](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/TwoPaneLayout/nav_sample) for more details.
+4. Build layout with **TwoPaneLayout** or **TwoPaneLayoutNav**. Please refer to the [TwoPaneLayout sample](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/TwoPaneLayout/sample) and [TwoPaneLayoutNav sample](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/TwoPaneLayout/nav_sample) for more details.
 
 ## API reference
 
@@ -46,7 +46,7 @@ To learn more about common use cases for two-pane layouts, please check out the 
 
 ### TwoPaneLayout
 
-The main TwoPaneLayout constructors both accept parameters for a modifier, [pane mode](#pane-mode), content to show in pane 1 and pane 2, and methods to execute when the number of panes shown changes. The second constructor also accepts a `NavHostController` parameter, which is useful for accessing navigation information in your app.
+The main TwoPaneLayout constructors both accept parameters for a modifier, [pane mode](#pane-mode), and content to show in pane 1 and pane 2. The second constructor also accepts a `NavHostController` parameter, which is useful for accessing navigation information in your app.
 
 ```kotlin
 @Composable
@@ -54,9 +54,7 @@ fun TwoPaneLayout(
     modifier: Modifier = Modifier,
     paneMode: TwoPaneMode = TwoPaneMode.TwoPane,
     pane1: @Composable TwoPaneScope.() -> Unit,
-    pane2: @Composable TwoPaneScope.() -> Unit,
-    onPaneIncrease: () -> Unit = {},
-    onPaneDecrease: () -> Unit = {}
+    pane2: @Composable TwoPaneScope.() -> Unit
 )
 
 @Composable
@@ -65,9 +63,7 @@ fun TwoPaneLayout(
     paneMode: TwoPaneMode = TwoPaneMode.TwoPane,
     navController: NavHostController,
     pane1: @Composable TwoPaneScope.() -> Unit,
-    pane2: @Composable TwoPaneScope.() -> Unit,
-    onPaneIncrease: () -> Unit = {},
-    onPaneDecrease: () -> Unit = {}
+    pane2: @Composable TwoPaneScope.() -> Unit
 )
 ```
 
@@ -90,16 +86,13 @@ interface TwoPaneScope {
 
 The [weight modifier](#weight-modifier) is described in more detail below.
 
-There is also a test instance of this scope, called `TestTwoPaneScopeInstance`, that can be used when testing composables that use `TwoPaneScope`. In addition to providing empty implementations of `TwoPaneScope` methods, this test instance also allows you to manually set the values of `currentSinglePaneDestination` and `isSinglePane` before running your tests.
+When writing UI tests for composables that use `TwoPaneScope`, you can use the `TwoPaneScopeTest` class. It provides empty implementations of `TwoPaneScope` methods, and you can set the values of `currentSinglePaneDestination` and `isSinglePane` in the class constructor before running your tests.
 
 ```kotlin
-object TestTwoPaneScopeInstance : TwoPaneScope {
-    ...
-
-    fun setSinglePaneDestination(route: String)
-
-    fun setIsSinglePane(value: Boolean)
-}
+class TwoPaneScopeTest(
+    currentSinglePaneDestination: String = "",
+    isSinglePane: Boolean = true
+) : TwoPaneScope
 ```
 
 ### Pane mode
@@ -118,9 +111,12 @@ There are three pane modes available for TwoPaneLayout:
 
 - `TwoPane` - default mode, always shows two panes regardless of the orientation
 - `HorizontalSingle` - shows one big pane when in the horizontal orientation (combines top/bottom panes)
-    ![HorizontalSingle pane mode on a dual-screen device](screenshots/single-horizontal.png)
+
+    <img src="screenshots/single-horizontal.png" width=500 alt="HorizontalSingle pane mode on a dual-screen device">
+
 - `VerticalSingle` - shows one big pane when in the vertical orientation (combines left/right panes)
-    ![VerticalSingle pane mode on a foldable device](screenshots/single-vertical.png)
+
+    <img src="screenshots/single-vertical.png" width=500 alt="VerticalSingle pane mode on a foldable device">
 
 ### Weight modifier
 
@@ -134,18 +130,21 @@ For large screens:
 
 - No weight &rarr; two panes displayed equally
 - Weight &rarr; layout split up proportionally according to the weight
-    ![TwoPaneLayout on a tablet/large screen device, weight modifiers of 0.3 and 0.7 provided so panes are divided in a 3:7 ratio](screenshots/tablet.png)
+
+    <img src="screenshots/tablet.png" width=650 alt="TwoPaneLayout on a tablet/large screen device, weight modifiers of 0.3 and 0.7 provided so panes are divided in a 3:7 ratio">
 
 For foldables:
 
 - Separating fold &rarr; layout split up according to fold boundaries (with or without weight)
-    ![TwoPaneLayout on a dual-screen device (Surface Duo), no weight modifier provided so panes are divided by fold](screenshots/surfaceduo.png)
-    ![TwoPaneLayout on a foldable device, no weight modifier provided so panes are divided by fold](screenshots/foldable.png)
+
+    <img src="screenshots/surfaceduo.png" width=500 alt="TwoPaneLayout on a dual-screen device (Surface Duo), no weight modifier provided so panes are divided by fold">
+    <img src="screenshots/foldable.png" width=500 alt="TwoPaneLayout on a foldable device, no weight modifier provided so panes are divided by fold">
+
 - Non-separating fold &rarr; device treated as a large screen or single-screen depending on its size
 
 ## TwoPaneLayoutNav
 
-The TwoPaneLayoutNav constructor can be used for more complicated navigation scenarios. It accepts parameters for a modifier, [pane mode](#pane-mode), `NavHostController`, content for multiple app destinations, start destinations, and methods to execute when the number of panes shown changes.
+The TwoPaneLayoutNav constructor can be used for more complicated navigation scenarios. It accepts parameters for a modifier, [pane mode](#pane-mode), `NavHostController`, content for multiple app destinations, and start destinations.
 
 ```kotlin
 @Composable
@@ -156,9 +155,7 @@ fun TwoPaneLayoutNav(
     destinations: Array<Destination>,
     singlePaneStartDestination: String,
     pane1StartDestination: String,
-    pane2StartDestination: String,
-    onPaneIncrease: () -> Unit = {},
-    onPaneDecrease: () -> Unit = {}
+    pane2StartDestination: String
 ) 
 ```
 
@@ -202,23 +199,19 @@ sealed class Screen(val route: String) {
 }
 ```
 
-There is also a test instance of this scope, called `TestTwoPaneNavScopeInstance`, that can be used when testing composables that use `TwoPaneNavScope`. In addition to providing empty implementations of `TwoPaneNavScope` methods, this test instance also allows you to manually set the values of `currentSinglePaneDestination`, `currentPane1Destination`, `currentPane2Destination`, and `isSinglePane` before running your tests.
+When writing UI tests for composables that use `TwoPaneNavScope`, you can use the `TwoPaneScopeNavTest` class. It provides empty implementations of `TwoPaneNavScope` methods, and you can set the values of `currentSinglePaneDestination`, `currentPane1Destination`, `currentPane2Destination`, and `isSinglePane` in the class constructor before running your tests.
 
 ```kotlin
-object TestTwoPaneNavScopeInstance : TwoPaneNavScope {
-    ...
-
-    fun setSinglePaneDestination(route: String)
-
-    fun setPane1Destination(route: String)
-
-    fun setPane2Destination(route: String)
-
-    fun setIsSinglePane(value: Boolean)
-}
+class TwoPaneNavScopeTest(
+    currentSinglePaneDestination: String = "",
+    currentPane1Destination: String = "",
+    currentPane2Destination: String = "",
+    isSinglePane: Boolean = true
+) : TwoPaneNavScope
 ```
 
 The animation below shows an example of how to use TwoPaneLayoutNav to create custom navigation flows. The layout was created with four app destinations, where destination 1 was passed in as the `singlePaneStartDestination` and `pane1StartDestination` and destination two was passed in as the `pane2StartDestination`. The navigation flow, which works in both single and two pane modes, uses `navigateTo` to go from destination 1-4 in panes 1, 2, 2, and 1 respectively.
+
 ![Example usage of the TwoPaneLayout nav in the nav sample](screenshots/twopanelayoutnav.gif)
 
 ## Contributing
