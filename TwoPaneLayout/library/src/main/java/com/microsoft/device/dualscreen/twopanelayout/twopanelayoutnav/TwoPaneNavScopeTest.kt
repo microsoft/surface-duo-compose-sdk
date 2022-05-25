@@ -7,7 +7,7 @@ import com.microsoft.device.dualscreen.twopanelayout.Screen
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneNavScope
 
 class TwoPaneNavScopeTest(
-    currentSinglePaneDestination: String  = "",
+    currentSinglePaneDestination: String = "",
     currentPane1Destination: String = "",
     currentPane2Destination: String = "",
     isSinglePane: Boolean = true

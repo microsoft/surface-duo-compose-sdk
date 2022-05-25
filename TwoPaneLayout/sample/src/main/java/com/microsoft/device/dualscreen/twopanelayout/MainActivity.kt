@@ -1,7 +1,6 @@
 package com.microsoft.device.dualscreen.twopanelayout
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -14,7 +13,6 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.microsoft.device.dualscreen.twopanelayout.ui.theme.TwoPaneLayoutTheme
@@ -44,6 +42,7 @@ fun MainPage() {
 
 @Composable
 fun TwoPaneScope.TopAppBar(pane: Int) {
+    // Customize top bar text depending on the pane
     val paneString = if (!isSinglePane) " " + stringResource(pane) else ""
 
     TopAppBar(

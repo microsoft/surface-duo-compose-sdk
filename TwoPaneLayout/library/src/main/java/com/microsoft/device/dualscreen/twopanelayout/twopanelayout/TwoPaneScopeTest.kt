@@ -1,11 +1,10 @@
 package com.microsoft.device.dualscreen.twopanelayout.twopanelayout
 
 import androidx.compose.ui.Modifier
-import com.microsoft.device.dualscreen.twopanelayout.TwoPaneNavScope
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneScope
 
 class TwoPaneScopeTest(
-    currentSinglePaneDestination: String  = "",
+    currentSinglePaneDestination: String = "",
     isSinglePane: Boolean = true
 ) : TwoPaneScope {
     // Backing fields for test scope instance
@@ -25,5 +24,4 @@ class TwoPaneScopeTest(
 
     override val isSinglePane: Boolean
         get() = isSinglePaneMode
-
 }

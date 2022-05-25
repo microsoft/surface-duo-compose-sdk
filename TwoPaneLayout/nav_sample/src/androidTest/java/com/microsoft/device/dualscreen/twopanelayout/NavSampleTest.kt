@@ -108,7 +108,8 @@ class NavSampleTest {
 
             val twoPaneNavScopeTest = TwoPaneNavScopeTest(
                 isSinglePane = false,
-                currentPane1Destination = SampleDestination.DEST4.route)
+                currentPane1Destination = SampleDestination.DEST4.route
+            )
             twoPaneNavScopeTest.BasicDestination(
                 navController = navController,
                 sampleDestination = SampleDestination.DEST4,

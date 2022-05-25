@@ -48,6 +48,7 @@ fun TwoPaneNavScope.BasicDestination(
 
     Scaffold(
         topBar = {
+            // Customize top bar text depending on which pane a destination is shown in
             val pane = when {
                 isSinglePane -> ""
                 sampleDestination.route == currentPane1Destination -> " " + stringResource(R.string.pane1)
@@ -71,7 +72,7 @@ fun TwoPaneNavScope.BasicDestination(
             )
             Row(
                 modifier = Modifier
-                    .align(Alignment.BottomCenter)
+                    .align(Alignment.Center)
                     .padding(bottom = 20.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(20.dp)

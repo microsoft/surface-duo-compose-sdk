@@ -35,9 +35,7 @@ fun MainPage() {
     TwoPaneLayoutNav(
         navController = navController,
         destinations = SampleDestination.values().map {
-            Destination(it.route) {
-                BasicDestination(navController, it)
-            }
+            Destination(it.route) { BasicDestination(navController, it) }
         }.toTypedArray(),
         singlePaneStartDestination = SampleDestination.DEST1.route,
         pane1StartDestination = SampleDestination.DEST1.route,
