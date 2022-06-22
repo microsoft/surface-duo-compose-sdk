@@ -3,8 +3,8 @@
  * Licensed under the MIT License.
  */
 
-apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'com.android.library'
 
 //Artifact publication data
 ext {

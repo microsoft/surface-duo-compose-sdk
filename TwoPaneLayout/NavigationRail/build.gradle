@@ -1,0 +1,65 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdk rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        applicationId "com.microsoft.device.display.samples.navigationrail"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        testInstrumentationRunner rootProject.ext.config.testInstrumentationRunner
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+        useIR = true
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion composeVersion
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+}
+
+dependencies {
+    implementation project(path: ':library')
+
+    implementation kotlinDependencies.kotlinStdlib
+
+    implementation androidxDependencies.ktxCore
+    implementation androidxDependencies.appCompat
+
+//    implementation microsoftDependencies.twoPaneLayout
+    implementation microsoftDependencies.windowState
+
+    implementation composeDependencies.composeMaterial
+    implementation composeDependencies.composeRuntime
+    implementation composeDependencies.navigationCompose
+    implementation composeDependencies.composeAnimation
+
+    implementation googleDependencies.material
+
+    androidTestImplementation testDependencies.androidxTestCore
+    androidTestImplementation testDependencies.androidxTestRules
+    androidTestImplementation testDependencies.androidxTestRunner
+    androidTestImplementation testDependencies.espressoCore
+    androidTestImplementation testDependencies.composeUITest
+    androidTestImplementation testDependencies.composeJunit
+    androidTestImplementation testDependencies.uiAutomator
+    androidTestImplementation microsoftDependencies.composeTesting
+}
