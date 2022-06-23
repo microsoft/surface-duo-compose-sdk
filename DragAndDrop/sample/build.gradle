@@ -3,8 +3,11 @@
  * Licensed under the MIT License.
  */
 
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
@@ -56,6 +59,8 @@ dependencies {
     implementation composeDependencies.composeUITooling
     implementation composeDependencies.activityCompose
 
+    implementation microsoftDependencies.twoPaneLayout
+
     implementation googleDependencies.material
 
     androidTestImplementation(testDependencies.androidxTestCore)
@@ -63,6 +68,4 @@ dependencies {
     androidTestImplementation(testDependencies.androidxTestRunner)
     androidTestImplementation(testDependencies.composeUITest)
     androidTestImplementation(testDependencies.composeJunit)
-
-    debugImplementation(testDependencies.composeUITestManifest)
 }
