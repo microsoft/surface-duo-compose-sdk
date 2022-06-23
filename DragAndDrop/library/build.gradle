@@ -68,8 +68,6 @@ android {
 }
 
 dependencies {
-    implementation project(path: ':library')
-
     implementation kotlinDependencies.kotlinStdlib
 
     implementation androidxDependencies.ktxCore
