@@ -14,11 +14,11 @@ ext {
 
     // ComposeTesting library version code:
     // If you want to publish a new version, bump in one (1) the specific line(s)
-    composeTestingVersionCode = 3
+    composeTestingVersionCode = 4
 
     // ComposeTesting library version name:
     // If you want to publish a new version, bump the specific line
-    composeTestingVersionName = '1.0.0-alpha03'
+    composeTestingVersionName = '1.0.0-alpha04'
 
     // ----------------------------------
 
@@ -93,7 +93,7 @@ ext {
 
     // Microsoft dependencies
     twoPaneLayoutVersion = "1.0.0-alpha10"
-    kotlinTestingVersion = "1.0.0-alpha3-test01"
+    kotlinTestingVersion = "1.0.0-alpha3"
     microsoftDependencies = [
             twoPaneLayout: "com.microsoft.device.dualscreen:twopanelayout:$twoPaneLayoutVersion",
             kotlinTesting: "com.microsoft.device.dualscreen.testing:testing-kotlin:$kotlinTestingVersion",

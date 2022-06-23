@@ -62,13 +62,6 @@ class TestSample {
     }
 
     @Test
-    @DualScreenTest(orientation = UiAutomation.ROTATION_FREEZE_0)
-    fun dualPortrait_showsTwoPanes() {
-        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane1_text)).assertIsDisplayed()
-        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane2_text)).assertIsDisplayed()
-    }
-
-    @Test
     @DualScreenTest(orientation = UiAutomation.ROTATION_FREEZE_90)
     fun dualLandscape_showsOnePane() {
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane1_text)).assertIsDisplayed()
@@ -81,7 +74,7 @@ class TestSample {
 
     @Test
     @MockFoldingFeature(
-        windowBounds = [0, 0, 0, 0],
+        windowBounds = [0, 0, 400, 400],
         center = 0,
         size = 2,
         state = FoldingFeatureState.HALF_OPENED,
@@ -113,16 +106,9 @@ class TestSample {
 
     @Test
     @TargetDevices(ignoreDevices = [DeviceModel.FoldOut])
-    @MockFoldingFeature(
-        windowBounds = [0, 0, 0, 0],
-        center = 0,
-        size = 2,
-        state = FoldingFeatureState.HALF_OPENED,
-        orientation = FoldingFeatureOrientation.VERTICAL
-    )
-    fun foldInDevices_verticalFoldingFeature_showTwoPanes() {
+    fun foldInDevices_noFoldingFeature_showOnePane() {
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane1_text)).assertIsDisplayed()
-        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane2_text)).assertIsDisplayed()
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane2_text)).assertDoesNotExist()
     }
 
     /**
