@@ -27,8 +27,11 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.microsoft.device.dualscreen.draganddrop.DragData
+import com.microsoft.device.dualscreen.draganddrop.MimeType
 import com.microsoft.device.dualscreen.draganddrop.R
 import com.microsoft.device.dualscreen.draganddrop.ui.theme.Purple200
 
@@ -49,6 +52,9 @@ fun DragPane(modifier: Modifier = Modifier) {
 
 @Composable
 fun DragTextBox(modifier: Modifier) {
+    val dragText = stringResource(R.string.drag_text)
+    val dragData = DragData(type = MimeType.TEXT_PLAIN, data = dragText)
+
     Box(
         modifier = modifier.padding(top = 20.dp),
         contentAlignment = Alignment.Center
@@ -69,7 +75,7 @@ fun DragTextBox(modifier: Modifier) {
             )
         }
         Text(
-            text = "Drag me",
+            text = dragText,
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.h5
         )
@@ -78,19 +84,22 @@ fun DragTextBox(modifier: Modifier) {
 
 @Composable
 fun DragImageBox(modifier: Modifier) {
+    val dragImage = painterResource(id = R.drawable.drag_and_drop_image)
+    val dragData = DragData(type = MimeType.IMAGE_JPEG, data = dragImage)
+
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier.size(500.dp, 150.dp)
     ){
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
-                text = "or drag:",
+                text = stringResource(id = R.string.drag_action),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.h5,
                 modifier = Modifier.weight(1f)
             )
             Image(
-                painter = painterResource(id = R.drawable.drag_and_drop_image),
+                painter = dragImage,
                 contentDescription = null,
                 modifier = Modifier.weight(1f)
             )
