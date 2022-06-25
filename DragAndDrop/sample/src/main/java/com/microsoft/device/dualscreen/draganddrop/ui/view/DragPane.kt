@@ -31,6 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.microsoft.device.dualscreen.draganddrop.DragData
+import com.microsoft.device.dualscreen.draganddrop.DragTarget
 import com.microsoft.device.dualscreen.draganddrop.MimeType
 import com.microsoft.device.dualscreen.draganddrop.R
 import com.microsoft.device.dualscreen.draganddrop.ui.theme.Purple200
@@ -74,11 +75,13 @@ fun DragTextBox(modifier: Modifier) {
                 )
             )
         }
-        Text(
-            text = dragText,
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.h5
-        )
+        DragTarget(dragData = dragData) {
+            Text(
+                text = dragText,
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.h5
+            )
+        }
     }
 }
 
@@ -98,11 +101,13 @@ fun DragImageBox(modifier: Modifier) {
                 style = MaterialTheme.typography.h5,
                 modifier = Modifier.weight(1f)
             )
-            Image(
-                painter = dragImage,
-                contentDescription = null,
-                modifier = Modifier.weight(1f)
-            )
+            DragTarget(dragData = dragData) {
+                Image(
+                    painter = dragImage,
+                    contentDescription = null,
+                    modifier = Modifier.weight(1f)
+                )
+            }
         }
     }
 }
