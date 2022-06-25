@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">DragAndDrop</string>
+    <string name="drag_text">Drag me</string>
+    <string name="drag_action">or drag:</string>
+</resources>
