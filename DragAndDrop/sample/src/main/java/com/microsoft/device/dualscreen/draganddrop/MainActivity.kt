@@ -31,10 +31,12 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun DragAndDropSample() {
-    TwoPaneLayout(
-        pane1 = { DragAndDropPane1() },
-        pane2 = { DragAndDropPane2() }
-    )
+    DragContainer(modifier = Modifier.fillMaxSize()) {
+        TwoPaneLayout(
+            pane1 = { DragAndDropPane1() },
+            pane2 = { DragAndDropPane2() }
+        )
+    }
 }
 
 @Composable
