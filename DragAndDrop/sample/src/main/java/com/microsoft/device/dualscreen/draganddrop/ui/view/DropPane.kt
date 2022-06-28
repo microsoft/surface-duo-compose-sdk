@@ -7,6 +7,7 @@
 
 package com.microsoft.device.dualscreen.draganddrop.ui.view
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -27,6 +28,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.microsoft.device.dualscreen.draganddrop.DropContainer
+import com.microsoft.device.dualscreen.draganddrop.MimeType
 import com.microsoft.device.dualscreen.draganddrop.ui.theme.Purple100
 import com.microsoft.device.dualscreen.draganddrop.ui.theme.Purple200
 import com.microsoft.device.dualscreen.draganddrop.ui.theme.Purple500
@@ -54,14 +56,29 @@ fun DropPane(modifier: Modifier = Modifier) {
                 .background(boxColor)
                 .border(width = 2.dp, color = Purple500, shape = RoundedCornerShape(20f))
         ) {
-            Text(
-                text = "Drop Here",
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.h5
-            )
             dragData?.let {
+                if (dragData.type == MimeType.TEXT_PLAIN) {
+                    dragText = dragData.data as String
+                }
+                if (dragData.type == MimeType.IMAGE_JPEG) {
+                    dragImage = dragData.data as Painter
+                }
+            }
+
+            if (dragText != null) {
                 Text(
-                    text = "",
+                    text = dragText!!,
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.h5
+                )
+            } else if (dragImage != null) {
+                Image(
+                    painter = dragImage!!,
+                    contentDescription = null
+                )
+            } else {
+                Text(
+                    text = "Drop Here",
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.h5
                 )
