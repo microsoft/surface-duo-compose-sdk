@@ -40,8 +40,7 @@ fun DragAndDropSample() {
 }
 
 @Composable
-fun TwoPaneScope.DragAndDropPane1(
-) {
+fun TwoPaneScope.DragAndDropPane1() {
     if (isSinglePane) {
         DragAndDropSinglePane()
     } else {
@@ -50,14 +49,12 @@ fun TwoPaneScope.DragAndDropPane1(
 }
 
 @Composable
-fun DragAndDropPane2(
-) {
+fun DragAndDropPane2() {
     DropPane()
 }
 
 @Composable
-fun DragAndDropSinglePane(
-) {
+fun DragAndDropSinglePane() {
     Column {
         DragPane(Modifier.weight(.4f))
         DropPane(Modifier.weight(.6f))

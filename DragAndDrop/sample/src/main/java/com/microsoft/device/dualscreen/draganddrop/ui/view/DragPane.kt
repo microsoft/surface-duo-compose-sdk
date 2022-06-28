@@ -34,7 +34,7 @@ import com.microsoft.device.dualscreen.draganddrop.DragData
 import com.microsoft.device.dualscreen.draganddrop.DragTarget
 import com.microsoft.device.dualscreen.draganddrop.MimeType
 import com.microsoft.device.dualscreen.draganddrop.R
-import com.microsoft.device.dualscreen.draganddrop.ui.theme.Purple200
+import com.microsoft.device.dualscreen.draganddrop.ui.theme.Purple500
 
 @Composable
 fun DragPane(modifier: Modifier = Modifier) {
@@ -42,7 +42,9 @@ fun DragPane(modifier: Modifier = Modifier) {
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.SpaceBetween
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
             DragTextBox(Modifier.weight(.3f))
             Spacer(modifier = Modifier.height(20.dp))
@@ -64,7 +66,7 @@ fun DragTextBox(modifier: Modifier) {
             modifier = Modifier.size(450.dp, 60.dp)
         ) {
             drawRoundRect(
-                color = Purple200,
+                color = Purple500,
                 cornerRadius = CornerRadius(20f),
                 style = Stroke(
                     width = 5f,
@@ -93,7 +95,7 @@ fun DragImageBox(modifier: Modifier) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier.size(500.dp, 150.dp)
-    ){
+    ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
                 text = stringResource(id = R.string.drag_action),

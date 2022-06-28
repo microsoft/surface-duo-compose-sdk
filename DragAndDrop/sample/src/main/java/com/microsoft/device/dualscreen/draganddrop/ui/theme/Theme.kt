@@ -15,7 +15,7 @@ private val DarkColorPalette = darkColors(
 
 @Composable
 fun DragAndDropTheme(content: @Composable () -> Unit) {
-    val colors =  DarkColorPalette
+    val colors = DarkColorPalette
 
     MaterialTheme(
         colors = colors,
