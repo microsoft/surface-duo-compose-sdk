@@ -29,7 +29,6 @@ class FoldingFeatureTest {
 
     init {
         testRule = RuleChain.outerRule(publisherRule).around(composeTestRule)
-        RuleChain.outerRule(composeTestRule)
     }
 
     @Test
@@ -48,7 +47,7 @@ class FoldingFeatureTest {
     }
 
     @Test
-    fun deviceOpenHorizontally_showsTwoPanes() {
+    fun deviceOpenHorizontally_showsOnePane() {
         composeTestRule.setContent {
             ComposeTestingTheme {
                 ComposeTestingApp()
@@ -57,9 +56,9 @@ class FoldingFeatureTest {
         // Simulate vertical FoldingFeature
         publisherRule.simulateHorizontalFoldingFeature(composeTestRule)
 
-        // Assert both panes are being shown
+        // Assert only pane 1 is shown
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane1_text)).assertIsDisplayed()
-        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane2_text)).assertIsDisplayed()
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane2_text)).assertDoesNotExist()
     }
 
     @Test

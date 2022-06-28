@@ -8,7 +8,6 @@
 package com.microsoft.device.dualscreen.testing.sample
 
 import android.app.UiAutomation
-import android.view.Surface
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
@@ -27,13 +26,20 @@ import com.microsoft.device.dualscreen.testing.filters.TargetDevices
 import com.microsoft.device.dualscreen.testing.rules.FoldableTestRule
 import com.microsoft.device.dualscreen.testing.runner.FoldableJUnit4ClassRunner
 import com.microsoft.device.dualscreen.testing.spanFromStart
-import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 import org.junit.runner.RunWith
 
+/**
+ * Test class that shows examples of how to use Test Kit annotations:
+ * - @SingleScreenTest
+ * - @DualScreenTest
+ * - @DeviceOrientation
+ * - @MockFoldingFeature
+ * - @TargetDevices
+ */
 @RunWith(FoldableJUnit4ClassRunner::class)
 class TestSample {
     private val composeTestRule = createAndroidComposeRule<MainActivity>()
@@ -51,9 +57,8 @@ class TestSample {
     }
 
     /**
-     * ----------------SINGLE AND DUAL SCREEN TESTS----------------
+     * Uses @SingleScreenTest annotation to check that sample shows only pane 1 text when in single portrait mode
      */
-
     @Test
     @SingleScreenTest(orientation = UiAutomation.ROTATION_FREEZE_0)
     fun singlePortrait_showsOnePane() {
@@ -61,6 +66,10 @@ class TestSample {
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane2_text)).assertDoesNotExist()
     }
 
+    /**
+     * Uses @DualScreenTest annotation to check that sample shows only pane 1 text when in dual landscape mode
+     * (as expected when using HorizontalSingle mode for TwoPaneLayout)
+     */
     @Test
     @DualScreenTest(orientation = UiAutomation.ROTATION_FREEZE_90)
     fun dualLandscape_showsOnePane() {
@@ -69,27 +78,30 @@ class TestSample {
     }
 
     /**
-     * ----------------MOCK FOLDING FEATURE TESTS----------------
+     * Uses @DualScreenTest annotation to check that sample shows pane 1 and pane 2 text when in dual portrait
+     * mode
+     *
+     * Also uses @TargetDevices annotation with ignoreDevices parameter to exclude this test from running on
+     * Surface Duo devices
      */
-
     @Test
-    @MockFoldingFeature(
-        windowBounds = [0, 0, 400, 400],
-        center = 0,
-        size = 2,
-        state = FoldingFeatureState.HALF_OPENED,
-        orientation = FoldingFeatureOrientation.HORIZONTAL
-    )
-    fun horizontalFoldingFeature_showsOnePane() {
+    @DualScreenTest
+    @TargetDevices(ignoreDevices = [DeviceModel.SurfaceDuo, DeviceModel.SurfaceDuo2])
+    fun foldables_dualPortrait_showsTwoPanes() {
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane1_text)).assertIsDisplayed()
-        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane2_text)).assertDoesNotExist()
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane2_text)).assertIsDisplayed()
     }
 
     /**
-     * ----------------TARGET DEVICES TESTS----------------
+     * Checks that only pane 1 text shows at first in single portrait mode, spans the app to dual portrait mode,
+     * then checks that samples shows both pane 1 and pane 2 text
+     *
+     * Uses @TargetDevices annotation with devices parameter to ensure this test only runs on Surface Duo devices
+     *
+     * Also uses @DeviceOrientation annotation to lock the device in the portrait orientation
      */
-
     @Test
+    @DeviceOrientation(orientation = UiAutomation.ROTATION_FREEZE_0)
     @TargetDevices(devices = [DeviceModel.SurfaceDuo, DeviceModel.SurfaceDuo2])
     fun surfaceDuo_showsTwoPanesAfterSpan() {
         // One pane shown before span
@@ -104,20 +116,25 @@ class TestSample {
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane2_text)).assertIsDisplayed()
     }
 
+    /**
+     * Checks that sample only shows pane 1 text in when a horizontal folding feature is present
+     *
+     * Uses @MockFoldingFeature annotation to simulate a horizontal folding feature
+     *
+     * Also uses @TargetDevices annotation to only run the test on a Surface Duo 2, since the folding
+     * feature uses window bounds specific to that device
+     */
     @Test
-    @TargetDevices(ignoreDevices = [DeviceModel.FoldOut])
-    fun foldInDevices_noFoldingFeature_showOnePane() {
+    @MockFoldingFeature(
+        windowBounds = [0, 0, 2784, 1800],
+        center = 0,
+        size = 2,
+        state = FoldingFeatureState.HALF_OPENED,
+        orientation = FoldingFeatureOrientation.HORIZONTAL
+    )
+    @TargetDevices(devices = [DeviceModel.SurfaceDuo2])
+    fun horizontalFoldingFeature_showsOnePane() {
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane1_text)).assertIsDisplayed()
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane2_text)).assertDoesNotExist()
-    }
-
-    /**
-     * ----------------DEVICE ORIENTATION TESTS----------------
-     */
-
-    @Test
-    @DeviceOrientation(orientation = UiAutomation.ROTATION_FREEZE_270)
-    fun testIsLandscape() {
-        assertEquals(device.displayRotation, Surface.ROTATION_270)
     }
 }
