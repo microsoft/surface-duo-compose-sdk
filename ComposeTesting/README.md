@@ -18,7 +18,7 @@ The library is based on the [testing-kotlin](https://github.com/microsoft/surfac
 2. Add dependencies to the module-level **build.gradle** file (current version may be different from what's shown here).
 
     ```gradle
-    implementation "com.microsoft.device.dualscreen.testing:testing-compose:1.0.0-alpha03"
+    implementation "com.microsoft.device.dualscreen.testing:testing-compose:1.0.0-alpha04"
     ```
 
 3. Also ensure the compileSdkVersion and targetSdkVersion are set to API 31 or newer in the module-level build.gradle file.
@@ -47,6 +47,7 @@ For API reference information for **testing-kotlin** , refer to these resources:
 - [CurrentActivityDelegate](https://github.com/microsoft/surface-duo-sdk/tree/main/utils/test-utils#currentactivitydelegate)
 - [ForceClick](https://github.com/microsoft/surface-duo-sdk/tree/main/utils/test-utils#forceclick)
 - [ViewMatcher](https://github.com/microsoft/surface-duo-sdk/tree/main/utils/test-utils#viewmatcher)
+- [Test annotations](https://github.com/microsoft/surface-duo-sdk/tree/main/utils/test-utils#annotations)
 
 In addition to the resources above, **ComposeTesting** also offers the APIs described below.
 
@@ -96,6 +97,20 @@ fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.g
 ```
 
 Get resource string inside Compose test with resource id and arguments
+
+### Foldable rule chain
+
+This function can be used to create a test rule to test Compose layouts on foldable devices. This should be used together with the [test annotations](https://github.com/microsoft/surface-duo-sdk/tree/main/utils/test-utils#annotations) provided by the Test Kit.
+
+```kotlin
+fun <A : ComponentActivity> foldableRuleChain(
+    composeTestRule: AndroidComposeTestRule<ActivityScenarioRule<A>, A>,
+    foldableTestRule: FoldableTestRule,
+    vararg aroundRules: TestRule
+): RuleChain
+```
+
+Create a chained test rule using a Compose test rule and foldable test rule.
 
 ## Contributing
 
