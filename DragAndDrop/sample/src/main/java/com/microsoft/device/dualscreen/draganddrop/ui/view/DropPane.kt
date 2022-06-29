@@ -54,13 +54,14 @@ fun DropPane(modifier: Modifier = Modifier) {
         },
     ) { dragData ->
         val boxColor = if (isDroppingItem && isItemInBounds) Purple200 else if (isDroppingItem) Purple100 else Color.White
+        val boxShape = RoundedCornerShape(20f)
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = 20.dp, start = 40.dp, end = 40.dp, bottom = 20.dp)
-                .background(boxColor, RoundedCornerShape(20f))
-                .border(width = 2.dp, color = Purple500, shape = RoundedCornerShape(20f))
+                .background(color = boxColor, shape = boxShape)
+                .border(width = 2.dp, color = Purple500, shape = boxShape)
         ) {
             dragData?.let {
                 if (!isDroppingItem) {
@@ -85,7 +86,8 @@ fun DropPaneContent(dragText: String?, dragImage: Painter?) {
         Text(
             text = dragText,
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.h5
+            style = MaterialTheme.typography.h3,
+            color = Purple500
         )
     } else if (dragImage != null) {
         Image(
@@ -94,7 +96,7 @@ fun DropPaneContent(dragText: String?, dragImage: Painter?) {
         )
     } else {
         Text(
-            text = "Drop Here",
+            text = stringResource(id = R.string.drop_placeholder),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.h5
         )

@@ -54,30 +54,11 @@ ext {
     // Compose dependencies
     composeVersion = "1.1.1"
     activityComposeVersion = "1.4.0"
-    navigationComposeVersion = "2.4.2"
     composeDependencies = [
             composeMaterial         : "androidx.compose.material:material:$composeVersion",
             composeUI               : "androidx.compose.ui:ui:$composeVersion",
             composeUITooling        : "androidx.compose.ui:ui-tooling:$composeVersion",
             activityCompose         : "androidx.activity:activity-compose:$activityComposeVersion",
-            navigationCompose       : "androidx.navigation:navigation-compose:$navigationComposeVersion"
-    ]
-
-    // Test dependencies
-    androidxTestVersion = "1.4.0"
-    testDependencies = [
-            androidxTestCore        : "androidx.test:core:$androidxTestVersion",
-            androidxTestRules       : "androidx.test:rules:$androidxTestVersion",
-            androidxTestRunner      : "androidx.test:runner:$androidxTestVersion",
-            composeUITest           : "androidx.compose.ui:ui-test:$composeVersion",
-            composeJunit            : "androidx.compose.ui:ui-test-junit4:$composeVersion",
-            composeUITestManifest   : "androidx.compose.ui:ui-test-manifest:$composeVersion",
-    ]
-
-    // Google dependencies
-    materialVersion = "1.5.0"
-    googleDependencies = [
-            material: "com.google.android.material:material:$materialVersion"
     ]
 
     // Microsoft dependencies

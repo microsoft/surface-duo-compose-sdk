@@ -1,8 +1,6 @@
 /*
- *
- *  * Copyright (c) Microsoft Corporation. All rights reserved.
- *  * Licensed under the MIT License.
- *
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
  */
 
 package com.microsoft.device.dualscreen.draganddrop.ui.view
@@ -58,26 +56,26 @@ fun DragTextBox(modifier: Modifier) {
     val dragText = stringResource(R.string.drag_text)
     val dragData = DragData(type = MimeType.TEXT_PLAIN, data = dragText)
 
-    Box(
-        modifier = modifier.padding(top = 20.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Canvas(
-            modifier = Modifier.size(450.dp, 60.dp)
+    DragTarget(dragData = dragData) {
+        Box(
+            modifier = modifier.padding(top = 20.dp),
+            contentAlignment = Alignment.Center
         ) {
-            drawRoundRect(
-                color = Purple500,
-                cornerRadius = CornerRadius(20f),
-                style = Stroke(
-                    width = 5f,
-                    pathEffect = PathEffect.dashPathEffect(
-                        intervals = floatArrayOf(20f, 10f),
-                        phase = 10f
+            Canvas(
+                modifier = Modifier.size(450.dp, 60.dp)
+            ) {
+                drawRoundRect(
+                    color = Purple500,
+                    cornerRadius = CornerRadius(20f),
+                    style = Stroke(
+                        width = 5f,
+                        pathEffect = PathEffect.dashPathEffect(
+                            intervals = floatArrayOf(20f, 10f),
+                            phase = 10f
+                        )
                     )
                 )
-            )
-        }
-        DragTarget(dragData = dragData) {
+            }
             Text(
                 text = dragText,
                 textAlign = TextAlign.Center,

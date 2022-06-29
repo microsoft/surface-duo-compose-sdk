@@ -77,12 +77,4 @@ dependencies {
     implementation composeDependencies.composeMaterial
     implementation composeDependencies.composeUITooling
     implementation composeDependencies.activityCompose
-
-    testImplementation testDependencies.androidxTestCore
-
-    androidTestImplementation testDependencies.androidxTestCore
-    androidTestImplementation testDependencies.androidxTestRules
-    androidTestImplementation testDependencies.androidxTestRunner
-    androidTestImplementation testDependencies.composeUITest
-    androidTestImplementation testDependencies.composeJunit
 }
