@@ -21,7 +21,7 @@ jobs:
 
     strategy:
       matrix:
-        projects: [ TwoPaneLayout, WindowState, ComposeTesting ]
+        projects: [ TwoPaneLayout, WindowState, ComposeTesting, DragAndDrop ]
       fail-fast: false
 
     steps:
