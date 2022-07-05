@@ -41,7 +41,7 @@ import org.junit.runner.RunWith
  * - @TargetDevices
  */
 @RunWith(FoldableJUnit4ClassRunner::class)
-class TestSample {
+class AnnotationTest {
     private val composeTestRule = createAndroidComposeRule<MainActivity>()
     private val foldableTestRule = FoldableTestRule()
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
@@ -120,19 +120,14 @@ class TestSample {
      * Checks that sample only shows pane 1 text in when a horizontal folding feature is present
      *
      * Uses @MockFoldingFeature annotation to simulate a horizontal folding feature
-     *
-     * Also uses @TargetDevices annotation to only run the test on a Surface Duo 2, since the folding
-     * feature uses window bounds specific to that device
      */
     @Test
     @MockFoldingFeature(
-        windowBounds = [0, 0, 2784, 1800],
         center = 0,
         size = 2,
         state = FoldingFeatureState.HALF_OPENED,
         orientation = FoldingFeatureOrientation.HORIZONTAL
     )
-    @TargetDevices(devices = [DeviceModel.SurfaceDuo2])
     fun horizontalFoldingFeature_showsOnePane() {
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane1_text)).assertIsDisplayed()
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane2_text)).assertDoesNotExist()
