@@ -67,8 +67,6 @@ fun WindowStateDashboard(windowState: WindowState) {
     val heightSizeClass = windowState.heightSizeClass()
 
     Column {
-        Spacer(modifier = Modifier.height(30.dp))
-
         Text(text = "Large screen and foldable properties", style = MaterialTheme.typography.h6)
         Text(text = "The current foldSizeDp is ${foldSizePx}px, $foldSizeDp")
         Text(text = "The current largeScreenPane1Weight is ${windowState.largeScreenPane1Weight}")
