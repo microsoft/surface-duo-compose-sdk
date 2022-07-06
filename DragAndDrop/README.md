@@ -20,7 +20,7 @@ The component provides a drag container which represents the draggable area with
 2. Add dependencies to the module-level **build.gradle** file (current version may be different from what's shown here).
 
     ```gradle
-    implementation "com.microsoft.device.dualscreen:draganddrop:1.0.0"
+    implementation "com.microsoft.device.dualscreen:draganddrop:1.0.0-alpha01"
     ```
 
 3. Also ensure the compileSdkVersion and targetSdkVersion are set to API 31 or newer in the module-level build.gradle file.
@@ -36,7 +36,7 @@ The component provides a drag container which represents the draggable area with
     }
     ```
 
-4. Access the info about the window state from **DragAndDrop** to build or adjust your UI. Please refer to the [sample](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/DragAndDrop/sample) for more details.
+4. Build the drag and drop feature with **DragAndDrop**. Please refer to the [sample](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/DragAndDrop/sample) for more details.
 
 ## API reference
 
@@ -44,7 +44,7 @@ The sections below describe how to use DragAndDrop component to build the featur
 
 ### Drag and drop process
 
-1. Wrapping your `Composable` with `DragContainer` to provide a draggable area, where the drag and drop happens.
+1. Wrapping your `Composable` with `DragContainer` to define a draggable area, where the drag and drop happens.
 
 ```kotlin
 @Composable
@@ -71,7 +71,7 @@ enum class MimeType(val value: String) {
 }
 ```
 
-3. A `DragTarget` covers the `DragData` and the `Composable` which would repsonse to the user's drag gesture by long pressing. The component would create a shadow for the target during the dragging process.
+3. Initialize a `DragTarget` with the created `DragData` and the `Composable` which would repsonse to the user's drag gesture by long pressing. A shadow will be created for the target during the dragging process.
 
 ```kotlin
 @Composable
@@ -81,14 +81,20 @@ fun DragTarget(
 )
 ```
 
-4. 
+4. Specify a `Composable` to handle the dropping event using `DropContainer`. The lambda `onDrag` will let you know whether the dragging gesture goes within the dropping area and the gesture finishes.
 
-
-
+```kotlin
+@Composable
+fun DropContainer(
+    modifier: Modifier,
+    onDrag: (inBounds: Boolean, isDragging: Boolean) -> Unit,
+    content: @Composable (BoxScope.(data: DragData?) -> Unit)
+)
+```
 
 ## Sample behavior
 
-The table below shows screenshots from the [sample](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/WindowState/sample) running on different large screen and foldable emulators.
+The following screenshots from the [sample](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/WindowState/sample) shows the drag and drop feature inside a single-screen and across both screens.
 
 ![single-screen](screenshots/single_screen.gif)
 
