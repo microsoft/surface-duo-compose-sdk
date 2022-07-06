@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.microsoft.device.dualscreen.testing.sample.ui.theme.ComposeTestingTheme
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneLayout
+import com.microsoft.device.dualscreen.twopanelayout.TwoPaneMode
 
 class MainActivity : ComponentActivity() {
 
@@ -36,6 +37,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun ComposeTestingApp() {
     TwoPaneLayout(
+        paneMode = TwoPaneMode.HorizontalSingle,
         pane1 = {
             Text(text = stringResource(R.string.pane1_text))
         },

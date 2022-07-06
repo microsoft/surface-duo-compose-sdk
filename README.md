@@ -26,7 +26,7 @@ Please check out our page on [Jetpack Compose for Microsoft Surface Duo](https:/
 
 A UI component that helps you build two-pane layout for dual-screen, foldable, and large-screen devices.
 
-#### Latest Update: [1.0.0](https://github.com/microsoft/surface-duo-compose-sdk/releases/tag/twopanelayout_20220505_1.0.0) (May 5th, 2022)
+#### Latest Update: [1.0.1-alpha02](https://github.com/microsoft/surface-duo-compose-sdk/releases/tag/twopanelayout_20220525_1.0.1-alpha02) (May 25th, 2022)
 
 ### [WindowState](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/WindowState)
 
@@ -38,12 +38,14 @@ A utility component that helps you easily get details about the window state of 
 
 Helper functions that help you easily test your application on the dual-screen, foldable and large screen devices.
 
-#### Latest Update: [1.0.0-alpha03](https://github.com/microsoft/surface-duo-compose-sdk/releases/tag/composetesting_20220301_alpha03) (March 1st, 2022)
+#### Latest Update: [1.0.0-alpha04](https://github.com/microsoft/surface-duo-compose-sdk/releases/tag/composetesting_20220705_alpha04) (July 5th, 2022)
 
 ## Social links
 
 | Blog post | Video |
 |---|---|
+| [Video+Chat and Calculator samples for Jetpack Compose](https://devblogs.microsoft.com/surface-duo/jetpack-compose-video-calculator-samples/) | [Twitch #77: New Jetpack Compose samples](https://www.twitch.tv/videos/1519558235) |
+| [Jetpack Compose TwoPaneLayout update](https://devblogs.microsoft.com/surface-duo/jetpack-compose-foldable-twopanelayout/) | [Twitch #76: Jetpack Compose TwoPaneLayout update](https://www.youtube.com/watch?v=cI73qh_mTOo)|
 | [Write foldable tests quickly with Test Kit](https://devblogs.microsoft.com/surface-duo/foldable-ui-test-kit/) | [Twitch #63: Test Kit for foldable apps](https://www.youtube.com/watch?v=3I0qU5SeUBM) |
 | [Jetpack Compose UI testing](https://devblogs.microsoft.com/surface-duo/jetpack-compose-ui-test/) | [Twitch #59: Jetpack Compose testing](https://www.youtube.com/watch?v=Q3lDz7PjO7U) |
 | [Jetpack Compose WindowState preview](https://devblogs.microsoft.com/surface-duo/jetpack-compose-windowstate-preview/) | [Twitch #53: Jetpack Compose WindowState for foldable devices](https://www.youtube.com/watch?v=qOIliow-uS4) |
