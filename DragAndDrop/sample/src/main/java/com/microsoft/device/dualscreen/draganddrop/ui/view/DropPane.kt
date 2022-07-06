@@ -11,7 +11,6 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -36,6 +35,7 @@ import com.microsoft.device.dualscreen.draganddrop.R
 import com.microsoft.device.dualscreen.draganddrop.ui.theme.Purple100
 import com.microsoft.device.dualscreen.draganddrop.ui.theme.Purple200
 import com.microsoft.device.dualscreen.draganddrop.ui.theme.Purple500
+import com.microsoft.device.dualscreen.draganddrop.ui.theme.Shapes
 
 @Composable
 fun DropPane(modifier: Modifier = Modifier) {
@@ -54,14 +54,13 @@ fun DropPane(modifier: Modifier = Modifier) {
         },
     ) { dragData ->
         val boxColor = if (isDroppingItem && isItemInBounds) Purple200 else if (isDroppingItem) Purple100 else Color.White
-        val boxShape = RoundedCornerShape(20f)
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = 20.dp, start = 40.dp, end = 40.dp, bottom = 20.dp)
-                .background(color = boxColor, shape = boxShape)
-                .border(width = 2.dp, color = Purple500, shape = boxShape)
+                .background(color = boxColor, shape = Shapes.large)
+                .border(width = 2.dp, color = Purple500, shape = Shapes.large)
         ) {
             dragData?.let {
                 if (!isDroppingItem) {

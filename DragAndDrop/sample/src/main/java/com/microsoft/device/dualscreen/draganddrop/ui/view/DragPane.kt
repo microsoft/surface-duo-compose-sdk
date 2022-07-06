@@ -21,6 +21,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -33,6 +34,7 @@ import com.microsoft.device.dualscreen.draganddrop.DragTarget
 import com.microsoft.device.dualscreen.draganddrop.MimeType
 import com.microsoft.device.dualscreen.draganddrop.R
 import com.microsoft.device.dualscreen.draganddrop.ui.theme.Purple500
+import com.microsoft.device.dualscreen.draganddrop.ui.theme.Shapes
 
 @Composable
 fun DragPane(modifier: Modifier = Modifier) {
@@ -104,8 +106,10 @@ fun DragImageBox(modifier: Modifier) {
             DragTarget(dragData = dragData) {
                 Image(
                     painter = dragImage,
-                    contentDescription = null,
-                    modifier = Modifier.weight(1f)
+                    contentDescription = stringResource(id = R.string.drag_image),
+                    modifier = Modifier
+                        .weight(1f)
+                        .clip(Shapes.large)
                 )
             }
         }
