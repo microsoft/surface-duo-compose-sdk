@@ -94,7 +94,7 @@ fun DropContainer(
 
 ## Sample behavior
 
-The following screenshots from the [sample](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/WindowState/sample) shows the drag and drop feature inside a single-screen and across both screens.
+The following screenshots from the [sample](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/DragAndDrop/sample) shows the drag and drop feature inside a single-screen and across both screens.
 
 ![single-screen](screenshots/single_screen.gif)
 
