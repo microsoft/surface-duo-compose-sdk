@@ -3,18 +3,19 @@
  * Licensed under the MIT License.
  */
 
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+}
 
 //Artifact publication data
 ext {
     PUBLISH_GROUP_ID = 'com.microsoft.device.dualscreen'
-    PUBLISH_ARTIFACT_ID = 'windowstate'
-    LIBRARY_DESCRIPTION = 'WindowState Compose library'
-    LIBRARY_VERSION = rootProject.ext.windowStateVersionName
+    PUBLISH_ARTIFACT_ID = 'draganddrop'
+    LIBRARY_DESCRIPTION = 'DraAndDrop Compose library'
+    LIBRARY_VERSION = rootProject.ext.dragAndDopVersionName
 }
 apply from: "${rootProject.projectDir}/publishing.gradle"
-
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -23,8 +24,8 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
 
-        versionCode rootProject.ext.windowStateVersionCode
-        versionName rootProject.ext.windowStateVersionName
+        versionCode rootProject.ext.dragAndDopVersionCode
+        versionName rootProject.ext.dragAndDopVersionName
         buildConfigField("int", "VERSION_CODE", "${defaultConfig.versionCode}")
         buildConfigField("String", "VERSION_NAME", "\"${defaultConfig.versionName}\"")
 
@@ -71,25 +72,9 @@ dependencies {
 
     implementation androidxDependencies.ktxCore
     implementation androidxDependencies.appCompat
-    implementation androidxDependencies.window
 
     implementation composeDependencies.composeUI
-    implementation composeDependencies.composeRuntime
     implementation composeDependencies.composeMaterial
     implementation composeDependencies.composeUITooling
     implementation composeDependencies.activityCompose
-
-    testImplementation testDependencies.androidJunit
-    testImplementation testDependencies.androidxTestCore
-    testImplementation testDependencies.mockitoCore
-
-    androidTestImplementation testDependencies.androidxTestCore
-    androidTestImplementation testDependencies.androidxTestRules
-    androidTestImplementation testDependencies.androidxTestRunner
-    androidTestImplementation testDependencies.espressoCore
-    androidTestImplementation testDependencies.composeUITest
-    androidTestImplementation testDependencies.composeJunit
-    androidTestImplementation testDependencies.uiAutomator
-
-    debugImplementation testDependencies.composeUITestManifest
 }

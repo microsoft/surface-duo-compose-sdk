@@ -10,7 +10,7 @@ Please read the [code of conduct](CODE_OF_CONDUCT.md) and [contribution guidelin
 
 - Jetpack Compose version: `1.1.1`
 - Jetpack Window Manager version: `1.0.0`
-- Android Studio version: Bumblebee `2021.1.1`
+- Android Studio version: Chipmunk `2021.2.1`
 
 ## Getting Started
 
@@ -39,6 +39,12 @@ A utility component that helps you easily get details about the window state of 
 Helper functions that help you easily test your application on the dual-screen, foldable and large screen devices.
 
 #### Latest Update: [1.0.0-alpha04](https://github.com/microsoft/surface-duo-compose-sdk/releases/tag/composetesting_20220705_alpha04) (July 5th, 2022)
+
+### [DragAndDrop](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/DragAndDrop)
+
+A Compose component that helps you build drag and drop feature on any Android devices, especially dual-screen, foldable and large-screen devices.
+
+#### Latest Update: [1.0.0-alpha01](https://github.com/microsoft/surface-duo-compose-sdk/releases/tag/draganddrop_20220707_alpha01) (July 7th, 2022)
 
 ## Social links
 

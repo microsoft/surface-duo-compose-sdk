@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">DragAndDrop</string>
+    <string name="drag_text">Drag me</string>
+    <string name="drag_image">Drag_image</string>
+    <string name="drag_action">or drag:</string>
+    <string name="drop_image">Drop_image</string>
+    <string name="close_button">Close_button</string>
+    <string name="drop_placeholder">Drop Here</string>
+</resources>
