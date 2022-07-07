@@ -1,6 +1,6 @@
 # Drag and drop - Surface Duo Compose SDK
 
-**DragAndDrop** is a component for Jetpack Compose that helps you easily add interactive drag and drop capabilities to your app, following Google [Drag and drop](https://developer.android.com/guide/topics/ui/drag-drop) guideline. With the drag and drop feature, dual-screen and foldable device can be leveraged to share information in between easilly.
+**DragAndDrop** is a component for Jetpack Compose that helps you easily add interactive drag and drop capabilities to your app, following Google [Drag and drop](https://developer.android.com/guide/topics/ui/drag-drop) guideline. With the drag and drop feature, dual-screen and foldable devices can be leveraged to share information in between easily.
 
 The component provides a drag container which represents the draggable area with long press gesture. The drag target wraps the drag data providing a shadow during the dragging process. Currently it supports image and text in Mimetype. A drop container provides a dropping area to handle the detected drag data.
 
@@ -71,7 +71,7 @@ enum class MimeType(val value: String) {
 }
 ```
 
-3. Initialize a `DragTarget` with the created `DragData` and the `Composable` which would repsonse to the user's drag gesture by long pressing. A shadow will be created for the target during the dragging process.
+3. Initialize a `DragTarget` with the created `DragData` and the `Composable` which would respond to the user's drag gesture by long pressing. A shadow will be created for the target during the dragging process.
 
 ```kotlin
 @Composable
