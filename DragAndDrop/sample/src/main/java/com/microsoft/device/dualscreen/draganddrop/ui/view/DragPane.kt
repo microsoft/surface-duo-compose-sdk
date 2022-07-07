@@ -43,18 +43,18 @@ fun DragPane(modifier: Modifier = Modifier) {
         contentAlignment = Alignment.Center
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            DragTextBox(Modifier.weight(.3f))
+            DragTextBox()
             Spacer(modifier = Modifier.height(20.dp))
-            DragImageBox(Modifier.weight(.7f))
+            DragImageBox(modifier = Modifier.weight(1f))
         }
     }
 }
 
 @Composable
-fun DragTextBox(modifier: Modifier) {
+fun DragTextBox(modifier: Modifier = Modifier) {
     val dragText = stringResource(R.string.drag_text)
     val dragData = DragData(type = MimeType.TEXT_PLAIN, data = dragText)
 
@@ -88,13 +88,13 @@ fun DragTextBox(modifier: Modifier) {
 }
 
 @Composable
-fun DragImageBox(modifier: Modifier) {
+fun DragImageBox(modifier: Modifier = Modifier) {
     val dragImage = painterResource(id = R.drawable.drag_and_drop_image)
     val dragData = DragData(type = MimeType.IMAGE_JPEG, data = dragImage)
 
     Box(
         contentAlignment = Alignment.Center,
-        modifier = modifier.size(500.dp, 150.dp)
+        modifier = modifier.size(450.dp, 150.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
