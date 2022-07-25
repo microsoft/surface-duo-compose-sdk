@@ -33,7 +33,7 @@ import com.microsoft.device.dualscreen.draganddrop.DragData
 import com.microsoft.device.dualscreen.draganddrop.DragTarget
 import com.microsoft.device.dualscreen.draganddrop.MimeType
 import com.microsoft.device.dualscreen.draganddrop.R
-import com.microsoft.device.dualscreen.draganddrop.ui.theme.Purple500
+import com.microsoft.device.dualscreen.draganddrop.ui.theme.Blue500
 import com.microsoft.device.dualscreen.draganddrop.ui.theme.Shapes
 
 @Composable
@@ -67,7 +67,7 @@ fun DragTextBox(modifier: Modifier = Modifier) {
                 modifier = Modifier.size(450.dp, 60.dp)
             ) {
                 drawRoundRect(
-                    color = Purple500,
+                    color = Blue500,
                     cornerRadius = CornerRadius(20f),
                     style = Stroke(
                         width = 5f,

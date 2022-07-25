@@ -33,9 +33,9 @@ import androidx.compose.ui.unit.dp
 import com.microsoft.device.dualscreen.draganddrop.DropContainer
 import com.microsoft.device.dualscreen.draganddrop.MimeType
 import com.microsoft.device.dualscreen.draganddrop.R
-import com.microsoft.device.dualscreen.draganddrop.ui.theme.Purple100
-import com.microsoft.device.dualscreen.draganddrop.ui.theme.Purple200
-import com.microsoft.device.dualscreen.draganddrop.ui.theme.Purple500
+import com.microsoft.device.dualscreen.draganddrop.ui.theme.Blue100
+import com.microsoft.device.dualscreen.draganddrop.ui.theme.Blue200
+import com.microsoft.device.dualscreen.draganddrop.ui.theme.Blue500
 import com.microsoft.device.dualscreen.draganddrop.ui.theme.Shapes
 
 @Composable
@@ -54,14 +54,14 @@ fun DropPane(modifier: Modifier = Modifier) {
             isItemInBounds = inBounds
         },
     ) { dragData ->
-        val boxColor = if (isDroppingItem && isItemInBounds) Purple200 else if (isDroppingItem) Purple100 else Color.White
+        val boxColor = if (isDroppingItem && isItemInBounds) Blue200 else if (isDroppingItem) Blue100 else Color.White
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = 20.dp, start = 40.dp, end = 40.dp, bottom = 20.dp)
                 .background(color = boxColor, shape = Shapes.large)
-                .border(width = 2.dp, color = Purple500, shape = Shapes.large)
+                .border(width = 2.dp, color = Blue500, shape = Shapes.large)
         ) {
             dragData?.let {
                 if (!isDroppingItem) {
@@ -87,7 +87,7 @@ fun DropPaneContent(dragText: String?, dragImage: Painter?) {
             text = dragText,
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.h3,
-            color = Purple500
+            color = Blue500
         )
     } else if (dragImage != null) {
         Image(
