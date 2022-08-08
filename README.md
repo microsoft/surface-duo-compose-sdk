@@ -1,4 +1,4 @@
-![build-test-check](https://github.com/microsoft/surface-duo-compose-sdk/actions/workflows/build_test_check.yml/badge.svg) ![Compose Version](https://img.shields.io/badge/Jetpack%20Compose-1.1.1-brightgreen)
+![build-test-check](https://github.com/microsoft/surface-duo-compose-sdk/actions/workflows/build_test_check.yml/badge.svg) ![Compose Version](https://img.shields.io/badge/Jetpack%20Compose-1.2.0-brightgreen)
 
 # Surface Duo Jetpack Compose SDK
 
@@ -8,7 +8,7 @@ Please read the [code of conduct](CODE_OF_CONDUCT.md) and [contribution guidelin
 
 ## Prerequisites
 
-- Jetpack Compose version: `1.1.1`
+- Jetpack Compose version: `1.2.0`
 - Jetpack Window Manager version: `1.0.0`
 - Android Studio version: Chipmunk `2021.2.1`
 
@@ -50,7 +50,8 @@ A Compose component that helps you build drag and drop feature on any Android de
 
 | Blog post | Video |
 |---|---|
-| [Video+Chat and Calculator samples for Jetpack Compose](https://devblogs.microsoft.com/surface-duo/jetpack-compose-video-calculator-samples/) | [Twitch #77: New Jetpack Compose samples](https://www.twitch.tv/videos/1519558235) |
+|[Source Editor & Diary samples for Jetpack Compose](https://devblogs.microsoft.com/surface-duo/jetpack-compose-source-editor-diary-samples/) | [Twitch #79: More new Jetpack Compose samples](https://www.youtube.com/watch?v=eO0D3MHvKLA)|
+| [Video+Chat and Calculator samples for Jetpack Compose](https://devblogs.microsoft.com/surface-duo/jetpack-compose-video-calculator-samples/) | [Twitch #77: New Jetpack Compose samples](https://www.youtube.com/watch?v=b4WG3moVriA) |
 | [Jetpack Compose TwoPaneLayout update](https://devblogs.microsoft.com/surface-duo/jetpack-compose-foldable-twopanelayout/) | [Twitch #76: Jetpack Compose TwoPaneLayout update](https://www.youtube.com/watch?v=cI73qh_mTOo)|
 | [Write foldable tests quickly with Test Kit](https://devblogs.microsoft.com/surface-duo/foldable-ui-test-kit/) | [Twitch #63: Test Kit for foldable apps](https://www.youtube.com/watch?v=3I0qU5SeUBM) |
 | [Jetpack Compose UI testing](https://devblogs.microsoft.com/surface-duo/jetpack-compose-ui-test/) | [Twitch #59: Jetpack Compose testing](https://www.youtube.com/watch?v=Q3lDz7PjO7U) |
