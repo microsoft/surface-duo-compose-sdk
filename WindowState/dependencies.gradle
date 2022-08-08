@@ -23,8 +23,8 @@ ext {
     // ----------------------------------
 
     gradlePluginVersion = '7.1.1'
-    kotlinVersion = "1.6.10"
-    compileSdkVersion = 31
+    kotlinVersion = "1.7.0"
+    compileSdkVersion = 32
     targetSdkVersion = compileSdkVersion
     minSdkVersion = 23
     dokkaVersion = "1.6.0"
@@ -44,8 +44,8 @@ ext {
     ]
 
     // AndroidX dependencies
-    appCompatVersion = '1.4.1'
-    ktxCoreVersion = "1.7.0"
+    appCompatVersion = '1.4.2'
+    ktxCoreVersion = '1.8.0'
     windowVersion = "1.0.0"
     androidxDependencies = [
             appCompat         : "androidx.appcompat:appcompat:$appCompatVersion",
@@ -54,8 +54,8 @@ ext {
     ]
 
     // Compose dependencies
-    composeVersion = "1.1.1"
-    activityComposeVersion = "1.4.0"
+    composeVersion = "1.2.0"
+    activityComposeVersion = '1.5.1'
     navigationComposeVersion = "2.4.0"
     composeDependencies = [
             composeMaterial         : "androidx.compose.material:material:$composeVersion",
@@ -70,7 +70,7 @@ ext {
     androidxTestVersion = '1.4.0'
     espressoVersion = "3.4.0"
     junitVersion = '4.13.2'
-    mockitoVersion = '4.3.1'
+    mockitoVersion = '4.6.1'
     uiAutomatorVersion = "2.2.0"
     testDependencies = [
             androidxTestCore        : "androidx.test:core:$androidxTestVersion",
@@ -86,7 +86,7 @@ ext {
     ]
 
     // Google dependencies
-    materialVersion = "1.5.0"
+    materialVersion = '1.6.1'
     googleDependencies = [
             material: "com.google.android.material:material:$materialVersion"
     ]
