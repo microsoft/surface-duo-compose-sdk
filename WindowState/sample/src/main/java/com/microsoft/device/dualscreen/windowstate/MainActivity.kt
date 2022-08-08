@@ -10,9 +10,12 @@ package com.microsoft.device.dualscreen.windowstate
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -66,7 +69,15 @@ fun WindowStateDashboard(windowState: WindowState) {
     val widthSizeClass = windowState.widthSizeClass()
     val heightSizeClass = windowState.heightSizeClass()
 
-    Column {
+    Column(
+        modifier = Modifier
+            .padding(30.dp)
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(5.dp)
+    ) {
+        Text(text = "WindowState sample", style = MaterialTheme.typography.h4)
+        Spacer(modifier = Modifier.height(15.dp))
+
         Text(text = "Large screen and foldable properties", style = MaterialTheme.typography.h6)
         Text(text = "The current foldSizeDp is ${foldSizePx}px, $foldSizeDp")
         Text(text = "The current largeScreenPane1Weight is ${windowState.largeScreenPane1Weight}")
