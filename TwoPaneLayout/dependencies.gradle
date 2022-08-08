@@ -14,17 +14,17 @@ ext {
 
     // TwoPaneLayout library version code:
     // If you want to publish a new version, bump in one (1) the specific line(s)
-    twoPaneLayoutVersionCode = 18
+    twoPaneLayoutVersionCode = 19
 
     // TwoPaneLayout library version name:
     // If you want to publish a new version, bump the specific line
-    twoPaneLayoutVersionName = '1.0.1-alpha02'
+    twoPaneLayoutVersionName = '1.0.1-alpha03'
 
     // ----------------------------------
 
     gradlePluginVersion = '7.2.0'
-    kotlinVersion = "1.6.10"
-    compileSdkVersion = 31
+    kotlinVersion = "1.7.0"
+    compileSdkVersion = 32
     targetSdkVersion = compileSdkVersion
     minSdkVersion = 23
     dokkaVersion = "1.6.0"
@@ -44,17 +44,17 @@ ext {
     ]
 
     // AndroidX dependencies
-    appCompatVersion = '1.4.1'
-    ktxCoreVersion = '1.7.0'
+    appCompatVersion = '1.4.2'
+    ktxCoreVersion = '1.8.0'
     androidxDependencies = [
             appCompat         : "androidx.appcompat:appcompat:$appCompatVersion",
             ktxCore           : "androidx.core:core-ktx:$ktxCoreVersion",
     ]
 
     // Compose dependencies
-    composeVersion = "1.1.1"
-    activityComposeVersion = "1.4.0"
-    navigationComposeVersion = "2.4.2"
+    composeVersion = "1.2.0"
+    activityComposeVersion = '1.5.1'
+    navigationComposeVersion = '2.5.1'
     composeDependencies = [
             composeMaterial         : "androidx.compose.material:material:$composeVersion",
             composeUI               : "androidx.compose.ui:ui:$composeVersion",
@@ -75,14 +75,14 @@ ext {
     ]
 
     // Google dependencies
-    materialVersion = "1.5.0"
+    materialVersion = '1.6.1'
     googleDependencies = [
             material: "com.google.android.material:material:$materialVersion"
     ]
 
     // Microsoft dependencies
-    windowStateVersion = '1.0.0-alpha04'
-    composeTestingVersion = '1.0.0-alpha03'
+    windowStateVersion = '1.0.0-alpha05'
+    composeTestingVersion = '1.0.0-alpha05'
     microsoftDependencies = [
             windowState         : "com.microsoft.device.dualscreen:windowstate:$windowStateVersion",
             composeTesting      : "com.microsoft.device.dualscreen.testing:testing-compose:$composeTestingVersion",
