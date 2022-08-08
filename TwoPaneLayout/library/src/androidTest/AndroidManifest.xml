@@ -5,8 +5,7 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="android">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <!--
       ~ Important: disable debuggable for accurate performance results
