@@ -26,7 +26,6 @@ import com.microsoft.device.dualscreen.testing.filters.TargetDevices
 import com.microsoft.device.dualscreen.testing.rules.FoldableTestRule
 import com.microsoft.device.dualscreen.testing.runner.FoldableJUnit4ClassRunner
 import com.microsoft.device.dualscreen.testing.spanFromStart
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
@@ -48,13 +47,6 @@ class AnnotationTest {
 
     @get:Rule
     val testRule: TestRule = foldableRuleChain(composeTestRule, foldableTestRule)
-
-    @Before
-    fun setUp() {
-        composeTestRule.setContent {
-            ComposeTestingApp()
-        }
-    }
 
     /**
      * Uses @SingleScreenTest annotation to check that sample shows only pane 1 text when in single portrait mode
