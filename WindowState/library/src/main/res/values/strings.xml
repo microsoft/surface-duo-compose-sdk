@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sample_title">WindowState sample</string>
+    <string name="foldable_properties_title">Large screen and foldable properties</string>
+    <string name="fold_size">The current foldSizeDp is %1$fpx, %2$s"</string>
+    <string name="large_screen_weight">The current largeScreenPane1Weight is %1$f</string>
+    <string name="pane_1_size">The current pane1SizeDp is: \n\t[%1$fpx, %2$fpx], [%3$s, %4$s]</string>
+    <string name="pane_2_size">The current pane2SizeDp is: \n\t[%1$fpx, %2$fpx], [%3$s, %4$s]</string>
+    <string name="window_mode_properties_title">Window mode properties</string>
+    <string name="dual_screen_mode">Is the app in dual screen mode? %1$b"</string>
+    <string name="window_mode">The current window mode is %1$s</string>
+    <string name="window_size_properties_title">Window size properties</string>
+    <string name="width_class">What is the current width size class? %1$s</string>
+    <string name="height_class">What is the current height size class? %1$s</string>
+</resources>
