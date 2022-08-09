@@ -49,7 +49,7 @@ fun getString(@StringRes id: Int): String {
 }
 
 /**
- * Get string resource in an instrumented test when no activity is available through a test rule
+ * Get string resource with arguments in an instrumented test when no activity is available through a test rule
  *
  * @param id: string resource id
  * @param formatArgs: arguments to string
