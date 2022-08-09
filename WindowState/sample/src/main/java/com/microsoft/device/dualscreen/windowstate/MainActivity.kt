@@ -10,15 +10,19 @@ package com.microsoft.device.dualscreen.windowstate
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.microsoft.device.dualscreen.windowstate.ui.theme.WindowStateTheme
 
@@ -66,21 +70,37 @@ fun WindowStateDashboard(windowState: WindowState) {
     val widthSizeClass = windowState.widthSizeClass()
     val heightSizeClass = windowState.heightSizeClass()
 
-    Column {
-        Text(text = "Large screen and foldable properties", style = MaterialTheme.typography.h6)
-        Text(text = "The current foldSizeDp is ${foldSizePx}px, $foldSizeDp")
-        Text(text = "The current largeScreenPane1Weight is ${windowState.largeScreenPane1Weight}")
-        Text(text = "The current pane1SizeDp is:\n\t[${pane1WidthPx}px, ${pane1HeightPx}px], [${pane1Size.width}, ${pane1Size.height}]")
-        Text(text = "The current pane2SizeDp is:\n\t[${pane2WidthPx}px, ${pane2HeightPx}px], [${pane2Size.width}, ${pane2Size.height}]")
+    Column(
+        modifier = Modifier
+            .padding(30.dp)
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(5.dp)
+    ) {
+        Text(text = stringResource(R.string.sample_title), style = MaterialTheme.typography.h4)
         Spacer(modifier = Modifier.height(15.dp))
 
-        Text(text = "Window mode properties", style = MaterialTheme.typography.h6)
-        Text(text = "Is the app in dual screen mode? $isDualScreen")
-        Text(text = "The current window mode is $windowMode")
+        Text(text = stringResource(R.string.foldable_properties_title), style = MaterialTheme.typography.h6)
+        Text(text = stringResource(R.string.fold_size, foldSizePx, foldSizeDp))
+        Text(text = stringResource(R.string.large_screen_weight, windowState.largeScreenPane1Weight))
+        Text(
+            text = stringResource(
+                R.string.pane_1_size, pane1WidthPx, pane1HeightPx, pane1Size.width, pane1Size.height
+            )
+        )
+        Text(
+            text = stringResource(
+                R.string.pane_2_size, pane2WidthPx, pane2HeightPx, pane2Size.width, pane2Size.height
+            )
+        )
         Spacer(modifier = Modifier.height(15.dp))
 
-        Text(text = "Window size properties", style = MaterialTheme.typography.h6)
-        Text(text = "What is the current width size class? $widthSizeClass")
-        Text(text = "What is the current height size class? $heightSizeClass")
+        Text(text = stringResource(R.string.window_mode_properties_title), style = MaterialTheme.typography.h6)
+        Text(text = stringResource(R.string.dual_screen_mode, isDualScreen))
+        Text(text = stringResource(R.string.window_mode, windowMode))
+        Spacer(modifier = Modifier.height(15.dp))
+
+        Text(text = stringResource(R.string.window_size_properties_title), style = MaterialTheme.typography.h6)
+        Text(text = stringResource(R.string.width_class, widthSizeClass))
+        Text(text = stringResource(R.string.height_class, heightSizeClass))
     }
 }

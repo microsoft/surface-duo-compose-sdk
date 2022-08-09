@@ -4,7 +4,6 @@
   ~ Licensed under the MIT License.
   -->
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.microsoft.device.dualscreen.windowstate">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
 </manifest>

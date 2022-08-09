@@ -24,17 +24,17 @@ And the window size classes are measured based on Google's [Window size classes]
 2. Add dependencies to the module-level **build.gradle** file (current version may be different from what's shown here).
 
     ```gradle
-    implementation "com.microsoft.device.dualscreen:windowstate:1.0.0-alpha04"
+    implementation "com.microsoft.device.dualscreen:windowstate:1.0.0-alpha05"
     ```
 
-3. Also ensure the compileSdkVersion and targetSdkVersion are set to API 31 or newer in the module-level build.gradle file.
+3. Also ensure the compileSdkVersion and targetSdkVersion are set to API 32 or newer in the module-level build.gradle file.
 
     ```gradle
     android { 
-        compileSdkVersion 31
+        compileSdkVersion 32
         
         defaultConfig { 
-            targetSdkVersion 31
+            targetSdkVersion 32
         } 
         ... 
     }
@@ -238,12 +238,13 @@ The table below shows screenshots from the [sample](https://github.com/microsoft
 
 | Emulator | Sample screenshot |
 |---|:-:|
-| Surface Duo 2 (unspanned) |![Sample running on the Surface Duo 2 emulator, unspanned](screenshots/sample_surfaceduo2_unspanned.png) |
-| Surface Duo 2 (spanned) |![Sample running on the Surface Duo 2 emulator, spanned](screenshots/sample_surfaceduo2_spanned.png) |
-| 6.7 fold-in | ![Sample running on the 6.7 fold-in emulator](screenshots/sample_6.7.png)|
-| 7.6 fold-in | ![Sample running on the 7.6 fold-in emulator](screenshots/sample_7.6.png)
-| 8 fold-out | ![Sample running on the 8 fold-out emulator](screenshots/sample_8.png)
-| Pixel C | ![Sample running on the Pixel C emulator](screenshots/sample_pixelc.png)
+| Surface Duo 2 (unspanned) | <img src="screenshots/sample_surfaceduo2_unspanned.png" width=500 alt="Sample running on the Surface Duo 2 emulator, unspanned"> |
+| Surface Duo 2 (unspanned) | <img src="screenshots/sample_surfaceduo2_unspanned.png" width=500 alt="Sample running on the Surface Duo 2 emulator, unspanned"> |
+| Surface Duo 2 (spanned) | <img src="screenshots/sample_surfaceduo2_spanned.png" width=500 alt="Sample running on the Surface Duo 2 emulator, spanned"> |
+| 6.7 fold-in | <img src="screenshots/sample_6.7.png" height=500 alt="Sample running on the 6.7 fold-in emulator"> |
+| 7.6 fold-in | <img src="screenshots/sample_7.6.png" width=500 alt="Sample running on the 7.6 fold-in emulator"> |
+| 8 fold-out | <img src="screenshots/sample_8.png" width=500 alt="Sample running on the 8 fold-out emulator"> |
+| Pixel C | <img src="screenshots/sample_pixelc.png" width=500 alt="Sample running on the Pixel C emulator"> |
 
 ## Contributing
 

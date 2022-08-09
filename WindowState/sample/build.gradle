@@ -34,7 +34,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
-        useIR = true
     }
     buildFeatures {
         compose true
@@ -47,6 +46,7 @@ android {
             excludes += ['META-INF/LGPL2.1', 'META-INF/AL2.0']
         }
     }
+    namespace 'com.microsoft.device.dualscreen.windowstate'
 }
 
 dependencies {
