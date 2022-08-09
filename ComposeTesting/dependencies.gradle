@@ -14,17 +14,17 @@ ext {
 
     // ComposeTesting library version code:
     // If you want to publish a new version, bump in one (1) the specific line(s)
-    composeTestingVersionCode = 4
+    composeTestingVersionCode = 5
 
     // ComposeTesting library version name:
     // If you want to publish a new version, bump the specific line
-    composeTestingVersionName = '1.0.0-alpha04'
+    composeTestingVersionName = '1.0.0-alpha05'
 
     // ----------------------------------
 
     gradlePluginVersion = '7.1.1'
-    kotlinVersion = "1.6.10"
-    compileSdkVersion = 31
+    kotlinVersion = "1.7.0"
+    compileSdkVersion = 32
     targetSdkVersion = compileSdkVersion
     minSdkVersion = 23
     dokkaVersion = "1.6.0"
@@ -45,7 +45,7 @@ ext {
 
     // AndroidX dependencies
     appCompatVersion = '1.4.1'
-    ktxCoreVersion = '1.7.0'
+    ktxCoreVersion = '1.8.0'
     windowVersion = '1.0.0'
     androidxDependencies = [
             appCompat         : "androidx.appcompat:appcompat:$appCompatVersion",
@@ -54,7 +54,7 @@ ext {
     ]
 
     // Compose dependencies
-    composeVersion = "1.1.1"
+    composeVersion = "1.2.0"
     activityComposeVersion = "1.4.0"
     navigationComposeVersion = "2.4.0"
     composeDependencies = [
@@ -86,13 +86,13 @@ ext {
     ]
 
     // Google dependencies
-    materialVersion = "1.5.0"
+    materialVersion = '1.6.1'
     googleDependencies = [
             material: "com.google.android.material:material:$materialVersion"
     ]
 
     // Microsoft dependencies
-    twoPaneLayoutVersion = "1.0.0-alpha10"
+    twoPaneLayoutVersion = '1.0.1-alpha02'
     kotlinTestingVersion = "1.0.0-alpha4"
     microsoftDependencies = [
             twoPaneLayout: "com.microsoft.device.dualscreen:twopanelayout:$twoPaneLayoutVersion",
