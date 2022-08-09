@@ -107,7 +107,7 @@ publishing {
         }
     }
 
-    // Public/and for test purposes: This is used to upload the artifact to internal repository
+    // Private/and for test purposes: This is used to upload the artifact to internal repository
     // for testing purposes You can use it by doing:
     // ./gradlew :module:publishSurfaceDuoComposePublicationToADORepository
     //being :module the specific module you want to create the artifact from
