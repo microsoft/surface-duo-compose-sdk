@@ -70,6 +70,16 @@ class AnnotationTest {
     }
 
     /**
+     * Uses @DualScreenTest annotation to check that sample shows pane 1 and 2 text when in dual portrait mode
+     */
+    @Test
+    @DualScreenTest(orientation = UiAutomation.ROTATION_FREEZE_0)
+    fun dualPortrait_showsTwoPanes() {
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane1_text)).assertIsDisplayed()
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane2_text)).assertIsDisplayed()
+    }
+
+    /**
      * Uses @DualScreenTest annotation to check that sample shows pane 1 and pane 2 text when in dual portrait
      * mode
      *
