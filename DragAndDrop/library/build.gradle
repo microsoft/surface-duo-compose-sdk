@@ -24,12 +24,6 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
 
-        versionCode rootProject.ext.dragAndDopVersionCode
-        versionName rootProject.ext.dragAndDopVersionName
-        buildConfigField("int", "VERSION_CODE", "${defaultConfig.versionCode}")
-        buildConfigField("String", "VERSION_NAME", "\"${defaultConfig.versionName}\"")
-
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary true
@@ -64,6 +58,7 @@ android {
             excludes += ['META-INF/LGPL2.1', 'META-INF/AL2.0']
         }
     }
+    namespace 'com.microsoft.device.dualscreen.draganddrop'
 
 }
 
