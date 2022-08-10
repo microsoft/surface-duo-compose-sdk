@@ -14,7 +14,6 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import com.microsoft.device.dualscreen.testing.compose.getString
 import com.microsoft.device.dualscreen.testing.isSurfaceDuo
-import com.microsoft.device.dualscreen.testing.sample.ui.theme.ComposeTestingTheme
 import com.microsoft.device.dualscreen.testing.spanFromStart
 import com.microsoft.device.dualscreen.testing.unspanToEnd
 import org.junit.Rule
@@ -27,12 +26,6 @@ class SwipeTest {
 
     @Test
     fun span_showsTwoPanes() {
-        composeTestRule.setContent {
-            ComposeTestingTheme {
-                ComposeTestingApp()
-            }
-        }
-
         // Assert that only pane 1 is shown
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane1_text)).assertIsDisplayed()
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane2_text)).assertDoesNotExist()
@@ -51,11 +44,6 @@ class SwipeTest {
 
     @Test
     fun unspan_showsOnePane() {
-        composeTestRule.setContent {
-            ComposeTestingTheme {
-                ComposeTestingApp()
-            }
-        }
         if (device.isSurfaceDuo()) {
             // Span the app from start
             device.spanFromStart()

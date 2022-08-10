@@ -51,6 +51,7 @@ android {
             excludes += ['META-INF/LGPL2.1', 'META-INF/AL2.0']
         }
     }
+    namespace 'com.microsoft.device.dualscreen.testing.sample'
 }
 
 dependencies {
@@ -63,4 +64,6 @@ dependencies {
     androidTestImplementation project(path: ':library')
     androidTestImplementation(testDependencies.composeJunit)
     androidTestImplementation(testDependencies.uiAutomator)
+
+    debugImplementation(testDependencies.composeUITestManifest)
 }
