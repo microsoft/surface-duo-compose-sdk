@@ -26,7 +26,6 @@ import com.microsoft.device.dualscreen.testing.filters.TargetDevices
 import com.microsoft.device.dualscreen.testing.rules.FoldableTestRule
 import com.microsoft.device.dualscreen.testing.runner.FoldableJUnit4ClassRunner
 import com.microsoft.device.dualscreen.testing.spanFromStart
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
@@ -49,13 +48,6 @@ class AnnotationTest {
     @get:Rule
     val testRule: TestRule = foldableRuleChain(composeTestRule, foldableTestRule)
 
-    @Before
-    fun setUp() {
-        composeTestRule.setContent {
-            ComposeTestingApp()
-        }
-    }
-
     /**
      * Uses @SingleScreenTest annotation to check that sample shows only pane 1 text when in single portrait mode
      */
@@ -75,6 +67,16 @@ class AnnotationTest {
     fun dualLandscape_showsOnePane() {
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane1_text)).assertIsDisplayed()
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane2_text)).assertDoesNotExist()
+    }
+
+    /**
+     * Uses @DualScreenTest annotation to check that sample shows pane 1 and 2 text when in dual portrait mode
+     */
+    @Test
+    @DualScreenTest(orientation = UiAutomation.ROTATION_FREEZE_0)
+    fun dualPortrait_showsTwoPanes() {
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane1_text)).assertIsDisplayed()
+        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane2_text)).assertIsDisplayed()
     }
 
     /**

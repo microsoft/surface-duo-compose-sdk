@@ -14,7 +14,6 @@ import com.microsoft.device.dualscreen.testing.compose.getString
 import com.microsoft.device.dualscreen.testing.compose.simulateHorizontalFoldingFeature
 import com.microsoft.device.dualscreen.testing.compose.simulateVerticalFoldingFeature
 import com.microsoft.device.dualscreen.testing.createWindowLayoutInfoPublisherRule
-import com.microsoft.device.dualscreen.testing.sample.ui.theme.ComposeTestingTheme
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
@@ -33,11 +32,6 @@ class FoldingFeatureTest {
 
     @Test
     fun deviceOpenVertically_showsTwoPanes() {
-        composeTestRule.setContent {
-            ComposeTestingTheme {
-                ComposeTestingApp()
-            }
-        }
         // Simulate vertical FoldingFeature
         publisherRule.simulateVerticalFoldingFeature(composeTestRule)
 
@@ -48,11 +42,6 @@ class FoldingFeatureTest {
 
     @Test
     fun deviceOpenHorizontally_showsOnePane() {
-        composeTestRule.setContent {
-            ComposeTestingTheme {
-                ComposeTestingApp()
-            }
-        }
         // Simulate vertical FoldingFeature
         publisherRule.simulateHorizontalFoldingFeature(composeTestRule)
 
@@ -63,12 +52,6 @@ class FoldingFeatureTest {
 
     @Test
     fun deviceNotOpen_showsOnePane() {
-        composeTestRule.setContent {
-            ComposeTestingTheme {
-                ComposeTestingApp()
-            }
-        }
-
         // Assert the first is being shown
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane1_text)).assertIsDisplayed()
         // Assert the second is not being shown
