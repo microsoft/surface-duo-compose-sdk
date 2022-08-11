@@ -67,6 +67,7 @@ fun TwoPaneScope.Pane1() {
             modifier = Modifier
                 .background(color = green)
                 .clickable { navigateToPane2() }
+                .padding(it)
                 .padding(10.dp)
                 .fillMaxSize(),
             color = Color.Black
@@ -85,6 +86,7 @@ fun TwoPaneScope.Pane2() {
             modifier = Modifier
                 .background(color = yellow)
                 .clickable { navigateToPane1() }
+                .padding(it)
                 .padding(10.dp)
                 .fillMaxSize(),
             color = Color.Black
