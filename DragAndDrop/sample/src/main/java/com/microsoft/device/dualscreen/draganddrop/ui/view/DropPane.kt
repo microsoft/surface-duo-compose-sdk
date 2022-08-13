@@ -67,9 +67,11 @@ fun DropPane(modifier: Modifier = Modifier) {
                 if (!isDroppingItem) {
                     if (dragData.type == MimeType.TEXT_PLAIN) {
                         dragText = dragData.data as String
+                        dragImage = null
                     }
                     if (dragData.type == MimeType.IMAGE_JPEG) {
                         dragImage = dragData.data as Painter
+                        dragText = null
                     }
                 }
             }

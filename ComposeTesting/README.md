@@ -18,17 +18,17 @@ The library is based on the [testing-kotlin](https://github.com/microsoft/surfac
 2. Add dependencies to the module-level **build.gradle** file (current version may be different from what's shown here).
 
     ```gradle
-    implementation "com.microsoft.device.dualscreen.testing:testing-compose:1.0.0-alpha04"
+    implementation "com.microsoft.device.dualscreen.testing:testing-compose:1.0.0-alpha05"
     ```
 
-3. Also ensure the compileSdkVersion and targetSdkVersion are set to API 31 or newer in the module-level build.gradle file.
+3. Also ensure the compileSdkVersion and targetSdkVersion are set to API 32 or newer in the module-level build.gradle file.
 
     ```gradle
     android { 
-        compileSdkVersion 31
+        compileSdkVersion 32
         
         defaultConfig { 
-            targetSdkVersion 31
+            targetSdkVersion 32
         } 
         ... 
     }
@@ -90,13 +90,25 @@ These functions can be used for string operations in UI tests to simplify testin
 fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.getString(@StringRes id: Int): String
 ```
 
-Get resource string inside Compose test with resource id
+Get string resource inside Compose test with resource id
 
 ```kotlin
 fun <A : ComponentActivity> AndroidComposeTestRule<ActivityScenarioRule<A>, A>.getString(@StringRes id: Int, vararg formatArgs: Any): String
 ```
 
-Get resource string inside Compose test with resource id and arguments
+Get string resource inside Compose test with resource id and arguments
+
+```kotlin
+fun getString(@StringRes id: Int): String
+```
+
+Get string resource in an instrumented test when no activity is available through a test rule
+
+```kotlin
+fun getString(@StringRes id: Int, vararg formatArgs: Any): String
+```
+
+Get string resource with arguments in an instrumented test when no activity is available through a test rule
 
 ### Foldable rule chain
 
