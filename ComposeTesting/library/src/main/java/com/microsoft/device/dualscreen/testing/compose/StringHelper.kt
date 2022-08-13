@@ -55,5 +55,5 @@ fun getString(@StringRes id: Int): String {
  * @param formatArgs: arguments to string
  */
 fun getString(@StringRes id: Int, vararg formatArgs: Any): String {
-    return InstrumentationRegistry.getInstrumentation().targetContext.resources.getString(id, formatArgs)
+    return InstrumentationRegistry.getInstrumentation().targetContext.resources.getString(id, *formatArgs)
 }
