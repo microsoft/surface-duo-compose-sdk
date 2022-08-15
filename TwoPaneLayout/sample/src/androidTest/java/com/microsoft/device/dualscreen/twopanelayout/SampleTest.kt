@@ -13,7 +13,6 @@ import com.microsoft.device.dualscreen.testing.compose.getString
 import com.microsoft.device.dualscreen.testing.compose.simulateHorizontalFoldingFeature
 import com.microsoft.device.dualscreen.testing.compose.simulateVerticalFoldingFeature
 import com.microsoft.device.dualscreen.testing.createWindowLayoutInfoPublisherRule
-import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.TwoPaneScopeTest
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.RuleChain
@@ -31,28 +30,19 @@ class SampleTest {
         RuleChain.outerRule(composeTestRule)
     }
 
-    private fun setUpMainPage() {
-        composeTestRule.setContent {
-            MainPage()
-        }
-    }
-
     @Test
     fun app_launches() {
-        setUpMainPage()
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.app_name)).assertIsDisplayed()
     }
 
     @Test
     fun app_canNavigateToSecondPane() {
-        setUpMainPage()
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.first_pane_text)).performClick()
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.second_pane_text)).assertIsDisplayed()
     }
 
     @Test
     fun app_canNavigateToFirstPane() {
-        setUpMainPage()
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.first_pane_text)).performClick()
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.second_pane_text)).performClick()
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.first_pane_text)).assertIsDisplayed()
@@ -60,7 +50,6 @@ class SampleTest {
 
     @Test
     fun app_dualPortrait_showsTwoPanes() {
-        setUpMainPage()
         publisherRule.simulateVerticalFoldingFeature(composeTestRule)
 
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.first_pane_text)).assertIsDisplayed()
@@ -69,36 +58,9 @@ class SampleTest {
 
     @Test
     fun app_dualLandscape_showsOnePane() {
-        setUpMainPage()
         publisherRule.simulateHorizontalFoldingFeature(composeTestRule)
 
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.first_pane_text)).assertIsDisplayed()
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.second_pane_text)).assertDoesNotExist()
-    }
-
-    @Test
-    fun topBar_singlePane_showsCorrectPaneString() {
-        composeTestRule.setContent {
-            val twoPaneScopeTest = TwoPaneScopeTest(isSinglePane = true)
-            twoPaneScopeTest.TopAppBar(pane = R.string.pane1)
-        }
-
-        composeTestRule.onNodeWithText(
-            composeTestRule.getString(R.string.app_name) + " " + composeTestRule.getString(R.string.pane1)
-        ).assertDoesNotExist()
-        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.app_name)).assertIsDisplayed()
-    }
-
-    @Test
-    fun topBar_twoPanes_showsCorrectPaneString() {
-        composeTestRule.setContent {
-            val twoPaneScopeTest = TwoPaneScopeTest(isSinglePane = false)
-            twoPaneScopeTest.TopAppBar(pane = R.string.pane1)
-        }
-
-        composeTestRule.onNodeWithText(
-            composeTestRule.getString(R.string.app_name) + " " + composeTestRule.getString(R.string.pane1)
-        ).assertIsDisplayed()
-        composeTestRule.onNodeWithText(composeTestRule.getString(R.string.app_name)).assertDoesNotExist()
     }
 }
