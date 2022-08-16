@@ -2,15 +2,14 @@ package com.microsoft.device.dualscreen.twopanelayout.twopanelayout
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.Layout
-import androidx.compose.ui.platform.LocalDensity
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.microsoft.device.dualscreen.twopanelayout.Screen
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneMode
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneScope
+import com.microsoft.device.dualscreen.twopanelayout.common.calculatePaneSizes
 import com.microsoft.device.dualscreen.twopanelayout.common.twoPaneMeasurePolicy
 import com.microsoft.device.dualscreen.windowstate.WindowMode
 import com.microsoft.device.dualscreen.windowstate.WindowState
@@ -90,20 +89,13 @@ internal fun TwoPaneContainer(
     pane1: @Composable TwoPaneScope.() -> Unit,
     pane2: @Composable TwoPaneScope.() -> Unit
 ) {
-    val pane1SizePx: Size
-    val pane2SizePx: Size
-    with(LocalDensity.current) {
-        pane1SizePx = windowState.pane1SizeDp.toSize()
-        pane2SizePx = windowState.pane2SizeDp.toSize()
-    }
-
     navigateToPane1Handler = { }
     navigateToPane2Handler = { }
 
     val measurePolicy = twoPaneMeasurePolicy(
         windowMode = windowState.windowMode,
         isSeparating = windowState.foldIsSeparating,
-        paneSizes = arrayOf(pane1SizePx, pane2SizePx),
+        paneSizes = calculatePaneSizes(windowState = windowState),
     )
     Layout(
         content = {

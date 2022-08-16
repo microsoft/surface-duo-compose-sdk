@@ -63,6 +63,7 @@ fun TwoPaneNavScope.BasicDestination(
                 .fillMaxSize()
                 .background(sampleDestination.color)
                 .clickable { onClick() }
+                .padding(it)
                 .padding(10.dp)
         ) {
             Text(

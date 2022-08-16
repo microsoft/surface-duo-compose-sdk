@@ -44,7 +44,7 @@ Helper functions that help you easily test your application on the dual-screen, 
 
 A Compose component that helps you build drag and drop feature on any Android devices, especially dual-screen, foldable and large-screen devices.
 
-#### Latest Update: [1.0.0-alpha01](https://github.com/microsoft/surface-duo-compose-sdk/releases/tag/draganddrop_20220707_alpha01) (July 7th, 2022)
+#### Latest Update: [1.0.0-alpha02](https://github.com/microsoft/surface-duo-compose-sdk/releases/tag/draganddrop_20220810_alpha02) (August 10th, 2022)
 
 ## Social links
 
