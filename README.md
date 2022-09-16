@@ -50,6 +50,8 @@ A Compose component that helps you build drag and drop feature on any Android de
 
 | Blog post | Video |
 |---|---|
+| [Improving app accessibility with Jetpack Compose](https://devblogs.microsoft.com/surface-duo/jetpack-compose-accessibility/) | [Twitch #88: Jetpack Compose Accessibility](https://www.twitch.tv/videos/1592646473) |
+| [Dual-screen example adds Jetpack Compose to the experience](https://devblogs.microsoft.com/surface-duo/jetpack-compose-existing-app/) | [Twitch #86: Adding Jetpack Compose to existing apps](https://www.youtube.com/watch?v=9c7s0I6VcFU) |
 | [Source Editor & Diary samples for Jetpack Compose](https://devblogs.microsoft.com/surface-duo/jetpack-compose-source-editor-diary-samples/) | [Twitch #79: More new Jetpack Compose samples](https://www.youtube.com/watch?v=eO0D3MHvKLA) |
 | [Video+Chat and Calculator samples for Jetpack Compose](https://devblogs.microsoft.com/surface-duo/jetpack-compose-video-calculator-samples/) | [Twitch #77: New Jetpack Compose samples](https://www.youtube.com/watch?v=b4WG3moVriA) |
 | [Jetpack Compose TwoPaneLayout update](https://devblogs.microsoft.com/surface-duo/jetpack-compose-foldable-twopanelayout/) | [Twitch #76: Jetpack Compose TwoPaneLayout update](https://www.youtube.com/watch?v=cI73qh_mTOo) |
