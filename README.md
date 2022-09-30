@@ -38,7 +38,7 @@ A utility component that helps you easily get details about the window state of 
 
 Helper functions that help you easily test your application on the dual-screen, foldable and large screen devices.
 
-#### Latest Update: [1.0.0-alpha05](https://github.com/microsoft/surface-duo-compose-sdk/releases/tag/composetesting_20220810_alpha05) (August 10th, 2022)
+#### Latest Update: [1.0.0-alpha06](https://github.com/microsoft/surface-duo-compose-sdk/releases/tag/composetesting_20220816_alpha06) (August 16th, 2022)
 
 ### [DragAndDrop](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/DragAndDrop)
 
@@ -50,6 +50,9 @@ A Compose component that helps you build drag and drop feature on any Android de
 
 | Blog post | Video |
 |---|---|
+| [Jetpack Compose Accompanist TwoPane](https://devblogs.microsoft.com/surface-duo/jetpack-compose-accompanist-twopane/) | [Twitch #89: Jetpack Compose Accompanist TwoPane](https://www.youtube.com/watch?v=xt-iJCStEy0) |
+| [Improving app accessibility with Jetpack Compose](https://devblogs.microsoft.com/surface-duo/jetpack-compose-accessibility/) | [Twitch #88: Jetpack Compose Accessibility](https://www.youtube.com/watch?v=BNy9jwTyRco) |
+| [Dual-screen example adds Jetpack Compose to the experience](https://devblogs.microsoft.com/surface-duo/jetpack-compose-existing-app/) | [Twitch #86: Adding Jetpack Compose to existing apps](https://www.youtube.com/watch?v=9c7s0I6VcFU) |
 | [Source Editor & Diary samples for Jetpack Compose](https://devblogs.microsoft.com/surface-duo/jetpack-compose-source-editor-diary-samples/) | [Twitch #79: More new Jetpack Compose samples](https://www.youtube.com/watch?v=eO0D3MHvKLA) |
 | [Video+Chat and Calculator samples for Jetpack Compose](https://devblogs.microsoft.com/surface-duo/jetpack-compose-video-calculator-samples/) | [Twitch #77: New Jetpack Compose samples](https://www.youtube.com/watch?v=b4WG3moVriA) |
 | [Jetpack Compose TwoPaneLayout update](https://devblogs.microsoft.com/surface-duo/jetpack-compose-foldable-twopanelayout/) | [Twitch #76: Jetpack Compose TwoPaneLayout update](https://www.youtube.com/watch?v=cI73qh_mTOo) |
