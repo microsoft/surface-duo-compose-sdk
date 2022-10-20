@@ -223,20 +223,24 @@ data class WindowState(
     }
 
     /**
-     * Checks whether the window is considered large (expanded width size class) or not. Note: currently,
-     * foldables take priority over large screens, so if a window has a separating fold and is a large windnow, it
-     * will be treated as a foldable.
+     * Checks whether the window is considered large, meaning both the width and height
+     * [size classes](https://developer.android.com/guide/topics/large-screens/support-different-screen-sizes#window_size_classes)
+     * are at least expanded and medium respectively.
+     *
+     * Note: currently, foldables take priority over large screens, so if a window has a separating fold and is a
+     * large windnow, it will be treated as a foldable.
      *
      * @return true if large, false otherwise
      */
     private fun windowIsLarge(): Boolean {
-        // REVISIT: should height class also be considered?
-        // Also, right now we are considering large screens + foldables mutually exclusive
+        // Window is large if width size class is expanded and height size class is at least medium
+        val isLarge = widthSizeClass() == WindowSizeClass.EXPANDED && heightSizeClass() != WindowSizeClass.COMPACT
+
+        // Right now we are considering large screens + foldables mutually exclusive
         // (which seems necessary for dualscreen apps), but we may want to think about this
         // more and change our approach if we think there are cases where we want an app to
         // know about both properties
-        val widthSizeClass = getWindowSizeClass(windowWidthDp)
-        return !foldIsSeparating && widthSizeClass == WindowSizeClass.EXPANDED
+        return !foldIsSeparating && isLarge
     }
 
     /**
