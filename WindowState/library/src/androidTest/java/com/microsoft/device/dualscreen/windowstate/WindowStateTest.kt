@@ -66,6 +66,18 @@ class WindowStateTest {
         windowHeightDp = 910.dp
     )
     private val noFoldCompact = WindowState()
+    private val noFoldMediumWidthCompactHeight = WindowState(
+        windowWidthDp = 700.dp,
+        windowHeightDp = 300.dp
+    )
+    private val noFoldMediumWidthMediumHeight = WindowState(
+        windowWidthDp = 700.dp,
+        windowHeightDp = 500.dp
+    )
+    private val noFoldExpandedWidthMediumHeight = WindowState(
+        windowWidthDp = 900.dp,
+        windowHeightDp = 600.dp
+    )
 
     /**
      * constructor tests
@@ -159,6 +171,24 @@ class WindowStateTest {
     fun non_separating_expanded_fold_returns_dual_modes() {
         assertEquals(WindowMode.DUAL_LANDSCAPE, horizontalFoldEqualNotSeparating.calculateWindowMode(true))
         assertEquals(WindowMode.DUAL_PORTRAIT, horizontalFoldEqualNotSeparating.calculateWindowMode(false))
+    }
+
+    @Test
+    fun non_separating_medium_width_compact_height_fold_returns_single_modes() {
+        assertEquals(WindowMode.SINGLE_PORTRAIT, noFoldMediumWidthCompactHeight.calculateWindowMode(true))
+        assertEquals(WindowMode.SINGLE_LANDSCAPE, noFoldMediumWidthCompactHeight.calculateWindowMode(false))
+    }
+
+    @Test
+    fun non_separating_medium_width_medium_height_fold_returns_single_modes() {
+        assertEquals(WindowMode.SINGLE_PORTRAIT, noFoldMediumWidthMediumHeight.calculateWindowMode(true))
+        assertEquals(WindowMode.SINGLE_LANDSCAPE, noFoldMediumWidthMediumHeight.calculateWindowMode(false))
+    }
+
+    @Test
+    fun non_separating_expanded_width_medium_height_fold_returns_dual_modes() {
+        assertEquals(WindowMode.DUAL_LANDSCAPE, noFoldExpandedWidthMediumHeight.calculateWindowMode(true))
+        assertEquals(WindowMode.DUAL_PORTRAIT, noFoldExpandedWidthMediumHeight.calculateWindowMode(false))
     }
 
     /**
