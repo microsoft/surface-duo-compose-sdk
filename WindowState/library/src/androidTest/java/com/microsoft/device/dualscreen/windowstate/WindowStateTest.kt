@@ -74,6 +74,10 @@ class WindowStateTest {
         windowWidthDp = 700.dp,
         windowHeightDp = 500.dp
     )
+    private val noFoldExpandedWidthCompactHeight = WindowState(
+        windowWidthDp = 900.dp,
+        windowHeightDp = 450.dp
+    )
     private val noFoldExpandedWidthMediumHeight = WindowState(
         windowWidthDp = 900.dp,
         windowHeightDp = 600.dp
@@ -183,6 +187,12 @@ class WindowStateTest {
     fun non_separating_medium_width_medium_height_fold_returns_single_modes() {
         assertEquals(WindowMode.SINGLE_PORTRAIT, noFoldMediumWidthMediumHeight.calculateWindowMode(true))
         assertEquals(WindowMode.SINGLE_LANDSCAPE, noFoldMediumWidthMediumHeight.calculateWindowMode(false))
+    }
+
+    @Test
+    fun non_separating_expanded_width_compact_height_fold_returns_single_modes() {
+        assertEquals(WindowMode.SINGLE_PORTRAIT, noFoldExpandedWidthCompactHeight.calculateWindowMode(true))
+        assertEquals(WindowMode.SINGLE_LANDSCAPE, noFoldExpandedWidthCompactHeight.calculateWindowMode(false))
     }
 
     @Test
