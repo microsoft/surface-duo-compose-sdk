@@ -111,7 +111,7 @@ internal fun isSinglePaneLayout(
     windowMode: WindowMode,
     paneMode: TwoPaneMode,
 ): Boolean {
-    return !windowMode.isDualScreen ||
+    return !windowMode.isDualScreen || paneMode == TwoPaneMode.SinglePane ||
         paneMode == TwoPaneMode.VerticalSingle && windowMode == WindowMode.DUAL_PORTRAIT ||
         paneMode == TwoPaneMode.HorizontalSingle && windowMode == WindowMode.DUAL_LANDSCAPE
 }

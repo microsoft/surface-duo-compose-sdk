@@ -82,6 +82,20 @@ class TwoPaneTest : LayoutTest() {
         }
     }
 
+    /**
+     * Check that isSinglePane returns the correct value for all postures when in SinglePane mode
+     */
+    @Test
+    fun isSinglePaneCheck_withSinglePaneMode() {
+        val paneMode = TwoPaneMode.SinglePane
+
+        for (windowMode in WindowMode.values()) {
+            val isSinglePane = isSinglePaneLayout(windowMode, paneMode)
+
+            assert(isSinglePane)
+        }
+    }
+
     @Test
     fun singlePane_layout() {
         val width = 400
