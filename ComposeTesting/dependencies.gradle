@@ -14,18 +14,18 @@ ext {
 
     // ComposeTesting library version code:
     // If you want to publish a new version, bump in one (1) the specific line(s)
-    composeTestingVersionCode = 6
+    composeTestingVersionCode = 7
 
     // ComposeTesting library version name:
     // If you want to publish a new version, bump the specific line
-    composeTestingVersionName = '1.0.0-alpha06'
+    composeTestingVersionName = '1.0.0-alpha07'
 
     // ----------------------------------
 
-    gradlePluginVersion = '7.2.0'
-    kotlinVersion = "1.7.0"
-    compileSdkVersion = 32
-    targetSdkVersion = compileSdkVersion
+    gradlePluginVersion = '7.3.0'
+    kotlinVersion = '1.7.20'
+    compileSdkVersion = 33
+    targetSdkVersion = 32
     minSdkVersion = 23
     dokkaVersion = "1.6.0"
 
@@ -35,8 +35,10 @@ ext {
             testInstrumentationRunner: "androidx.test.runner.AndroidJUnitRunner"
     ]
 
+    kotlinCoroutinesVersion = '1.6.1'
     kotlinDependencies = [
-            kotlinStdlib: "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+            kotlinStdlib: "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion",
+            kotlinCoroutines: "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinCoroutinesVersion"
     ]
 
     dokkaDependencies = [
@@ -45,7 +47,7 @@ ext {
 
     // AndroidX dependencies
     appCompatVersion = '1.4.1'
-    ktxCoreVersion = '1.8.0'
+    ktxCoreVersion = "1.9.0"
     windowVersion = '1.0.0'
     androidxDependencies = [
             appCompat         : "androidx.appcompat:appcompat:$appCompatVersion",
@@ -54,9 +56,10 @@ ext {
     ]
 
     // Compose dependencies
-    composeVersion = "1.2.0"
-    activityComposeVersion = "1.4.0"
-    navigationComposeVersion = "2.4.0"
+    composeVersion = '1.3.0'
+    composeCompilerVersion = '1.3.2'
+    activityComposeVersion = '1.6.1'
+    navigationComposeVersion = '2.5.3'
     composeDependencies = [
             composeMaterial         : "androidx.compose.material:material:$composeVersion",
             composeRuntime          : "androidx.compose.runtime:runtime-livedata:$composeVersion",
@@ -86,14 +89,14 @@ ext {
     ]
 
     // Google dependencies
-    materialVersion = '1.6.1'
+    materialVersion = '1.7.0'
     googleDependencies = [
             material: "com.google.android.material:material:$materialVersion"
     ]
 
     // Microsoft dependencies
-    twoPaneLayoutVersion = '1.0.1-alpha02'
-    kotlinTestingVersion = "1.0.0-alpha4"
+    twoPaneLayoutVersion = '1.0.1-alpha03'
+    kotlinTestingVersion = '1.0.0-alpha4'
     microsoftDependencies = [
             twoPaneLayout: "com.microsoft.device.dualscreen:twopanelayout:$twoPaneLayoutVersion",
             kotlinTesting: "com.microsoft.device.dualscreen.testing:testing-kotlin:$kotlinTestingVersion",
