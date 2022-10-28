@@ -43,7 +43,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion composeVersion
+        kotlinCompilerExtensionVersion composeCompilerVersion
     }
 
     packagingOptions {
@@ -60,6 +60,8 @@ dependencies {
     implementation googleDependencies.material
 
     implementation microsoftDependencies.twoPaneLayout
+
+    implementation kotlinDependencies.kotlinCoroutines
 
     androidTestImplementation project(path: ':library')
     androidTestImplementation(testDependencies.composeJunit)
