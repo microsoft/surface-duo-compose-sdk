@@ -38,13 +38,13 @@ A utility component that helps you easily get details about the window state of 
 
 Helper functions that help you easily test your application on the dual-screen, foldable and large screen devices.
 
-#### Latest Update: [1.0.0-alpha06](https://github.com/microsoft/surface-duo-compose-sdk/releases/tag/composetesting_20220816_alpha06) (August 16th, 2022)
+#### Latest Update: [1.0.0-alpha07](https://github.com/microsoft/surface-duo-compose-sdk/releases/tag/composetesting_20221028_alpha07) (October 28th, 2022)
 
 ### [DragAndDrop](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/DragAndDrop)
 
 A Compose component that helps you build drag and drop feature on any Android devices, especially dual-screen, foldable and large-screen devices.
 
-#### Latest Update: [1.0.0-alpha02](https://github.com/microsoft/surface-duo-compose-sdk/releases/tag/draganddrop_20220810_alpha02) (August 10th, 2022)
+#### Latest Update: [1.0.0-alpha03](https://github.com/microsoft/surface-duo-compose-sdk/releases/tag/draganddrop_20221028_alpha03) (October 28th, 2022)
 
 ## Social links
 

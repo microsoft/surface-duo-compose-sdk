@@ -20,14 +20,14 @@ When the app is spanned across a separating vertical hinge or fold, or when the 
 2. Add dependencies to the module-level **build.gradle** file (current version may be different from what's shown here).
 
     ```gradle
-    implementation "com.microsoft.device.dualscreen:twopanelayout:1.0.1-alpha03"
+    implementation "com.microsoft.device.dualscreen:twopanelayout:1.0.1-alpha04"
     ```
 
-3. Also ensure the compileSdkVersion and targetSdkVersion are set to API 31 or newer in the module-level **build.gradle** file.
+3. Also ensure the compileSdkVersion is set to API 33 and targetSdkVersion is set to API 32 or newer in the module-level **build.gradle** file.
 
     ```gradle
     android { 
-        compileSdkVersion 32
+        compileSdkVersion 33
         
         defaultConfig { 
             targetSdkVersion 32
@@ -103,20 +103,23 @@ The pane mode affects when two panes are shown for TwoPaneLayout. By default, wh
 enum class TwoPaneMode {
     TwoPane,
     HorizontalSingle,
-    VerticalSingle
+    VerticalSingle,
+    SinglePane
 }
 ```
 
-There are three pane modes available for TwoPaneLayout:
+There are four pane modes available for TwoPaneLayout:
 
-- `TwoPane` - default mode, always shows two panes regardless of the orientation
-- `HorizontalSingle` - shows one big pane when in the horizontal orientation (combines top/bottom panes)
+- `TwoPane` - default mode, always shows two panes, regardless of the orientation
+- `HorizontalSingle` - shows one big pane when the fold is horizontal (combines top/bottom panes)
 
     <img src="screenshots/single-horizontal.png" width=500 alt="HorizontalSingle pane mode on a dual-screen device">
 
-- `VerticalSingle` - shows one big pane when in the vertical orientation (combines left/right panes)
+- `VerticalSingle` - shows one big pane when the fold is vertical (combines left/right panes)
 
     <img src="screenshots/single-vertical.png" width=500 alt="VerticalSingle pane mode on a foldable device">
+
+- `SinglePane` - always shows one pane, regardless of the orientation
 
 ### Weight modifier
 
