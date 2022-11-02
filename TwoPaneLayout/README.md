@@ -125,6 +125,15 @@ There are four pane modes available for TwoPaneLayout:
 
 - `SinglePane` - always shows one pane, regardless of any window features and the orientation
 
+This table explains when one 🟩 or two 🟦🟦 panes will be shown for different pane modes and device configurations:
+
+| Pane mode | Small window without separating fold | Portrait large window / horizontal separating fold | Landscape large window / vertical separating fold |
+|---|---|---|---|
+| `TwoPane` | 🟩 | 🟦🟦 | 🟦🟦 |
+| `HorizontalSingle` | 🟩 | 🟩 | 🟦🟦 |
+| `VerticalSingle` | 🟩 | 🟦🟦 | 🟩 |
+| `SinglePane` | 🟩 | 🟩 | 🟩 |
+
 ### Weight modifier
 
 TwoPaneLayout is able to assign children widths or heights according to their weights provided using the `TwoPaneScope.weight` and `TwoPaneNavScope.weight` modifiers. This only affects the layout for large screen and foldable devices, but for single-screen devices, there will still only be one pane visible, regardless of the weight.
