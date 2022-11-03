@@ -24,7 +24,7 @@ class TwoPaneNavScopeTest(
 
     override fun NavHostController.navigateTo(
         route: String,
-        screen: Screen,
+        launchScreen: Screen,
         navOptions: NavOptionsBuilder.() -> Unit
     ) {
     }

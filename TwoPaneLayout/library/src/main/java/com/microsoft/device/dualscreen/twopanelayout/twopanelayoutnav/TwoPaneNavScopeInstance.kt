@@ -25,13 +25,13 @@ internal object TwoPaneNavScopeInstance : TwoPaneNavScope {
 
     override fun NavHostController.navigateTo(
         route: String,
-        screen: Screen,
+        launchScreen: Screen,
         navOptions: NavOptionsBuilder.() -> Unit,
     ) {
         if (isSinglePane) {
             navigateSinglePaneTo(route, navOptions)
         } else {
-            when (screen) {
+            when (launchScreen) {
                 Screen.Pane1 -> navigatePane1To(route)
                 Screen.Pane2 -> navigatePane2To(route)
             }

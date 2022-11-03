@@ -60,13 +60,13 @@ interface TwoPaneNavScope {
      * in the NavHost. In two pane mode, this updates the content in the given screen/pane.
      *
      * @param route: route of the destination to navigate to
-     * @param screen: the screen (pane 1 or pane 2) in which to change content in two pane mode
+     * @param launchScreen: the screen (pane 1 or pane 2) in which to launch content in two pane mode
      * @param navOptions: optional navigation options to use in single pane mode
      */
     @Stable
     fun NavHostController.navigateTo(
         route: String,
-        screen: Screen,
+        launchScreen: Screen,
         navOptions: NavOptionsBuilder.() -> Unit = { },
     )
 
