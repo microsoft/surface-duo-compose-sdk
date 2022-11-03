@@ -36,6 +36,7 @@ internal fun isSinglePaneHandler(): Boolean {
  */
 @Composable
 internal fun SinglePaneContainer(
+    modifier: Modifier,
     navController: NavHostController,
     pane1: @Composable TwoPaneScope.() -> Unit,
     pane2: @Composable TwoPaneScope.() -> Unit
@@ -43,6 +44,7 @@ internal fun SinglePaneContainer(
     currentSinglePane = Screen.Pane1.route // always start from Pane1 to maintain the expected backstack
 
     NavHost(
+        modifier = modifier,
         navController = navController,
         startDestination = currentSinglePane
     ) {

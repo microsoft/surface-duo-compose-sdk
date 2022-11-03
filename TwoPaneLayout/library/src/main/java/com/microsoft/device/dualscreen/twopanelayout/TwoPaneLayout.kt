@@ -83,6 +83,7 @@ fun TwoPaneLayout(
 
     if (isSinglePane) {
         SinglePaneContainer(
+            modifier = modifier,
             navController = navController,
             pane1 = pane1,
             pane2 = pane2
@@ -140,6 +141,7 @@ fun TwoPaneLayoutNav(
 
     if (isSinglePaneNav) {
         SinglePaneContainer(
+            modifier = modifier,
             destinations = destinations,
             startDestination = singlePaneStartDestination,
             navController = navController,

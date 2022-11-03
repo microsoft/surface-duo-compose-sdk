@@ -36,6 +36,7 @@ private fun findDestination(route: String, destinations: Array<Destination>): De
 
 @Composable
 internal fun SinglePaneContainer(
+    modifier: Modifier,
     destinations: Array<Destination>,
     startDestination: String,
     navController: NavHostController,
@@ -53,6 +54,7 @@ internal fun SinglePaneContainer(
     }
 
     NavHost(
+        modifier = modifier,
         navController = navController,
         startDestination = startDestination
     ) {
