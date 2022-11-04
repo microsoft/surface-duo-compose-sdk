@@ -9,6 +9,7 @@ import android.app.Activity
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.SinglePaneContainer
@@ -130,10 +131,10 @@ fun TwoPaneLayoutNav(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     paneMode: TwoPaneMode = TwoPaneMode.TwoPane,
-    destinations: Array<Destination>,
     singlePaneStartDestination: String,
     pane1StartDestination: String,
-    pane2StartDestination: String
+    pane2StartDestination: String,
+    builder: NavGraphBuilder.() -> Unit
 ) {
     val activity = (LocalContext.current as? Activity)
         ?: throw ClassCastException("Local context could not be cast as an Activity")
@@ -144,15 +145,14 @@ fun TwoPaneLayoutNav(
     if (newIsSinglePane) {
         SinglePaneContainer(
             modifier = modifier,
-            destinations = destinations,
             startDestination = singlePaneStartDestination,
             navController = navController,
+            builder = builder
         )
     } else {
         TwoPaneContainer(
             windowState = windowState,
             modifier = modifier,
-            destinations = destinations,
             pane1StartDestination = pane1StartDestination,
             pane2StartDestination = pane2StartDestination
         )

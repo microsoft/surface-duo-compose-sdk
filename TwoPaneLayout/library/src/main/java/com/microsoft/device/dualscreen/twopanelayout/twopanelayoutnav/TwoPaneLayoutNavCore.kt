@@ -9,12 +9,14 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
+import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavDestination
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import com.microsoft.device.dualscreen.twopanelayout.Destination
 import com.microsoft.device.dualscreen.twopanelayout.Screen
+import com.microsoft.device.dualscreen.twopanelayout.TwoPaneNavScope
 import com.microsoft.device.dualscreen.twopanelayout.common.calculatePaneSizes
 import com.microsoft.device.dualscreen.twopanelayout.common.twoPaneMeasurePolicy
 import com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav.TwoPaneNavScopeInstance.navigateUpTo
@@ -28,22 +30,34 @@ internal var getPane1Destination: () -> String = { "" }
 internal var getPane2Destination: () -> String = { "" }
 internal var getSinglePaneDestination: () -> String = { "" }
 internal val backStack = mutableListOf<TwoPaneBackStackEntry>()
+internal val graphContent = mutableMapOf<String, @Composable TwoPaneNavScope.(NavBackStackEntry) -> Unit>()
 
 internal fun isSinglePaneHandler(): Boolean {
     return isSinglePane
 }
 
-private fun findDestination(route: String, destinations: Array<Destination>): Destination {
-    return destinations.find { pane -> pane.route == route }
-        ?: throw IllegalArgumentException("Invalid route $route, not present in list of destinations $destinations")
+private fun verifyRoute(route: String) {
+    if (!graphContent.keys.contains(route))
+        throw IllegalArgumentException("Invalid route $route, not present in list of routes ${graphContent.keys}")
+}
+
+private fun findGraphContent(route: String): @Composable TwoPaneNavScope.() -> Unit {
+    verifyRoute(route)
+
+    val content = graphContent[route]!!
+
+    // REVISIT: passing in empty entry, may update in the future if arguments need to be passed through
+    val emptyBackStackEntry = NavBackStackEntry.create(null, NavDestination(""))
+
+    return { content(emptyBackStackEntry) }
 }
 
 @Composable
 internal fun SinglePaneContainer(
     modifier: Modifier,
-    destinations: Array<Destination>,
     startDestination: String,
     navController: NavHostController,
+    builder: NavGraphBuilder.() -> Unit,
 ) {
     var currentSinglePane by remember { mutableStateOf(startDestination) }
     getSinglePaneDestination = { currentSinglePane }
@@ -72,21 +86,15 @@ internal fun SinglePaneContainer(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = startDestination
-    ) {
-        destinations.forEach { pane ->
-            composable(pane.route) {
-                TwoPaneNavScopeInstance.(pane.content)()
-            }
-        }
-    }
+        startDestination = startDestination,
+        builder = builder
+    )
 }
 
 @Composable
 internal fun TwoPaneContainer(
     windowState: WindowState,
     modifier: Modifier,
-    destinations: Array<Destination>,
     pane1StartDestination: String,
     pane2StartDestination: String
 ) {
@@ -99,13 +107,13 @@ internal fun TwoPaneContainer(
     // Initialize navigation method handlers
     navigatePane1To = { route ->
         if (currentPane1 != route) {
-            findDestination(route, destinations)
+            verifyRoute(route)
             currentPane1 = route
         }
     }
     navigatePane2To = { route ->
         if (currentPane2 != route) {
-            findDestination(route, destinations)
+            verifyRoute(route)
             currentPane2 = route
         }
     }
@@ -115,8 +123,8 @@ internal fun TwoPaneContainer(
         backStack.initialize(pane1StartDestination, pane2StartDestination)
 
     // Find the destinations to display in each pane
-    val pane1 = findDestination(currentPane1, destinations).content
-    val pane2 = findDestination(currentPane2, destinations).content
+    val pane1 = findGraphContent(currentPane1)
+    val pane2 = findGraphContent(currentPane2)
 
     val measurePolicy = twoPaneMeasurePolicy(
         windowMode = windowState.windowMode,
