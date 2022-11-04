@@ -17,6 +17,8 @@ import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.isSinglePane
 import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.isSinglePaneLayout
 import com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav.SinglePaneContainer
 import com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav.TwoPaneContainer
+import com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav.onSwitchToSinglePane
+import com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav.onSwitchToTwoPanes
 import com.microsoft.device.dualscreen.windowstate.rememberWindowState
 import com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav.isSinglePane as isSinglePaneNav
 
@@ -137,9 +139,9 @@ fun TwoPaneLayoutNav(
         ?: throw ClassCastException("Local context could not be cast as an Activity")
     val windowState = activity.rememberWindowState()
 
-    isSinglePaneNav = isSinglePaneLayout(windowState.windowMode, paneMode)
+    val newIsSinglePane = isSinglePaneLayout(windowState.windowMode, paneMode)
 
-    if (isSinglePaneNav) {
+    if (newIsSinglePane) {
         SinglePaneContainer(
             modifier = modifier,
             destinations = destinations,
@@ -155,4 +157,14 @@ fun TwoPaneLayoutNav(
             pane2StartDestination = pane2StartDestination
         )
     }
+
+    // Restore navigation states when switching between single and two pane modes
+    if (newIsSinglePane != isSinglePaneNav) {
+        when (newIsSinglePane) {
+            true -> onSwitchToSinglePane(navController)
+            false -> onSwitchToTwoPanes(navController, pane1StartDestination, pane2StartDestination)
+        }
+    }
+
+    isSinglePaneNav = newIsSinglePane
 }

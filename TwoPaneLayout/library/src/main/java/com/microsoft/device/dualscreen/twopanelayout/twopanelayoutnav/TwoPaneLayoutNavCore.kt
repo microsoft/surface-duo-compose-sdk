@@ -13,6 +13,7 @@ import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.microsoft.device.dualscreen.twopanelayout.Destination
+import com.microsoft.device.dualscreen.twopanelayout.Screen
 import com.microsoft.device.dualscreen.twopanelayout.common.calculatePaneSizes
 import com.microsoft.device.dualscreen.twopanelayout.common.twoPaneMeasurePolicy
 import com.microsoft.device.dualscreen.windowstate.WindowState
@@ -24,6 +25,7 @@ internal var navigateSinglePaneTo: NavHostController.(String, NavOptionsBuilder.
 internal var getPane1Destination: () -> String = { "" }
 internal var getPane2Destination: () -> String = { "" }
 internal var getSinglePaneDestination: () -> String = { "" }
+internal val backStack = mutableListOf<TwoPaneBackStackEntry>()
 
 internal fun isSinglePaneHandler(): Boolean {
     return isSinglePane
@@ -52,6 +54,10 @@ internal fun SinglePaneContainer(
             currentSinglePane = route
         }
     }
+
+    // Initialize backstack if empty
+    if (backStack.isEmpty())
+        backStack.initialize(startDestination)
 
     NavHost(
         modifier = modifier,
@@ -94,6 +100,10 @@ internal fun TwoPaneContainer(
         }
     }
 
+    // Initialize backstack if empty
+    if (backStack.isEmpty())
+        backStack.initialize(pane1StartDestination, pane2StartDestination)
+
     // Find the destinations to display in each pane
     val pane1 = findDestination(currentPane1, destinations).content
     val pane2 = findDestination(currentPane2, destinations).content
@@ -111,4 +121,40 @@ internal fun TwoPaneContainer(
         measurePolicy = measurePolicy,
         modifier = modifier
     )
+}
+
+/**
+ * Helper method that executes after switching from two pane to single pane mode
+ *
+ * Copies manual backstack over to the navController backstack
+ */
+internal fun onSwitchToSinglePane(navController: NavHostController) {
+    for (entry in backStack) {
+        navController.navigateSinglePaneTo(entry.route) {}
+    }
+}
+
+/**
+ * Helper method that executes after switching from single pane to two pane mode
+ *
+ * Restores most recent pane 1 and 2 destinations, then resets manual backstack
+ */
+internal fun onSwitchToTwoPanes(
+    navController: NavHostController,
+    pane1StartDestination: String,
+    pane2StartDestination: String
+) {
+    // Check if backstack has history to restore
+    val pane1Route = backStack.findLast { it.launchScreen == Screen.Pane1 }?.route
+    val pane2Route = backStack.findLast { it.launchScreen == Screen.Pane2 }?.route
+
+    // Navigate to desired pane 1 and 2 destinations
+    navController.navigatePane1To(pane1Route ?: pane1StartDestination)
+    navController.navigatePane2To(pane2Route ?: pane2StartDestination)
+
+    // Update backstack if history wasn't restored
+    if (pane1Route == null)
+        backStack.add(TwoPaneBackStackEntry(pane1StartDestination, Screen.Pane1))
+    if (pane2Route == null)
+        backStack.add(TwoPaneBackStackEntry(pane2StartDestination, Screen.Pane2))
 }

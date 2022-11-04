@@ -28,6 +28,8 @@ internal object TwoPaneNavScopeInstance : TwoPaneNavScope {
         launchScreen: Screen,
         navOptions: NavOptionsBuilder.() -> Unit,
     ) {
+        backStack.add(TwoPaneBackStackEntry(route, launchScreen))
+
         if (isSinglePane) {
             navigateSinglePaneTo(route, navOptions)
         } else {
