@@ -5,6 +5,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavOptions
 import androidx.navigation.NavOptionsBuilder
 
 @LayoutScopeMarker
@@ -61,13 +62,13 @@ interface TwoPaneNavScope {
      *
      * @param route: route of the destination to navigate to
      * @param launchScreen: the screen (pane 1 or pane 2) in which to launch content in two pane mode
-     * @param navOptions: optional navigation options to use in single pane mode
+     * @param builder: builder to create a new [NavOptions]
      */
     @Stable
     fun NavHostController.navigateTo(
         route: String,
         launchScreen: Screen,
-        navOptions: NavOptionsBuilder.() -> Unit = { },
+        builder: NavOptionsBuilder.() -> Unit = { }
     )
 
     /**

@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptionsBuilder
+import androidx.navigation.navOptions
 import com.microsoft.device.dualscreen.twopanelayout.Screen
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneNavScope
 import com.microsoft.device.dualscreen.twopanelayout.common.LayoutWeightImpl
@@ -27,18 +28,44 @@ internal object TwoPaneNavScopeInstance : TwoPaneNavScope {
     override fun NavHostController.navigateTo(
         route: String,
         launchScreen: Screen,
-        navOptions: NavOptionsBuilder.() -> Unit,
+        builder: NavOptionsBuilder.() -> Unit,
     ) {
-        backStack.add(TwoPaneBackStackEntry(route, launchScreen))
+        // Handle navOptions that affect the backstack
+        val navOptions = navOptions(builder)
 
+        // popUpTo
+        navOptions.popUpToRoute?.let { targetRoute ->
+            val targetEntryIndex = backStack.indexOfLast { it.route == targetRoute }
+
+            if (targetEntryIndex != -1) {
+                var numToPop = backStack.size - targetEntryIndex
+
+                if (navOptions.isPopUpToInclusive())
+                    numToPop++
+
+                repeat(numToPop) {
+                    backStack.removeLast()
+                }
+            }
+        }
+
+        // launchSingleTop
+        if (navOptions.shouldLaunchSingleTop()) {
+            backStack.removeAll { it.route == route }
+        }
+
+        // Navigate to destired destination
         if (isSinglePane) {
-            navigateSinglePaneTo(route, navOptions)
+            navigateSinglePaneTo(route, builder)
         } else {
             when (launchScreen) {
                 Screen.Pane1 -> navigatePane1To(route)
                 Screen.Pane2 -> navigatePane2To(route)
             }
         }
+
+        // Update backstack
+        backStack.add(TwoPaneBackStackEntry(route, launchScreen))
     }
 
     override fun NavHostController.navigateUpTo(
