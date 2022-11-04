@@ -35,10 +35,9 @@ fun TwoPaneNavScope.BasicDestination(
     // Set up the navigation options for a circular navigation pattern (1 -> 2 -> 3 -> 4 -> 1)
     val dest4NavOptions: NavOptionsBuilder.() -> Unit = {
         launchSingleTop = true
-        restoreState = true
         popUpTo(SampleDestination.DEST1.route)
     }
-    val emptyNavOptions: NavOptionsBuilder.() -> Unit = {}
+    val emptyNavOptions: NavOptionsBuilder.() -> Unit = { launchSingleTop = true }
     val navOptions: NavOptionsBuilder.() -> Unit = when (sampleDestination) {
         SampleDestination.DEST4 -> dest4NavOptions
         else -> emptyNavOptions

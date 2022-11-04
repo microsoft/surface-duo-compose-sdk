@@ -3,7 +3,6 @@ package com.microsoft.device.dualscreen.twopanelayout
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -12,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.rememberNavController
+import com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav.composable
 import com.microsoft.device.dualscreen.twopanelayout.ui.theme.TwoPaneLayoutTheme
 import com.microsoft.device.dualscreen.twopanelayout.ui.theme.blue
 
@@ -34,13 +34,16 @@ fun MainPage() {
 
     TwoPaneLayoutNav(
         navController = navController,
-        destinations = SampleDestination.values().map {
-            Destination(it.route) { BasicDestination(navController, it) }
-        }.toTypedArray(),
         singlePaneStartDestination = SampleDestination.DEST1.route,
         pane1StartDestination = SampleDestination.DEST1.route,
         pane2StartDestination = SampleDestination.DEST2.route
-    )
+    ) {
+        SampleDestination.values().map { dest ->
+            composable(dest.route) {
+                BasicDestination(navController, dest)
+            }
+        }
+    }
 }
 
 @Composable
