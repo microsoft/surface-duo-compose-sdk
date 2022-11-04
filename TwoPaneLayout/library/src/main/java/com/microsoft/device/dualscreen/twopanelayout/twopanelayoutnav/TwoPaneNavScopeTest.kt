@@ -29,6 +29,12 @@ class TwoPaneNavScopeTest(
     ) {
     }
 
+    override fun NavHostController.navigateUpTo(
+        route: String?,
+        launchScreen: Screen
+    ) {
+    }
+
     override val currentSinglePaneDestination: String
         get() = singlePaneDestination
 

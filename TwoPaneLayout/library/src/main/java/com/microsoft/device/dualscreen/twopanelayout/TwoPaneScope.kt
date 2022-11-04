@@ -71,6 +71,20 @@ interface TwoPaneNavScope {
     )
 
     /**
+     * Navigates up to the given destination. In single pane mode, this calls [NavHostController.navigateUp]. In
+     * two pane mode, this updates the content in the given screen/pane and pops the current content off the back
+     * stack.
+     *
+     * @param route: route of the destination to navigate up to
+     * @param launchScreen: the screen (pane 1 or pane 2) in which to pop and launch content in two pane mode
+     */
+    @Stable
+    fun NavHostController.navigateUpTo(
+        route: String?,
+        launchScreen: Screen
+    )
+
+    /**
      * The route of the destination currently shown in the single pane layout
      */
     @Stable

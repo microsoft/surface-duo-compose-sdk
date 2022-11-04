@@ -1,5 +1,6 @@
 package com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -16,6 +17,7 @@ import com.microsoft.device.dualscreen.twopanelayout.Destination
 import com.microsoft.device.dualscreen.twopanelayout.Screen
 import com.microsoft.device.dualscreen.twopanelayout.common.calculatePaneSizes
 import com.microsoft.device.dualscreen.twopanelayout.common.twoPaneMeasurePolicy
+import com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav.TwoPaneNavScopeInstance.navigateUpTo
 import com.microsoft.device.dualscreen.windowstate.WindowState
 
 internal var isSinglePane = true
@@ -58,6 +60,14 @@ internal fun SinglePaneContainer(
     // Initialize backstack if empty
     if (backStack.isEmpty())
         backStack.initialize(startDestination)
+
+    // Update back handler so our manual backstack gets updated on back press
+    BackHandler {
+        val prevRoute = navController.previousBackStackEntry?.destination?.route
+        val prevLaunchScreen = backStack.findLast { it.route == prevRoute }?.launchScreen ?: Screen.Pane1
+
+        navController.navigateUpTo(prevRoute, prevLaunchScreen)
+    }
 
     NavHost(
         modifier = modifier,

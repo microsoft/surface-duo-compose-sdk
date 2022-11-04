@@ -1,5 +1,6 @@
 package com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav
 
+import android.app.Activity
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.navigation.NavHostController
@@ -38,6 +39,52 @@ internal object TwoPaneNavScopeInstance : TwoPaneNavScope {
                 Screen.Pane2 -> navigatePane2To(route)
             }
         }
+    }
+
+    override fun NavHostController.navigateUpTo(
+        route: String?,
+        launchScreen: Screen
+    ) {
+        var finishActivity = false
+
+        if (isSinglePane) {
+            // Check that previous back stack entry route matches route parameter
+            val prevRoute = previousBackStackEntry?.destination?.route
+            prevRoute?.let {
+                check(it == route) {
+                    "Attempting to navigate up to $route, but previous back stack entry route is $it "
+                }
+            }
+
+            // Navigate up and pop back stack
+            if (backStack.size > 1) {
+                navigateUp()
+                backStack.removeLast()
+            } else {
+                backStack.clear()
+                finishActivity = true
+            }
+        } else {
+            if (route == null) {
+                // If route is null, assume back stack is empty and finish activity
+                finishActivity = true
+            } else {
+                // Pop current destination from the launch screen
+                val currentEntry = backStack.findLast { entry -> entry.launchScreen == launchScreen }
+                currentEntry?.let { backStack.remove(currentEntry) } ?: run { finishActivity = true }
+
+                // Navigate to the desired route in the launch screen
+                when (launchScreen) {
+                    Screen.Pane1 -> navigatePane1To(route)
+                    Screen.Pane2 -> navigatePane2To(route)
+                }
+            }
+        }
+
+        // Finish activity if backstack is empty/provided route is null
+        if (finishActivity)
+            (context as? Activity)?.finish()
+
     }
 
     override val currentSinglePaneDestination: String
