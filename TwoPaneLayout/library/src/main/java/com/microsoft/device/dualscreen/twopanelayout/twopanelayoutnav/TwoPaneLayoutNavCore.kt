@@ -1,5 +1,6 @@
 package com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav
 
+import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -47,6 +48,7 @@ private fun findGraphContent(route: String): @Composable TwoPaneNavScope.() -> U
     val content = graphContent[route]!!
 
     // REVISIT: passing in empty entry, may update in the future if arguments need to be passed through
+    @SuppressLint("RestrictedApi")
     val emptyBackStackEntry = NavBackStackEntry.create(null, NavDestination(""))
 
     return { content(emptyBackStackEntry) }
