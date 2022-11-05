@@ -116,10 +116,10 @@ private fun measureTwoPaneEqually(
         val paneHeight = paneSizes[i].height.roundToInt()
 
         val childConstraints = Constraints(
-            minWidth = constraints.minWidth.coerceAtMost(paneWidth),
-            minHeight = constraints.minHeight.coerceAtMost(paneHeight),
-            maxWidth = constraints.maxWidth.coerceAtMost(paneWidth),
-            maxHeight = constraints.maxHeight.coerceAtMost(paneHeight)
+            minWidth = constraints.minWidth.coerceAtMost(paneWidth).coerceAtLeast(0),
+            minHeight = constraints.minHeight.coerceAtMost(paneHeight).coerceAtLeast(0),
+            maxWidth = constraints.maxWidth.coerceAtMost(paneWidth).coerceAtLeast(0),
+            maxHeight = constraints.maxHeight.coerceAtMost(paneHeight).coerceAtLeast(0)
         )
 
         placeables.add(measurables[i].measure(childConstraints))
