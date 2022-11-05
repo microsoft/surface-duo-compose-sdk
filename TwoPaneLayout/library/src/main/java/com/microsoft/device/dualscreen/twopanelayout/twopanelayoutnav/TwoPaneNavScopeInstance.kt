@@ -111,7 +111,6 @@ internal object TwoPaneNavScopeInstance : TwoPaneNavScope {
         // Finish activity if backstack is empty/provided route is null
         if (finishActivity)
             (context as? Activity)?.finish()
-
     }
 
     override val currentSinglePaneDestination: String
