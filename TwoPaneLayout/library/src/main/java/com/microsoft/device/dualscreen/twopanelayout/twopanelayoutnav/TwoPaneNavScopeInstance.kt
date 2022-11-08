@@ -68,22 +68,19 @@ internal object TwoPaneNavScopeInstance : TwoPaneNavScope {
         backStack.add(TwoPaneBackStackEntry(route, launchScreen))
     }
 
-    override fun NavHostController.navigateUpTo(
-        route: String?,
-        launchScreen: Screen
-    ) {
+    override fun NavHostController.navigateUpTo(route: String?) {
         var finishActivity = false
 
         if (isSinglePane) {
-            // Check that previous back stack entry route matches route parameter
+            // Check that previous backstack entry route matches route parameter
             val prevRoute = previousBackStackEntry?.destination?.route
             prevRoute?.let {
                 check(it == route) {
-                    "Attempting to navigate up to $route, but previous back stack entry route is $it "
+                    "Attempting to navigate up to $route, but previous backstack entry route is $it"
                 }
             }
 
-            // Navigate up and pop back stack
+            // Navigate up and pop backstack
             if (backStack.size > 1) {
                 navigateUp()
                 backStack.removeLast()
@@ -93,12 +90,28 @@ internal object TwoPaneNavScopeInstance : TwoPaneNavScope {
             }
         } else {
             if (route == null) {
-                // If route is null, assume back stack is empty and finish activity
+                // If route is null, assume backstack is empty and finish activity
                 finishActivity = true
             } else {
-                // Pop current destination from the launch screen
+                // Find target entry in backstack
+                val targetEntry = backStack.findLast { entry -> entry.route == route }
+                    ?: throw IllegalArgumentException("Attempting to navigate up to $route, but it's not in the backstack")
+                val launchScreen = targetEntry.launchScreen
+
+                // Check that target entry is the previous entry in the launch screen
                 val currentEntry = backStack.findLast { entry -> entry.launchScreen == launchScreen }
-                currentEntry?.let { backStack.remove(currentEntry) } ?: run { finishActivity = true }
+                    ?: throw java.lang.IllegalStateException("Attempting to navigate up in $launchScreen, but no current backstack entry found")
+                val previousEntry = backStack.findLast { entry ->
+                    entry.launchScreen == launchScreen && entry != currentEntry
+                }
+                    ?: throw IllegalStateException("Attempting to navigate up in $launchScreen, but no previous backstack entry found")
+
+                check(previousEntry.route == route) {
+                    "Attempting to navigate up to $route in $launchScreen, but previous backstack entry route is ${previousEntry.route}"
+                }
+
+                // Pop current destination from the launch screen
+                currentEntry.let { backStack.remove(currentEntry) }
 
                 // Navigate to the desired route in the launch screen
                 when (launchScreen) {

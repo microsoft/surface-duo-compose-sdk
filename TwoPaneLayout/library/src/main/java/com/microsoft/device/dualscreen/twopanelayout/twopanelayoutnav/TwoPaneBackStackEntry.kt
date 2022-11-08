@@ -22,7 +22,7 @@ internal fun MutableList<TwoPaneBackStackEntry>.initialize(
     startDestination1: String,
     startDestination2: String? = null
 ) {
-    check(this.isEmpty()) { "Attempting to initialize non-empty back stack" }
+    check(this.isEmpty()) { "Attempting to initialize non-empty backstack" }
 
     // REVISIT: assumes that single pane start destination should be assigned to pane 1
     add(TwoPaneBackStackEntry(startDestination1, Screen.Pane1))

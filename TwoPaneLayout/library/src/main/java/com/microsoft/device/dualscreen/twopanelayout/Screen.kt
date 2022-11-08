@@ -13,4 +13,8 @@ sealed class Screen(val route: String) {
      * Screen object representing pane 2
      */
     object Pane2 : Screen("pane2")
+
+    override fun toString(): String {
+        return route
+    }
 }

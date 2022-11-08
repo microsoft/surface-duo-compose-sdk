@@ -80,9 +80,8 @@ internal fun SinglePaneContainer(
     // Update back handler so our manual backstack gets updated on back press
     BackHandler {
         val prevRoute = navController.previousBackStackEntry?.destination?.route
-        val prevLaunchScreen = backStack.findLast { it.route == prevRoute }?.launchScreen ?: Screen.Pane1
 
-        navController.navigateUpTo(prevRoute, prevLaunchScreen)
+        navController.navigateUpTo(prevRoute)
     }
 
     NavHost(

@@ -30,8 +30,7 @@ class TwoPaneNavScopeTest(
     }
 
     override fun NavHostController.navigateUpTo(
-        route: String?,
-        launchScreen: Screen
+        route: String?
     ) {
     }
 
