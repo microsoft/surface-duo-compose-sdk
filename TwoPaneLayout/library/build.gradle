@@ -79,6 +79,7 @@ dependencies {
     androidTestImplementation(testDependencies.androidxTestRunner)
     androidTestImplementation(testDependencies.composeUITest)
     androidTestImplementation(testDependencies.composeJunit)
+    androidTestImplementation(microsoftDependencies.composeTesting)
 
     debugImplementation(testDependencies.composeUITestManifest)
 }
