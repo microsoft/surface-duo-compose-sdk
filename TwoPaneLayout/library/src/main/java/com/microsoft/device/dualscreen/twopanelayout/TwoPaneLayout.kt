@@ -114,17 +114,17 @@ fun TwoPaneLayout(
  * physical hinge between two screens.
  *
  * Instead of the fixed pane 1 and pane 2 parameters in the original [TwoPaneLayout], [TwoPaneLayoutNav] was made
- * to be more flexible and customizable by accepting NavHostController parameters and an array of multiple
- * destinations. In single pane mode, navigation is done with a NavHost, but in two pane mode, the content in
+ * to be more flexible and customizable by accepting a NavHostController parameter and a NavGraphBuilder.
+ * In single pane mode, navigation is done with a NavHost, but in two pane mode, the content in
  * each screen/pane is updated manually by changing the content shown in the layout.
  *
  * @param modifier: The modifier to be applied to the TwoPaneLayout
  * @param navController: The navController to use when navigating within the single pane container
  * @param paneMode: The [TwoPaneMode] that determines when one or two panes are shown
- * @param destinations: The destinations that will be displayed in the layout
  * @param singlePaneStartDestination: The start destination for single pane mode
  * @param pane1StartDestination: The start destination for pane 1 in two pane mode
  * @param pane2StartDestination: The start destination for pane 2 in two pane mode
+ * @param builder: The builder used to construct the navigation graph
  */
 @Composable
 fun TwoPaneLayoutNav(

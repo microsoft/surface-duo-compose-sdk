@@ -23,7 +23,7 @@ When the app is spanned across a separating vertical hinge or fold, or when the 
     implementation "com.microsoft.device.dualscreen:twopanelayout:1.0.1-alpha04"
     ```
 
-3. Also ensure the compileSdkVersion is set to API 33 and targetSdkVersion is set to API 32 or newer in the module-level **build.gradle** file.
+3. Also ensure the compileSdkVersion is set to API 33 and the targetSdkVersion is set to API 32 or newer in the module-level **build.gradle** file.
 
     ```gradle
     android { 
@@ -123,7 +123,7 @@ There are four pane modes available for TwoPaneLayout:
 
     <img src="screenshots/single-vertical.png" width=500 alt="VerticalSingle pane mode on a foldable device">
 
-- `SinglePane` - always shows one pane, regardless of any window features and the orientation
+- `SinglePane` - always shows one pane, regardless of window features and orientation
 
 This table explains when one 🟩 or two 🟦🟦 panes will be shown for different pane modes and device configurations:
 
@@ -160,7 +160,7 @@ For foldables:
 
 ## TwoPaneLayoutNav
 
-The TwoPaneLayoutNav constructor can be used for more complicated navigation scenarios. It accepts parameters for a modifier, [pane mode](#pane-mode), `NavHostController`, content for multiple app destinations, and start destinations.
+The TwoPaneLayoutNav constructor can be used for more complicated navigation scenarios. It accepts parameters for a modifier, [pane mode](#pane-mode), `NavHostController`, navigation graph, and start destinations.
 
 ```kotlin
 @Composable
@@ -168,17 +168,11 @@ fun TwoPaneLayoutNav(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     paneMode: TwoPaneMode = TwoPaneMode.TwoPane,
-    destinations: Array<Destination>,
     singlePaneStartDestination: String,
     pane1StartDestination: String,
-    pane2StartDestination: String
-) 
-```
-
-Like destinations in a `NavHost`, each destination in TwoPaneLayoutNav has a route and composable content.
-
-```kotlin
-data class Destination(val route: String, val content: @Composable TwoPaneNavScope.() -> Unit)
+    pane2StartDestination: String,
+    builder: NavGraphBuilder.() -> Unit
+)
 ```
 
 The content shown in each destination can access methods from the `TwoPaneNavScope` interface:
@@ -190,9 +184,11 @@ interface TwoPaneNavScope {
 
     fun NavHostController.navigateTo(
         route: String,
-        screen: Screen,
-        navOptions: NavOptionsBuilder.() -> Unit = { },
+        launchScreen: Screen,
+        builder: NavOptionsBuilder.() -> Unit = { }
     )
+
+    fun NavHostController.navigateUpTo(route: String?)
 
     val currentSinglePaneDestination: String
 
@@ -204,7 +200,7 @@ interface TwoPaneNavScope {
 }
 ```
 
-The `navigateTo` method is an enhanced version of the `navigate` method from `NavHostController` that works when one or two panes are shown. The `screen` parameter determines which pane, or screen, a destination should be shown in when in two pane mode: `Screen.Pane1` or `Screen.Pane2`.
+The `navigateTo` method is an enhanced version of the `navigate` method from `NavHostController` that works when one or two panes are shown. The `launchScreen` parameter determines which pane, or screen, a destination should be shown in when in two pane mode: `Screen.Pane1` or `Screen.Pane2`.
 
 ```kotlin
 sealed class Screen(val route: String) {
@@ -214,6 +210,10 @@ sealed class Screen(val route: String) {
     object Pane2 : Screen("pane2")
 }
 ```
+
+The `navigateUpTo` method is an enhanced version of the `navigateUp` method from `NavHostController` that also works when one or two panes are shown.
+
+> `TwoPaneLayoutNav` manages an internal backstack, so if you want to override the default back press behavior and write a custom handler, make sure you call `navigateUpTo` to maintain the backstack correctly.
 
 When writing UI tests for composables that use `TwoPaneNavScope`, you can use the `TwoPaneScopeNavTest` class. It provides empty implementations of `TwoPaneNavScope` methods, and you can set the values of `currentSinglePaneDestination`, `currentPane1Destination`, `currentPane2Destination`, and `isSinglePane` in the class constructor before running your tests.
 
