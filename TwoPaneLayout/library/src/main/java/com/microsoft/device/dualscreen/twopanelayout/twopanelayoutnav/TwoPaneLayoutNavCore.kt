@@ -27,6 +27,7 @@ internal var isSinglePane = true
 internal var navigatePane1To: NavHostController.(String) -> Unit = { _ -> }
 internal var navigatePane2To: NavHostController.(String) -> Unit = { _ -> }
 internal var navigateSinglePaneTo: NavHostController.(String, NavOptionsBuilder.() -> Unit) -> Unit = { _, _ -> }
+internal var navigateSinglePaneUp: NavHostController.() -> Unit = { }
 internal var getPane1Destination: () -> String = { "" }
 internal var getPane2Destination: () -> String = { "" }
 internal var getSinglePaneDestination: () -> String = { "" }
@@ -71,6 +72,10 @@ internal fun SinglePaneContainer(
             navigate(route, navOptions)
             currentSinglePane = route
         }
+    }
+    navigateSinglePaneUp = {
+        navigateUp()
+        currentSinglePane = currentBackStackEntry?.destination?.route!!
     }
 
     // Initialize backstack if empty

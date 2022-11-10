@@ -82,7 +82,7 @@ internal object TwoPaneNavScopeInstance : TwoPaneNavScope {
 
             // Navigate up and pop backstack
             if (backStack.size > 1) {
-                navigateUp()
+                navigateSinglePaneUp()
                 backStack.removeLast()
             } else {
                 backStack.clear()
