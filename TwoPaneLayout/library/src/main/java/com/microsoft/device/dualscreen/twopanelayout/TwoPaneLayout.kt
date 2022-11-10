@@ -140,9 +140,10 @@ fun TwoPaneLayoutNav(
         ?: throw ClassCastException("Local context could not be cast as an Activity")
     val windowState = activity.rememberWindowState()
 
-    val newIsSinglePane = isSinglePaneLayout(windowState.windowMode, paneMode)
+    val oldIsSinglePane = isSinglePaneNav
+    isSinglePaneNav = isSinglePaneLayout(windowState.windowMode, paneMode)
 
-    if (newIsSinglePane) {
+    if (isSinglePaneNav) {
         SinglePaneContainer(
             modifier = modifier,
             startDestination = singlePaneStartDestination,
@@ -159,12 +160,10 @@ fun TwoPaneLayoutNav(
     }
 
     // Restore navigation states when switching between single and two pane modes
-    if (newIsSinglePane != isSinglePaneNav) {
-        when (newIsSinglePane) {
+    if (oldIsSinglePane != isSinglePaneNav) {
+        when (isSinglePaneNav) {
             true -> onSwitchToSinglePane(navController)
             false -> onSwitchToTwoPanes(navController, pane1StartDestination, pane2StartDestination)
         }
     }
-
-    isSinglePaneNav = newIsSinglePane
 }
