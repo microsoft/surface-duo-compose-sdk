@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDestination
-import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavGraph
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.NavHost
@@ -60,7 +60,7 @@ internal fun SinglePaneContainer(
     modifier: Modifier,
     startDestination: String,
     navController: NavHostController,
-    builder: NavGraphBuilder.() -> Unit,
+    navGraph: NavGraph,
 ) {
     var currentSinglePane by remember { mutableStateOf(startDestination) }
     getSinglePaneDestination = { currentSinglePane }
@@ -92,8 +92,7 @@ internal fun SinglePaneContainer(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = startDestination,
-        builder = builder
+        graph = navGraph
     )
 }
 

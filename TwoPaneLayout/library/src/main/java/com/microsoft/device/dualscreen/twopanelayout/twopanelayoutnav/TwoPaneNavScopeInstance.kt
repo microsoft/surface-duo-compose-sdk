@@ -54,7 +54,7 @@ internal object TwoPaneNavScopeInstance : TwoPaneNavScope {
             backStack.removeAll { it.route == route }
         }
 
-        // Navigate to destired destination
+        // Navigate to desired destination
         if (isSinglePane) {
             navigateSinglePaneTo(route, builder)
         } else {
