@@ -100,7 +100,7 @@ open class LayoutTest {
         pane1: @Composable TwoPaneScope.() -> Unit,
         pane2: @Composable TwoPaneScope.() -> Unit
     ) {
-        SinglePaneContainer(navController, pane1, pane2)
+        SinglePaneContainer(Modifier, navController, pane1, pane2)
     }
 
     @Composable

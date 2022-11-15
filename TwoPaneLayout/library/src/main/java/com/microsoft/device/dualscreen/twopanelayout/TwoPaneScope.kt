@@ -5,6 +5,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavOptions
 import androidx.navigation.NavOptionsBuilder
 
 @LayoutScopeMarker
@@ -60,15 +61,30 @@ interface TwoPaneNavScope {
      * in the NavHost. In two pane mode, this updates the content in the given screen/pane.
      *
      * @param route: route of the destination to navigate to
-     * @param screen: the screen (pane 1 or pane 2) in which to change content in two pane mode
-     * @param navOptions: optional navigation options to use in single pane mode
+     * @param launchScreen: the screen (pane 1 or pane 2) in which to launch content in two pane mode
+     * @param builder: builder to create a new [NavOptions]
      */
     @Stable
     fun NavHostController.navigateTo(
         route: String,
-        screen: Screen,
-        navOptions: NavOptionsBuilder.() -> Unit = { },
+        launchScreen: Screen,
+        builder: NavOptionsBuilder.() -> Unit = { }
     )
+
+    /**
+     * Navigates up to the given destination. In single pane mode, this calls [NavHostController.navigateUp]. In
+     * two pane mode, this updates the content in the given screen/pane and pops the current content off the back
+     * stack.
+     *
+     * If called on the last entry in the back stack, the activity will be finished.
+     *
+     * @param route: route of the destination to navigate up to
+     * @throws IllegalArgumentException if provided route does not match the previous backstack entry
+     * @throws IllegalStateException if, in two pane mode, the backstack does not have current or previous entries
+     * in the launch screen of the target route
+     */
+    @Stable
+    fun NavHostController.navigateUpTo(route: String?)
 
     /**
      * The route of the destination currently shown in the single pane layout

@@ -7,16 +7,21 @@ package com.microsoft.device.dualscreen.twopanelayout
 
 import android.app.Activity
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.createGraph
 import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.SinglePaneContainer
 import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.TwoPaneContainer
 import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.isSinglePane
 import com.microsoft.device.dualscreen.twopanelayout.twopanelayout.isSinglePaneLayout
 import com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav.SinglePaneContainer
 import com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav.TwoPaneContainer
+import com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav.onSwitchToSinglePane
+import com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav.onSwitchToTwoPanes
 import com.microsoft.device.dualscreen.windowstate.rememberWindowState
 import com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav.isSinglePane as isSinglePaneNav
 
@@ -83,6 +88,7 @@ fun TwoPaneLayout(
 
     if (isSinglePane) {
         SinglePaneContainer(
+            modifier = modifier,
             navController = navController,
             pane1 = pane1,
             pane2 = pane2
@@ -110,47 +116,61 @@ fun TwoPaneLayout(
  * physical hinge between two screens.
  *
  * Instead of the fixed pane 1 and pane 2 parameters in the original [TwoPaneLayout], [TwoPaneLayoutNav] was made
- * to be more flexible and customizable by accepting NavHostController parameters and an array of multiple
- * destinations. In single pane mode, navigation is done with a NavHost, but in two pane mode, the content in
+ * to be more flexible and customizable by accepting a NavHostController parameter and a NavGraphBuilder.
+ * In single pane mode, navigation is done with a NavHost, but in two pane mode, the content in
  * each screen/pane is updated manually by changing the content shown in the layout.
  *
  * @param modifier: The modifier to be applied to the TwoPaneLayout
  * @param navController: The navController to use when navigating within the single pane container
  * @param paneMode: The [TwoPaneMode] that determines when one or two panes are shown
- * @param destinations: The destinations that will be displayed in the layout
  * @param singlePaneStartDestination: The start destination for single pane mode
  * @param pane1StartDestination: The start destination for pane 1 in two pane mode
  * @param pane2StartDestination: The start destination for pane 2 in two pane mode
+ * @param builder: The builder used to construct the navigation graph
  */
 @Composable
 fun TwoPaneLayoutNav(
     modifier: Modifier = Modifier,
     navController: NavHostController,
     paneMode: TwoPaneMode = TwoPaneMode.TwoPane,
-    destinations: Array<Destination>,
     singlePaneStartDestination: String,
     pane1StartDestination: String,
-    pane2StartDestination: String
+    pane2StartDestination: String,
+    builder: NavGraphBuilder.() -> Unit
 ) {
     val activity = (LocalContext.current as? Activity)
         ?: throw ClassCastException("Local context could not be cast as an Activity")
     val windowState = activity.rememberWindowState()
 
+    // Build navigation graph
+    val navGraph = remember(singlePaneStartDestination, builder) {
+        navController.createGraph(singlePaneStartDestination, null, builder)
+    }
+
+    val oldIsSinglePane = isSinglePaneNav
     isSinglePaneNav = isSinglePaneLayout(windowState.windowMode, paneMode)
 
     if (isSinglePaneNav) {
         SinglePaneContainer(
-            destinations = destinations,
+            modifier = modifier,
             startDestination = singlePaneStartDestination,
             navController = navController,
+            navGraph = navGraph
         )
     } else {
         TwoPaneContainer(
             windowState = windowState,
             modifier = modifier,
-            destinations = destinations,
             pane1StartDestination = pane1StartDestination,
             pane2StartDestination = pane2StartDestination
         )
+    }
+
+    // Restore navigation states when switching between single and two pane modes
+    if (oldIsSinglePane != isSinglePaneNav) {
+        when (isSinglePaneNav) {
+            true -> onSwitchToSinglePane(navController)
+            false -> onSwitchToTwoPanes(navController, pane1StartDestination, pane2StartDestination)
+        }
     }
 }

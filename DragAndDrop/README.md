@@ -23,7 +23,7 @@ The component provides a drag container which represents the draggable area with
     implementation "com.microsoft.device.dualscreen:draganddrop:1.0.0-alpha03"
     ```
 
-3. Also ensure the compileSdkVersion is set to API 33 and targetSdkVersion is set to API 32 or newer in the module-level build.gradle file.
+3. Also ensure the compileSdkVersion is set to API 33 and the targetSdkVersion is set to API 32 or newer in the module-level build.gradle file.
 
     ```gradle
     android { 
