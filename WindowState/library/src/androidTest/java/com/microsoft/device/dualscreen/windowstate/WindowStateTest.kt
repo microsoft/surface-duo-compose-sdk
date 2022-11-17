@@ -11,6 +11,8 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.height
 import androidx.compose.ui.unit.width
+import androidx.window.core.layout.WindowHeightSizeClass
+import androidx.window.core.layout.WindowWidthSizeClass
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -356,5 +358,38 @@ class WindowStateTest {
         assertEquals(0.5f, windowState.largeScreenPane1Weight)
         windowState.largeScreenPane1Weight = 0.7f
         assertEquals(0.7f, windowState.largeScreenPane1Weight)
+    }
+
+    /**
+     * windowSizeClass tests
+     * -------------------------------
+     */
+    @Test
+    fun compact_window_size_class() {
+        // Compact width
+        assertEquals(WindowWidthSizeClass.COMPACT, noFoldCompact.widthSizeClass())
+
+        // Compact height
+        assertEquals(WindowHeightSizeClass.COMPACT, noFoldCompact.heightSizeClass())
+        assertEquals(WindowHeightSizeClass.COMPACT, noFoldMediumWidthCompactHeight.heightSizeClass())
+    }
+
+    @Test
+    fun medium_window_size_class() {
+        // Medium width
+        assertEquals(WindowWidthSizeClass.MEDIUM, noFoldMediumWidthMediumHeight.widthSizeClass())
+
+        // Medium height
+        assertEquals(WindowHeightSizeClass.MEDIUM, noFoldMediumWidthMediumHeight.heightSizeClass())
+        assertEquals(WindowHeightSizeClass.MEDIUM, noFoldExpandedWidthMediumHeight.heightSizeClass())
+    }
+
+    @Test
+    fun expanded_window_size_class() {
+        // Expanded width
+        assertEquals(WindowWidthSizeClass.EXPANDED, noFoldExpandedWidthMediumHeight.widthSizeClass())
+
+        // Expanded height
+        assertEquals(WindowHeightSizeClass.EXPANDED, noFoldLargeScreen.heightSizeClass())
     }
 }
