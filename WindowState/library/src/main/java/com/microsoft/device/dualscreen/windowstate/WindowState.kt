@@ -41,8 +41,8 @@ data class WindowState(
     val foldState: FoldState = FoldState.FLAT,
     val foldIsSeparating: Boolean = false,
     val foldIsOccluding: Boolean = false,
-    val windowWidthDp: Dp = 0.dp,
-    val windowHeightDp: Dp = 0.dp,
+    val windowWidthDp: Dp = 1.dp,
+    val windowHeightDp: Dp = 1.dp,
 ) {
     /**
      * Dp value of the width of the hinge or the folding line if it is separating, otherwise 0

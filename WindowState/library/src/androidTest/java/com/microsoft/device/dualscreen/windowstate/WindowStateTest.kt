@@ -98,8 +98,8 @@ class WindowStateTest {
         assertEquals(FoldState.FLAT, windowState.foldState)
         assertEquals(false, windowState.foldIsSeparating)
         assertEquals(false, windowState.foldIsOccluding)
-        assertEquals(0.dp, windowState.windowWidthDp)
-        assertEquals(0.dp, windowState.windowHeightDp)
+        assertEquals(1.dp, windowState.windowWidthDp)
+        assertEquals(1.dp, windowState.windowHeightDp)
     }
 
     @Test
