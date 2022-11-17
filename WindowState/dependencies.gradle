@@ -15,6 +15,7 @@ ext {
     // WindowState library version code:
     // If you want to publish a new version, bump in one (1) the specific line(s)
     windowStateVersionCode = 6
+    windowStateVersionCode = 7
 
     // WindowState library version name:
     // If you want to publish a new version, bump the specific line
@@ -55,7 +56,7 @@ ext {
     ]
 
     // Compose dependencies
-    composeVersion = "1.3.0"
+    composeVersion = "1.3.1"
     composeCompilerVersion = "1.3.2"
     activityComposeVersion = '1.6.1'
     navigationComposeVersion = "2.5.3"
@@ -69,15 +70,16 @@ ext {
     ]
 
     // Test dependencies
-    androidxTestVersion = '1.4.0'
-    espressoVersion = "3.4.0"
+    androidxTestVersion = '1.5.0'
+    androidxTestRunnerVersion = '1.5.1'
+    espressoVersion = "3.5.0"
     junitVersion = '4.13.2'
-    mockitoVersion = '4.8.1'
+    mockitoVersion = '4.9.0'
     uiAutomatorVersion = "2.2.0"
     testDependencies = [
             androidxTestCore        : "androidx.test:core:$androidxTestVersion",
             androidxTestRules       : "androidx.test:rules:$androidxTestVersion",
-            androidxTestRunner      : "androidx.test:runner:$androidxTestVersion",
+            androidxTestRunner      : "androidx.test:runner:$androidxTestRunnerVersion",
             composeUITest           : "androidx.compose.ui:ui-test:$composeVersion",
             composeJunit            : "androidx.compose.ui:ui-test-junit4:$composeVersion",
             composeUITestManifest   : "androidx.compose.ui:ui-test-manifest:$composeVersion",
