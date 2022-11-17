@@ -14,12 +14,11 @@ ext {
 
     // WindowState library version code:
     // If you want to publish a new version, bump in one (1) the specific line(s)
-    windowStateVersionCode = 6
     windowStateVersionCode = 7
 
     // WindowState library version name:
     // If you want to publish a new version, bump the specific line
-    windowStateVersionName = '1.0.0-alpha06'
+    windowStateVersionName = '1.0.0-alpha07'
 
     // ----------------------------------
 
