@@ -31,7 +31,8 @@ class TwoPaneNavScopeTest(
 
     override fun NavHostController.navigateUpTo(
         route: String?
-    ) {
+    ): Boolean {
+        return true
     }
 
     override val currentSinglePaneDestination: String

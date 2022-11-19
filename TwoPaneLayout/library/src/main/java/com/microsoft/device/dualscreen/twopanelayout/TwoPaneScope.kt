@@ -79,12 +79,10 @@ interface TwoPaneNavScope {
      * If called on the last entry in the back stack, the activity will be finished.
      *
      * @param route: route of the destination to navigate up to
-     * @throws IllegalArgumentException if provided route does not match the previous backstack entry
-     * @throws IllegalStateException if, in two pane mode, the backstack does not have current or previous entries
-     * in the launch screen of the target route
+     * @return true if navigation was successful, false otherwise
      */
     @Stable
-    fun NavHostController.navigateUpTo(route: String?)
+    fun NavHostController.navigateUpTo(route: String?): Boolean
 
     /**
      * The route of the destination currently shown in the single pane layout

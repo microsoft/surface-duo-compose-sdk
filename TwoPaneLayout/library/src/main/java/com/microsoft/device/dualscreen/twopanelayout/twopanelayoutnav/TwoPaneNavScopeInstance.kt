@@ -1,6 +1,7 @@
 package com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav
 
 import android.app.Activity
+import android.util.Log
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.navigation.NavHostController
@@ -68,17 +69,21 @@ internal object TwoPaneNavScopeInstance : TwoPaneNavScope {
         backStack.add(TwoPaneBackStackEntry(route, launchScreen))
     }
 
-    override fun NavHostController.navigateUpTo(route: String?) {
+    override fun NavHostController.navigateUpTo(route: String?): Boolean {
+        val debugTag = "TwoPaneNavScope"
         var finishActivity = false
 
         if (isSinglePane) {
             // Check that previous backstack entry route matches route parameter
             val prevRoute = previousBackStackEntry?.destination?.route
-            if (prevRoute != route)
-                throw IllegalArgumentException(
+            if (prevRoute != route) {
+                Log.d(
+                    debugTag,
                     "Attempting to navigate up to $route, but previous backstack entry route is $prevRoute. " +
                         "Backstack: $backStack"
                 )
+                return false
+            }
 
             if (backStack.size > 1) {
                 // Navigate up and pop backstack
@@ -93,28 +98,44 @@ internal object TwoPaneNavScopeInstance : TwoPaneNavScope {
             if (backStack.size > 2) {
                 // Find target entry in backstack
                 val targetEntry = backStack.findLast { entry -> entry.route == route }
-                    ?: throw IllegalArgumentException(
+                if (targetEntry == null) {
+                    Log.d(
+                        debugTag,
                         "Attempting to navigate up to $route, but it's not in the backstack. Backstack: $backStack"
                     )
-                val launchScreen = targetEntry.launchScreen
+                    return false
+                }
 
                 // Check that target entry is the previous entry in the launch screen
+                val launchScreen = targetEntry.launchScreen
                 val currEntry = backStack.findLast { it.launchScreen == launchScreen }
-                    ?: throw java.lang.IllegalStateException(
+                if (currEntry == null) {
+                    Log.d(
+                        debugTag,
                         "Attempting to navigate up in $launchScreen, but no backstack entry found in that screen." +
                             "Backstack: $backStack"
                     )
+                    return false
+                }
+
                 val prevEntry = backStack.findLast { it.launchScreen == launchScreen && it != currEntry }
-                    ?: throw IllegalStateException(
+                if (prevEntry == null) {
+                    Log.d(
+                        debugTag,
                         "Attempting to navigate up in $launchScreen, but no previous backstack entry found" +
                             "in that screen. Backstack: $backStack"
                     )
+                    return false
+                }
 
-                if (prevEntry.route != route)
-                    throw IllegalArgumentException(
+                if (prevEntry.route != route) {
+                    Log.d(
+                        debugTag,
                         "Attempting to navigate up to $route in $launchScreen, but previous backstack entry " +
                             "route is ${prevEntry.route}. Backstack: $backStack"
                     )
+                    return false
+                }
 
                 // Pop current destination from the launch screen
                 currEntry.let { backStack.remove(currEntry) }
@@ -134,6 +155,8 @@ internal object TwoPaneNavScopeInstance : TwoPaneNavScope {
         // Finish activity when backstack is empty
         if (finishActivity)
             (context as? Activity)?.finish()
+
+        return true
     }
 
     override val currentSinglePaneDestination: String
