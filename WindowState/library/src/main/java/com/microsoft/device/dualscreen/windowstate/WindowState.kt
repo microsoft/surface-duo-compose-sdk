@@ -17,6 +17,9 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.height
 import androidx.compose.ui.unit.width
+import androidx.window.core.layout.WindowHeightSizeClass
+import androidx.window.core.layout.WindowSizeClass
+import androidx.window.core.layout.WindowWidthSizeClass
 
 /**
  * Data class that contains foldable and large screen information extracted from the Jetpack
@@ -38,8 +41,8 @@ data class WindowState(
     val foldState: FoldState = FoldState.FLAT,
     val foldIsSeparating: Boolean = false,
     val foldIsOccluding: Boolean = false,
-    val windowWidthDp: Dp = 0.dp,
-    val windowHeightDp: Dp = 0.dp,
+    val windowWidthDp: Dp = 1.dp,
+    val windowHeightDp: Dp = 1.dp,
 ) {
     /**
      * Dp value of the width of the hinge or the folding line if it is separating, otherwise 0
@@ -143,13 +146,16 @@ data class WindowState(
         return windowMode == WindowMode.SINGLE_LANDSCAPE
     }
 
+    private val windowSizeClass
+        get() = WindowSizeClass.compute(dpWidth = windowWidthDp.value, dpHeight = windowHeightDp.value)
+
     /**
      * Returns the size class (compact, medium, or expanded) for the window width
      *
      * @return width size class
      */
-    fun widthSizeClass(): WindowSizeClass {
-        return getWindowSizeClass(windowWidthDp)
+    fun widthSizeClass(): WindowWidthSizeClass {
+        return windowSizeClass.windowWidthSizeClass
     }
 
     /**
@@ -157,8 +163,8 @@ data class WindowState(
      *
      * @return height size class
      */
-    fun heightSizeClass(): WindowSizeClass {
-        return getWindowSizeClass(windowHeightDp, Dimension.HEIGHT)
+    fun heightSizeClass(): WindowHeightSizeClass {
+        return windowSizeClass.windowHeightSizeClass
     }
 
     /**
@@ -234,7 +240,8 @@ data class WindowState(
      */
     private fun windowIsLarge(): Boolean {
         // Window is large if width size class is expanded and height size class is at least medium
-        val isLarge = widthSizeClass() == WindowSizeClass.EXPANDED && heightSizeClass() != WindowSizeClass.COMPACT
+        val isLarge = widthSizeClass() == WindowWidthSizeClass.EXPANDED &&
+            heightSizeClass() != WindowHeightSizeClass.COMPACT
 
         // Right now we are considering large screens + foldables mutually exclusive
         // (which seems necessary for dualscreen apps), but we may want to think about this

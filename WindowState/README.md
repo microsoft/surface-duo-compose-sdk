@@ -24,7 +24,7 @@ And the window size classes are measured based on Google's [Window size classes]
 2. Add dependencies to the module-level **build.gradle** file (current version may be different from what's shown here).
 
     ```gradle
-    implementation "com.microsoft.device.dualscreen:windowstate:1.0.0-alpha06"
+    implementation "com.microsoft.device.dualscreen:windowstate:1.0.0-alpha07"
     ```
 
 3. Also ensure the compileSdkVersion is set to API 33 and the targetSdkVersion is set to API 32 or newer in the module-level build.gradle file.
@@ -160,14 +160,14 @@ Check if the device window is in the single landscape posture, with which the de
 
 ```kotlin
 @Composable
-fun widthSizeClass(): WindowSizeClass
+fun widthSizeClass(): WindowWidthSizeClass
 ```
 
 Returns the width window size class: **Compact**, **Medium**, **Expanded**, based on the width of the window.
 
 ```kotlin
 @Composable
-fun heightSizeClass(): WindowSizeClass
+fun heightSizeClass(): WindowHeightSizeClass
 ```
 
 Returns the height window size class: **Compact**, **Medium**, **Expanded**, based on the height of the window.
@@ -221,13 +221,13 @@ Returns whether a fold occludes content in the window.
 Based on the [occlusionType](https://developer.android.com/reference/androidx/window/layout/FoldingFeature#occlusionType()) field in [FoldingFeature](https://developer.android.com/reference/androidx/window/layout/FoldingFeature).
 
 ```kotlin
-val windowWidthDp: Dp = 0.dp
+val windowWidthDp: Dp = 1.dp
 ```
 
 Returns the window width in Dp.
 
 ```kotlin
-val windowHeightDp: Dp = 0.dp
+val windowHeightDp: Dp = 1.dp
 ```
 
 Returns the window height in Dp.
