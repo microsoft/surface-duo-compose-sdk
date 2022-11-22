@@ -72,17 +72,16 @@ interface TwoPaneNavScope {
     )
 
     /**
-     * Navigates up to the given destination. In single pane mode, this calls [NavHostController.navigateUp]. In
-     * two pane mode, this updates the content in the given screen/pane and pops the current content off the back
-     * stack.
+     * Navigates up to the previous destination on the backstack. In single pane mode, this calls
+     * [NavHostController.navigateUp]. In two pane mode, this pops the most recent back stack entry off the stack.
      *
-     * If called on the last entry in the back stack, the activity will be finished.
+     * If called on the last entry in the back stack (last two entries in dual screen mode), the activity will
+     * be finished.
      *
-     * @param route: route of the destination to navigate up to
      * @return true if navigation was successful, false otherwise
      */
     @Stable
-    fun NavHostController.navigateUpTo(route: String?): Boolean
+    fun NavHostController.navigateBack(): Boolean
 
     /**
      * The route of the destination currently shown in the single pane layout

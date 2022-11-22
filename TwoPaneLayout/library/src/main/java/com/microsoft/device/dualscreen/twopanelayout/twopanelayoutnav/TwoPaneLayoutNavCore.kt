@@ -20,7 +20,7 @@ import com.microsoft.device.dualscreen.twopanelayout.Screen
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneNavScope
 import com.microsoft.device.dualscreen.twopanelayout.common.calculatePaneSizes
 import com.microsoft.device.dualscreen.twopanelayout.common.twoPaneMeasurePolicy
-import com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav.TwoPaneNavScopeInstance.navigateUpTo
+import com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav.TwoPaneNavScopeInstance.navigateBack
 import com.microsoft.device.dualscreen.windowstate.WindowState
 
 internal var isSinglePane = true
@@ -84,9 +84,7 @@ internal fun SinglePaneContainer(
 
     // Update back handler so our manual backstack gets updated on back press
     BackHandler {
-        val prevRoute = navController.previousBackStackEntry?.destination?.route
-
-        navController.navigateUpTo(prevRoute)
+        navController.navigateBack()
     }
 
     NavHost(

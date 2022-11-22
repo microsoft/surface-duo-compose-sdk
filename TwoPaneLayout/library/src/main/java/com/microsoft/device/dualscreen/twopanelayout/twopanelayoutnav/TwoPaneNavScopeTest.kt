@@ -29,9 +29,7 @@ class TwoPaneNavScopeTest(
     ) {
     }
 
-    override fun NavHostController.navigateUpTo(
-        route: String?
-    ): Boolean {
+    override fun NavHostController.navigateBack(): Boolean {
         return true
     }
 
