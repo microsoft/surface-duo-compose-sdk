@@ -33,6 +33,9 @@ class TwoPaneNavScopeTest(
         return true
     }
 
+    override val twoPaneBackStack: List<TwoPaneBackStackEntry>
+        get() = emptyList()
+
     override val currentSinglePaneDestination: String
         get() = singlePaneDestination
 

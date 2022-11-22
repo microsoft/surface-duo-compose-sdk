@@ -1,12 +1,12 @@
 package com.microsoft.device.dualscreen.twopanelayout
 
 import androidx.compose.foundation.layout.LayoutScopeMarker
-import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.NavOptionsBuilder
+import com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav.TwoPaneBackStackEntry
 
 @LayoutScopeMarker
 interface TwoPaneScope {
@@ -74,6 +74,11 @@ interface TwoPaneNavScope {
      * @return true if navigation was successful, false otherwise
      */
     fun NavHostController.navigateBack(): Boolean
+
+    /**
+     * Returns the current state of the internal TwoPaneLayoutNav backstack
+     */
+    val twoPaneBackStack: List<TwoPaneBackStackEntry>
 
     /**
      * The route of the destination currently shown in the single pane layout
