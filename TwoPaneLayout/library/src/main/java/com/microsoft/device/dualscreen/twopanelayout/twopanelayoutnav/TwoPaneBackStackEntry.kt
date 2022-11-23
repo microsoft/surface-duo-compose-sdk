@@ -1,6 +1,7 @@
 package com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDeepLink
@@ -16,7 +17,8 @@ import com.microsoft.device.dualscreen.twopanelayout.TwoPaneNavScope
  * @param route: route of the destination in the entry
  * @param launchScreen: screen in which the entry was shown in two pane mode
  */
-internal data class TwoPaneBackStackEntry(val route: String, val launchScreen: Screen)
+@Immutable
+data class TwoPaneBackStackEntry(val route: String, val launchScreen: Screen)
 
 internal fun MutableList<TwoPaneBackStackEntry>.initialize(
     startDestination1: String,

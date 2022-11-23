@@ -29,10 +29,12 @@ class TwoPaneNavScopeTest(
     ) {
     }
 
-    override fun NavHostController.navigateUpTo(
-        route: String?
-    ) {
+    override fun NavHostController.navigateBack(): Boolean {
+        return true
     }
+
+    override val twoPaneBackStack: MutableList<TwoPaneBackStackEntry>
+        get() = mutableListOf()
 
     override val currentSinglePaneDestination: String
         get() = singlePaneDestination

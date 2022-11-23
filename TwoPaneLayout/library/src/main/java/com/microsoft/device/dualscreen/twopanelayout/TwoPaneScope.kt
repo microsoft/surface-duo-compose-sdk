@@ -1,15 +1,14 @@
 package com.microsoft.device.dualscreen.twopanelayout
 
 import androidx.compose.foundation.layout.LayoutScopeMarker
-import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
 import androidx.navigation.NavOptionsBuilder
+import com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav.TwoPaneBackStackEntry
 
 @LayoutScopeMarker
-@Immutable
 interface TwoPaneScope {
     /**
      * Determines how much of the screen content will occupy
@@ -22,31 +21,26 @@ interface TwoPaneScope {
     /**
      * Navigates to the content in the first pane in single pane mode, otherwise does nothing in two pane mode
      */
-    @Stable
     fun navigateToPane1()
 
     /**
      * Navigates to the content in the second pane in single pane mode, otherwise does nothing in two pane mode
      */
-    @Stable
     fun navigateToPane2()
 
     /**
      * The route of the destination currently shown in the single pane layout (either [Screen.Pane1.route] or
      * [Screen.Pane2.route])
      */
-    @Stable
     val currentSinglePaneDestination: String
 
     /**
      * Returns true when in single pane mode, false when in two pane mode
      */
-    @Stable
     val isSinglePane: Boolean
 }
 
 @LayoutScopeMarker
-@Immutable
 interface TwoPaneNavScope {
     /**
      * Determines how much of the screen content will occupy
@@ -64,7 +58,6 @@ interface TwoPaneNavScope {
      * @param launchScreen: the screen (pane 1 or pane 2) in which to launch content in two pane mode
      * @param builder: builder to create a new [NavOptions]
      */
-    @Stable
     fun NavHostController.navigateTo(
         route: String,
         launchScreen: Screen,
@@ -72,41 +65,38 @@ interface TwoPaneNavScope {
     )
 
     /**
-     * Navigates up to the given destination. In single pane mode, this calls [NavHostController.navigateUp]. In
-     * two pane mode, this updates the content in the given screen/pane and pops the current content off the back
-     * stack.
+     * Navigates up to the previous destination on the backstack. In single pane mode, this calls
+     * [NavHostController.navigateUp]. In two pane mode, this pops the most recent back stack entry off the stack.
      *
-     * If called on the last entry in the back stack, the activity will be finished.
+     * If called on the last entry in the back stack (last two entries in dual screen mode), the activity will
+     * be finished.
      *
-     * @param route: route of the destination to navigate up to
-     * @throws IllegalArgumentException if provided route does not match the previous backstack entry
-     * @throws IllegalStateException if, in two pane mode, the backstack does not have current or previous entries
-     * in the launch screen of the target route
+     * @return true if navigation was successful, false otherwise
      */
-    @Stable
-    fun NavHostController.navigateUpTo(route: String?)
+    fun NavHostController.navigateBack(): Boolean
+
+    /**
+     * Returns the current state of the internal TwoPaneLayoutNav backstack
+     */
+    val twoPaneBackStack: MutableList<TwoPaneBackStackEntry>
 
     /**
      * The route of the destination currently shown in the single pane layout
      */
-    @Stable
     val currentSinglePaneDestination: String
 
     /**
      * The route of the destination currently shown in pane 1 of the two pane layout
      */
-    @Stable
     val currentPane1Destination: String
 
     /**
      * The route of the destination currently shown in pane 2 of the two pane layout
      */
-    @Stable
     val currentPane2Destination: String
 
     /**
      * Returns true when in single pane mode, false when in two pane mode
      */
-    @Stable
     val isSinglePane: Boolean
 }

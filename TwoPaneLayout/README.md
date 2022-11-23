@@ -20,7 +20,7 @@ When the app is spanned across a separating vertical hinge or fold, or when the 
 2. Add dependencies to the module-level **build.gradle** file (current version may be different from what's shown here).
 
     ```gradle
-    implementation "com.microsoft.device.dualscreen:twopanelayout:1.0.1-alpha04"
+    implementation "com.microsoft.device.dualscreen:twopanelayout:1.0.1-alpha05"
     ```
 
 3. Also ensure the compileSdkVersion is set to API 33 and the targetSdkVersion is set to API 32 or newer in the module-level **build.gradle** file.
@@ -188,7 +188,9 @@ interface TwoPaneNavScope {
         builder: NavOptionsBuilder.() -> Unit = { }
     )
 
-    fun NavHostController.navigateUpTo(route: String?)
+    fun NavHostController.navigateBack(): Boolean
+
+    val twoPaneBackStack: List<TwoPaneBackStackEntry>
 
     val currentSinglePaneDestination: String
 
@@ -211,9 +213,11 @@ sealed class Screen(val route: String) {
 }
 ```
 
-The `navigateUpTo` method is an enhanced version of the `navigateUp` method from `NavHostController` that also works when one or two panes are shown.
+The `navigateBack` method is an enhanced version of the `navigateUp` method from `NavHostController` that also works when one or two panes are shown. If navigation is successful, the function will return true, otherwise it will return false.
 
-> `TwoPaneLayoutNav` manages an internal backstack, so if you want to override the default back press behavior and write a custom handler, make sure you call `navigateUpTo` to maintain the backstack correctly.
+`TwoPaneLayoutNav` manages an internal backstack to maintain state across configuration changes. To access and update the backstack, use the `twoPaneBackStack` mutable list field.
+
+> If you want to override the default back press behavior and write a custom handler, make sure you call `navigateBack` to maintain the backstack correctly.
 
 When writing UI tests for composables that use `TwoPaneNavScope`, you can use the `TwoPaneScopeNavTest` class. It provides empty implementations of `TwoPaneNavScope` methods, and you can set the values of `currentSinglePaneDestination`, `currentPane1Destination`, `currentPane2Destination`, and `isSinglePane` in the class constructor before running your tests.
 

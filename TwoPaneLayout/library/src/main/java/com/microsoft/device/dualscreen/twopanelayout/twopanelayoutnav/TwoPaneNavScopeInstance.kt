@@ -1,6 +1,7 @@
 package com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav
 
 import android.app.Activity
+import android.util.Log
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.navigation.NavHostController
@@ -68,18 +69,10 @@ internal object TwoPaneNavScopeInstance : TwoPaneNavScope {
         backStack.add(TwoPaneBackStackEntry(route, launchScreen))
     }
 
-    override fun NavHostController.navigateUpTo(route: String?) {
+    override fun NavHostController.navigateBack(): Boolean {
         var finishActivity = false
 
         if (isSinglePane) {
-            // Check that previous backstack entry route matches route parameter
-            val prevRoute = previousBackStackEntry?.destination?.route
-            if (prevRoute != route)
-                throw IllegalArgumentException(
-                    "Attempting to navigate up to $route, but previous backstack entry route is $prevRoute. " +
-                        "Backstack: $backStack"
-                )
-
             if (backStack.size > 1) {
                 // Navigate up and pop backstack
                 navigateSinglePaneUp()
@@ -91,38 +84,25 @@ internal object TwoPaneNavScopeInstance : TwoPaneNavScope {
             }
         } else {
             if (backStack.size > 2) {
-                // Find target entry in backstack
-                val targetEntry = backStack.findLast { entry -> entry.route == route }
-                    ?: throw IllegalArgumentException(
-                        "Attempting to navigate up to $route, but it's not in the backstack. Backstack: $backStack"
-                    )
-                val launchScreen = targetEntry.launchScreen
+                // Pop backstack
+                val currentEntry = backStack.removeLast()
 
-                // Check that target entry is the previous entry in the launch screen
-                val currEntry = backStack.findLast { it.launchScreen == launchScreen }
-                    ?: throw java.lang.IllegalStateException(
-                        "Attempting to navigate up in $launchScreen, but no backstack entry found in that screen." +
-                            "Backstack: $backStack"
-                    )
-                val prevEntry = backStack.findLast { it.launchScreen == launchScreen && it != currEntry }
-                    ?: throw IllegalStateException(
+                // Check launch screen from popped entry and update the content displayed
+                val launchScreen = currentEntry.launchScreen
+                val prevEntry = backStack.findLast { it.launchScreen == launchScreen }
+                if (prevEntry == null) {
+                    Log.d(
+                        "TwoPaneNavScope",
                         "Attempting to navigate up in $launchScreen, but no previous backstack entry found" +
                             "in that screen. Backstack: $backStack"
                     )
-
-                if (prevEntry.route != route)
-                    throw IllegalArgumentException(
-                        "Attempting to navigate up to $route in $launchScreen, but previous backstack entry " +
-                            "route is ${prevEntry.route}. Backstack: $backStack"
-                    )
-
-                // Pop current destination from the launch screen
-                currEntry.let { backStack.remove(currEntry) }
+                    return false
+                }
 
                 // Navigate to the desired route in the launch screen
                 when (launchScreen) {
-                    Screen.Pane1 -> navigatePane1To(route)
-                    Screen.Pane2 -> navigatePane2To(route)
+                    Screen.Pane1 -> navigatePane1To(prevEntry.route)
+                    Screen.Pane2 -> navigatePane2To(prevEntry.route)
                 }
             } else {
                 // Last entries in backstack, so clear and finish activity
@@ -134,7 +114,12 @@ internal object TwoPaneNavScopeInstance : TwoPaneNavScope {
         // Finish activity when backstack is empty
         if (finishActivity)
             (context as? Activity)?.finish()
+
+        return true
     }
+
+    override val twoPaneBackStack: MutableList<TwoPaneBackStackEntry>
+        get() = backStack
 
     override val currentSinglePaneDestination: String
         get() = getSinglePaneDestination()
