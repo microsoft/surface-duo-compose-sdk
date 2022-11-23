@@ -118,8 +118,8 @@ internal object TwoPaneNavScopeInstance : TwoPaneNavScope {
         return true
     }
 
-    override val twoPaneBackStack: List<TwoPaneBackStackEntry>
-        get() = backStack.toList()
+    override val twoPaneBackStack: MutableList<TwoPaneBackStackEntry>
+        get() = backStack
 
     override val currentSinglePaneDestination: String
         get() = getSinglePaneDestination()

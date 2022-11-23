@@ -78,7 +78,7 @@ interface TwoPaneNavScope {
     /**
      * Returns the current state of the internal TwoPaneLayoutNav backstack
      */
-    val twoPaneBackStack: List<TwoPaneBackStackEntry>
+    val twoPaneBackStack: MutableList<TwoPaneBackStackEntry>
 
     /**
      * The route of the destination currently shown in the single pane layout

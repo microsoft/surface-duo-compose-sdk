@@ -215,7 +215,7 @@ sealed class Screen(val route: String) {
 
 The `navigateBack` method is an enhanced version of the `navigateUp` method from `NavHostController` that also works when one or two panes are shown. If navigation is successful, the function will return true, otherwise it will return false.
 
-`TwoPaneLayoutNav` manages an internal backstack to maintain state across configuration changes. To access the current state of the backstack, use the `twoPaneBackStack` readonly field.
+`TwoPaneLayoutNav` manages an internal backstack to maintain state across configuration changes. To access and update the backstack, use the `twoPaneBackStack` mutable list field.
 
 > If you want to override the default back press behavior and write a custom handler, make sure you call `navigateBack` to maintain the backstack correctly.
 
