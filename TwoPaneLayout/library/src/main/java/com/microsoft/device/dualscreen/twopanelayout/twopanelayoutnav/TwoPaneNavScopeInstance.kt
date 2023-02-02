@@ -50,11 +50,6 @@ internal object TwoPaneNavScopeInstance : TwoPaneNavScope {
             }
         }
 
-        // launchSingleTop
-        if (navOptions.shouldLaunchSingleTop()) {
-            backStack.removeAll { it.route == route }
-        }
-
         // Navigate to desired destination
         if (isSinglePane) {
             navigateSinglePaneTo(route, builder)
