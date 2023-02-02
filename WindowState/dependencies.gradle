@@ -14,16 +14,16 @@ ext {
 
     // WindowState library version code:
     // If you want to publish a new version, bump in one (1) the specific line(s)
-    windowStateVersionCode = 7
+    windowStateVersionCode = 8
 
     // WindowState library version name:
     // If you want to publish a new version, bump the specific line
-    windowStateVersionName = '1.0.0-alpha07'
+    windowStateVersionName = '1.0.0-alpha08'
 
     // ----------------------------------
 
     gradlePluginVersion = '7.3.0'
-    kotlinVersion = '1.7.20'
+    kotlinVersion = '1.8.0'
     compileSdkVersion = 33
     targetSdkVersion = 32
     minSdkVersion = 23
@@ -44,7 +44,7 @@ ext {
     ]
 
     // AndroidX dependencies
-    appCompatVersion = '1.5.1'
+    appCompatVersion = '1.6.0'
     ktxCoreVersion = '1.9.0'
     windowVersion = "1.1.0-alpha04"
     androidxDependencies = [
@@ -55,12 +55,13 @@ ext {
     ]
 
     // Compose dependencies
-    composeVersion = "1.3.1"
-    composeCompilerVersion = "1.3.2"
+    composeVersion = '1.3.3'
+    composeMaterialVersion = '1.3.1'
+    composeCompilerVersion = "1.4.0"
     activityComposeVersion = '1.6.1'
     navigationComposeVersion = "2.5.3"
     composeDependencies = [
-            composeMaterial         : "androidx.compose.material:material:$composeVersion",
+            composeMaterial         : "androidx.compose.material:material:$composeMaterialVersion",
             composeRuntime          : "androidx.compose.runtime:runtime-livedata:$composeVersion",
             composeUI               : "androidx.compose.ui:ui:$composeVersion",
             composeUITooling        : "androidx.compose.ui:ui-tooling:$composeVersion",
@@ -70,10 +71,10 @@ ext {
 
     // Test dependencies
     androidxTestVersion = '1.5.0'
-    androidxTestRunnerVersion = '1.5.1'
-    espressoVersion = "3.5.0"
+    androidxTestRunnerVersion = '1.5.2'
+    espressoVersion = '3.5.1'
     junitVersion = '4.13.2'
-    mockitoVersion = '4.9.0'
+    mockitoVersion = '5.1.1'
     uiAutomatorVersion = "2.2.0"
     testDependencies = [
             androidxTestCore        : "androidx.test:core:$androidxTestVersion",
@@ -89,7 +90,7 @@ ext {
     ]
 
     // Google dependencies
-    materialVersion = '1.7.0'
+    materialVersion = '1.8.0'
     googleDependencies = [
             material: "com.google.android.material:material:$materialVersion"
     ]

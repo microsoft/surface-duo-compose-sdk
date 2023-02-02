@@ -13,7 +13,7 @@ ext {
     PUBLISH_GROUP_ID = 'com.microsoft.device.dualscreen'
     PUBLISH_ARTIFACT_ID = 'draganddrop'
     LIBRARY_DESCRIPTION = 'DraAndDrop Compose library'
-    LIBRARY_VERSION = rootProject.ext.dragAndDopVersionName
+    LIBRARY_VERSION = rootProject.ext.dragAndDropVersionName
 }
 apply from: "${rootProject.projectDir}/publishing.gradle"
 
