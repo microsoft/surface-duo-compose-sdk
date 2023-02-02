@@ -64,6 +64,14 @@ interface TwoPaneNavScope {
         builder: NavOptionsBuilder.() -> Unit = { }
     )
 
+    fun TwoPaneNavScope.navigateUpTo(
+        navController: NavHostController,
+        route: String,
+        inclusive: Boolean
+    )
+
+    fun TwoPaneNavScope.clearBackStack(navHostController: NavHostController)
+
     /**
      * Navigates up to the previous destination on the backstack. In single pane mode, this calls
      * [NavHostController.navigateUp]. In two pane mode, this pops the most recent back stack entry off the stack.
