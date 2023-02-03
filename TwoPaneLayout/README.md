@@ -192,7 +192,7 @@ interface TwoPaneNavScope {
 
     fun NavHostController.navigateUpTo(
         route: String,
-        inclusive: Boolean = true
+        inclusive: Boolean = false
     ): Boolean
 
     val twoPaneBackStack: List<TwoPaneBackStackEntry>
