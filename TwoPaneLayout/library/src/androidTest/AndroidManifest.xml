@@ -21,5 +21,8 @@
         <activity
             android:name="com.microsoft.device.dualscreen.twopanelayout.TestActivity">
         </activity>
+        <activity
+            android:name="com.microsoft.device.dualscreen.twopanelayout.NavigateUpToActivity">
+        </activity>
     </application>
 </manifest>

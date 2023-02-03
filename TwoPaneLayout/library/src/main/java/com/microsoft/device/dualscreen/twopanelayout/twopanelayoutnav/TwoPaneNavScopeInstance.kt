@@ -64,37 +64,22 @@ internal object TwoPaneNavScopeInstance : TwoPaneNavScope {
         backStack.add(TwoPaneBackStackEntry(route, launchScreen))
     }
 
-    /**
-     * Navigates up to the given route and pops any intermediate destinations off the backstack
-     */
-    override fun TwoPaneNavScope.navigateUpTo(
-        navController: NavHostController,
-        route: String,
-        inclusive: Boolean
-    ) {
+    override fun NavHostController.navigateUpTo(route: String, inclusive: Boolean): Boolean {
         val targetEntryIndex = twoPaneBackStack.indexOfLast { it.route == route }
 
-        if (targetEntryIndex != -1) {
-            var numToPop = twoPaneBackStack.size - targetEntryIndex - 1
+        if (targetEntryIndex == -1)
+            return false
 
-            if (inclusive)
-                numToPop++
+        var numToPop = twoPaneBackStack.size - targetEntryIndex - 1
+        if (inclusive)
+            numToPop++
 
-            repeat(numToPop) {
-                navController.navigateBack()
-            }
+        var success = true
+        repeat(numToPop) {
+            success = success && navigateBack()
         }
-    }
 
-    /**
-     * Equivalent to [NavHostController.clearBackStack]
-     */
-    override fun TwoPaneNavScope.clearBackStack(navHostController: NavHostController) {
-        val numToPop = twoPaneBackStack.size
-
-        repeat(numToPop - 2) {
-            navHostController.navigateBack()
-        }
+        return success
     }
 
     override fun NavHostController.navigateBack(): Boolean {
