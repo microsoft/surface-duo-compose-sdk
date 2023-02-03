@@ -66,11 +66,12 @@ ext {
     ]
 
     // Test dependencies
-    androidxTestVersion = '1.5.2'
+    androidxTestVersion = '1.5.0'
+    androidxTestRunnerVersion = '1.5.2'
     testDependencies = [
             androidxTestCore        : "androidx.test:core:$androidxTestVersion",
             androidxTestRules       : "androidx.test:rules:$androidxTestVersion",
-            androidxTestRunner      : "androidx.test:runner:$androidxTestVersion",
+            androidxTestRunner      : "androidx.test:runner:$androidxTestRunnerVersion",
             composeUITest           : "androidx.compose.ui:ui-test:$composeVersion",
             composeJunit            : "androidx.compose.ui:ui-test-junit4:$composeVersion",
             composeUITestManifest   : "androidx.compose.ui:ui-test-manifest:$composeVersion",

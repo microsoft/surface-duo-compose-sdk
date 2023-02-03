@@ -71,11 +71,12 @@ ext {
     ]
 
     // Testing versions
-    androidxTestVersion = "1.3.0"
     uiAutomatorVersion = "2.2.0"
-    espressoVersion = "3.4.0"
-    junitVersion = "4.12"
-    mockitoVersion = "4.1.0"
+    androidxTestVersion = '1.5.0'
+    androidxTestRunnerVersion = '1.5.2'
+    espressoVersion = '3.5.1'
+    junitVersion = '4.13.2'
+    mockitoVersion = '5.1.1'
     testDependencies = [
             androidxTestCore        : "androidx.test:core:$androidxTestVersion",
             androidxTestRules       : "androidx.test:rules:$androidxTestVersion",
