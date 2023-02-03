@@ -8,8 +8,8 @@ Please read the [code of conduct](CODE_OF_CONDUCT.md) and [contribution guidelin
 
 ## Prerequisites
 
-- Jetpack Compose version: `1.3.0`
-- Jetpack Window Manager version: `1.0.0`
+- Jetpack Compose version: `1.3.3`
+- Jetpack Window Manager version: `1.1.0-alpha04`
 - Android Studio version: Dolphin `2021.3.1`
 
 ## Getting Started
@@ -26,7 +26,7 @@ Please check out our page on [Jetpack Compose for Microsoft Surface Duo](https:/
 
 A UI component that helps you build two-pane layout for dual-screen, foldable, and large-screen devices.
 
-#### Latest Update: [1.0.1-alpha04](https://github.com/microsoft/surface-duo-compose-sdk/releases/tag/twopanelayout_20221102_1.0.1-alpha04) (November 2nd, 2022)
+#### Latest Update: [1.0.1-alpha05](https://github.com/microsoft/surface-duo-compose-sdk/releases/tag/twopanelayout_20221123_1.0.1-alpha05) (November 23rd, 2022)
 
 ### [WindowState](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/WindowState)
 
@@ -50,6 +50,10 @@ A Compose component that helps you build drag and drop feature on any Android de
 
 | Blog post | Video |
 |---|---|
+| [Relay Anchor Leg: Overall impressions](https://devblogs.microsoft.com/surface-duo/jetpack-compose-relay-3/) | [Twitch #102: Relay for Jetpack Compose](https://www.youtube.com/watch?v=Gnf8NJQwENU) |
+| [Relay Leg 2: Tips and tricks](https://devblogs.microsoft.com/surface-duo/jetpack-compose-relay-2/) | _see above_ |
+| [Pass the design baton with Relay](https://devblogs.microsoft.com/surface-duo/jetpack-compose-relay-1/) | _see above_ |
+| [Compose TwoPaneLayout updates](https://devblogs.microsoft.com/surface-duo/jetpack-compose-twopanelayout-updates/) | [Twitch #100: Compose TwoPaneLayout updates](https://www.youtube.com/watch?v=ZeqJThroeUw) |
 | [Jetpack Compose Accompanist TwoPane](https://devblogs.microsoft.com/surface-duo/jetpack-compose-accompanist-twopane/) | [Twitch #89: Jetpack Compose Accompanist TwoPane](https://www.youtube.com/watch?v=xt-iJCStEy0) |
 | [Improving app accessibility with Jetpack Compose](https://devblogs.microsoft.com/surface-duo/jetpack-compose-accessibility/) | [Twitch #88: Jetpack Compose Accessibility](https://www.youtube.com/watch?v=BNy9jwTyRco) |
 | [Dual-screen example adds Jetpack Compose to the experience](https://devblogs.microsoft.com/surface-duo/jetpack-compose-existing-app/) | [Twitch #86: Adding Jetpack Compose to existing apps](https://www.youtube.com/watch?v=9c7s0I6VcFU) |
