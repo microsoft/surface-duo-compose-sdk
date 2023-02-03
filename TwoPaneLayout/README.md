@@ -20,7 +20,7 @@ When the app is spanned across a separating vertical hinge or fold, or when the 
 2. Add dependencies to the module-level **build.gradle** file (current version may be different from what's shown here).
 
     ```gradle
-    implementation "com.microsoft.device.dualscreen:twopanelayout:1.0.1-alpha05"
+    implementation "com.microsoft.device.dualscreen:twopanelayout:1.0.1-alpha06"
     ```
 
 3. Also ensure the compileSdkVersion is set to API 33 and the targetSdkVersion is set to API 32 or newer in the module-level **build.gradle** file.
@@ -190,6 +190,11 @@ interface TwoPaneNavScope {
 
     fun NavHostController.navigateBack(): Boolean
 
+    fun NavHostController.navigateUpTo(
+        route: String,
+        inclusive: Boolean = true
+    ): Boolean
+
     val twoPaneBackStack: List<TwoPaneBackStackEntry>
 
     val currentSinglePaneDestination: String
@@ -214,6 +219,8 @@ sealed class Screen(val route: String) {
 ```
 
 The `navigateBack` method is an enhanced version of the `navigateUp` method from `NavHostController` that also works when one or two panes are shown. If navigation is successful, the function will return true, otherwise it will return false.
+
+The `navigateUpTo` method calls `navigateBack` until you reach your desired destination, allowing you to pop several destinations off the backstack at once. Note that, as expected when calling `navigateBack` in dual-screen mode, if there are fewer than two destinations left in the backstack, the activity will be finished. So, if your stack is `[A, B, C]` in dual-screen mode and you call `navigateUpTo("A")`, then the activity will be finished.
 
 `TwoPaneLayoutNav` manages an internal backstack to maintain state across configuration changes. To access and update the backstack, use the `twoPaneBackStack` mutable list field.
 

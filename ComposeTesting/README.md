@@ -18,7 +18,7 @@ The library is based on the [testing-kotlin](https://github.com/microsoft/surfac
 2. Add dependencies to the module-level **build.gradle** file (current version may be different from what's shown here).
 
     ```gradle
-    implementation "com.microsoft.device.dualscreen.testing:testing-compose:1.0.0-alpha07"
+    implementation "com.microsoft.device.dualscreen.testing:testing-compose:1.0.0-alpha08"
     ```
 
 3. Also ensure the compileSdkVersion is set to API 33 and the targetSdkVersion is set to API 32 or newer in the module-level build.gradle file.
