@@ -50,11 +50,6 @@ internal object TwoPaneNavScopeInstance : TwoPaneNavScope {
             }
         }
 
-        // launchSingleTop
-        if (navOptions.shouldLaunchSingleTop()) {
-            backStack.removeAll { it.route == route }
-        }
-
         // Navigate to desired destination
         if (isSinglePane) {
             navigateSinglePaneTo(route, builder)
@@ -67,6 +62,24 @@ internal object TwoPaneNavScopeInstance : TwoPaneNavScope {
 
         // Update backstack
         backStack.add(TwoPaneBackStackEntry(route, launchScreen))
+    }
+
+    override fun NavHostController.navigateUpTo(route: String, inclusive: Boolean): Boolean {
+        val targetEntryIndex = twoPaneBackStack.indexOfLast { it.route == route }
+
+        if (targetEntryIndex == -1)
+            return false
+
+        var numToPop = twoPaneBackStack.size - targetEntryIndex - 1
+        if (inclusive)
+            numToPop++
+
+        var success = true
+        repeat(numToPop) {
+            success = success && navigateBack()
+        }
+
+        return success
     }
 
     override fun NavHostController.navigateBack(): Boolean {

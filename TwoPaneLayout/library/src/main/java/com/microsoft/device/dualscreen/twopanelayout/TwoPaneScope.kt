@@ -65,6 +65,17 @@ interface TwoPaneNavScope {
     )
 
     /**
+     * Navigates up to the given destination and pops any intermediate destinations off the backstack.
+     *
+     * @param route: route of the destination to pop up to
+     * @param inclusive: if true, the given destination will also be popped off the backstack
+     */
+    fun NavHostController.navigateUpTo(
+        route: String,
+        inclusive: Boolean = false
+    ): Boolean
+
+    /**
      * Navigates up to the previous destination on the backstack. In single pane mode, this calls
      * [NavHostController.navigateUp]. In two pane mode, this pops the most recent back stack entry off the stack.
      *

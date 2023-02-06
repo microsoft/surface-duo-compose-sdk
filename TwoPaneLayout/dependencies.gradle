@@ -14,19 +14,19 @@ ext {
 
     // TwoPaneLayout library version code:
     // If you want to publish a new version, bump in one (1) the specific line(s)
-    twoPaneLayoutVersionCode = 21
+    twoPaneLayoutVersionCode = 22
 
     // TwoPaneLayout library version name:
     // If you want to publish a new version, bump the specific line
-    twoPaneLayoutVersionName = '1.0.1-alpha05'
+    twoPaneLayoutVersionName = '1.0.1-alpha06'
 
     // ----------------------------------
 
     gradlePluginVersion = '7.3.0'
-    kotlinVersion = '1.7.20'
+    kotlinVersion = '1.8.0'
     compileSdkVersion = 33
     targetSdkVersion = 32
-    minSdkVersion = 23
+    minSdkVersion = 24
     dokkaVersion = "1.6.0"
 
     config = [
@@ -44,7 +44,7 @@ ext {
     ]
 
     // AndroidX dependencies
-    appCompatVersion = '1.5.1'
+    appCompatVersion = '1.6.0'
     ktxCoreVersion = '1.9.0'
     androidxDependencies = [
             appCompat         : "androidx.appcompat:appcompat:$appCompatVersion",
@@ -52,12 +52,13 @@ ext {
     ]
 
     // Compose dependencies
-    composeVersion = '1.3.1'
-    composeCompilerVersion = '1.3.2'
+    composeVersion = '1.3.3'
+    composeMaterialVersion = '1.3.1'
+    composeCompilerVersion = '1.4.0'
     activityComposeVersion = '1.6.1'
     navigationComposeVersion = '2.5.3'
     composeDependencies = [
-            composeMaterial         : "androidx.compose.material:material:$composeVersion",
+            composeMaterial         : "androidx.compose.material:material:$composeMaterialVersion",
             composeUI               : "androidx.compose.ui:ui:$composeVersion",
             composeUITooling        : "androidx.compose.ui:ui-tooling:$composeVersion",
             activityCompose         : "androidx.activity:activity-compose:$activityComposeVersion",
@@ -65,18 +66,19 @@ ext {
     ]
 
     // Test dependencies
-    androidxTestVersion = "1.4.0"
+    androidxTestVersion = '1.5.0'
+    androidxTestRunnerVersion = '1.5.2'
     testDependencies = [
             androidxTestCore        : "androidx.test:core:$androidxTestVersion",
             androidxTestRules       : "androidx.test:rules:$androidxTestVersion",
-            androidxTestRunner      : "androidx.test:runner:$androidxTestVersion",
+            androidxTestRunner      : "androidx.test:runner:$androidxTestRunnerVersion",
             composeUITest           : "androidx.compose.ui:ui-test:$composeVersion",
             composeJunit            : "androidx.compose.ui:ui-test-junit4:$composeVersion",
             composeUITestManifest   : "androidx.compose.ui:ui-test-manifest:$composeVersion",
     ]
 
     // Google dependencies
-    materialVersion = '1.7.0'
+    materialVersion = '1.8.0'
     googleDependencies = [
             material: "com.google.android.material:material:$materialVersion"
     ]
