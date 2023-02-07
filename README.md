@@ -32,7 +32,7 @@ A UI component that helps you build two-pane layout for dual-screen, foldable, a
 
 A utility component that helps you easily get details about the window state of dual-screen, foldable, and large-screen devices.
 
-#### Latest Update: [1.0.0-alpha07](https://github.com/microsoft/surface-duo-compose-sdk/releases/tag/windowstate_20221122_alpha07) (November 22nd, 2022)
+#### Latest Update: [1.0.0-alpha08](https://github.com/microsoft/surface-duo-compose-sdk/releases/tag/windowstate_20230206_alpha08) (February 6th, 2023)
 
 ### [ComposeTesting](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/ComposeTesting)
 
