@@ -26,7 +26,7 @@ Please check out our page on [Jetpack Compose for Microsoft Surface Duo](https:/
 
 A UI component that helps you build two-pane layout for dual-screen, foldable, and large-screen devices.
 
-#### Latest Update: [1.0.1-alpha05](https://github.com/microsoft/surface-duo-compose-sdk/releases/tag/twopanelayout_20221123_1.0.1-alpha05) (November 23rd, 2022)
+#### Latest Update: [1.0.1-alpha06](https://github.com/microsoft/surface-duo-compose-sdk/releases/tag/twopanelayout_20230208_1.0.1-alpha06) (February 8th, 2023)
 
 ### [WindowState](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/WindowState)
 
@@ -38,13 +38,13 @@ A utility component that helps you easily get details about the window state of 
 
 Helper functions that help you easily test your application on the dual-screen, foldable and large screen devices.
 
-#### Latest Update: [1.0.0-alpha07](https://github.com/microsoft/surface-duo-compose-sdk/releases/tag/composetesting_20221028_alpha07) (October 28th, 2022)
+#### Latest Update: [1.0.0-alpha08](https://github.com/microsoft/surface-duo-compose-sdk/releases/tag/composetesting_20230208_alpha08) (February 8th, 2023)
 
 ### [DragAndDrop](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/DragAndDrop)
 
 A Compose component that helps you build drag and drop feature on any Android devices, especially dual-screen, foldable and large-screen devices.
 
-#### Latest Update: [1.0.0-alpha03](https://github.com/microsoft/surface-duo-compose-sdk/releases/tag/draganddrop_20221028_alpha03) (October 28th, 2022)
+#### Latest Update: [1.0.0-alpha04](https://github.com/microsoft/surface-duo-compose-sdk/releases/tag/draganddrop_20230208_alpha04) (February 8th, 2023)
 
 ## Social links
 
