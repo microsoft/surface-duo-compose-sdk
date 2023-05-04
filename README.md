@@ -1,4 +1,4 @@
-![build-test-check](https://github.com/microsoft/surface-duo-compose-sdk/actions/workflows/build_test_check.yml/badge.svg) ![Compose Version](https://img.shields.io/badge/Jetpack%20Compose-1.3.3-brightgreen)
+![build-test-check](https://github.com/microsoft/surface-duo-compose-sdk/actions/workflows/build_test_check.yml/badge.svg) ![Compose Version](https://img.shields.io/badge/Jetpack%20Compose-1.4.3-brightgreen)
 
 # Surface Duo Jetpack Compose SDK
 
@@ -8,9 +8,9 @@ Please read the [code of conduct](CODE_OF_CONDUCT.md) and [contribution guidelin
 
 ## Prerequisites
 
-- Jetpack Compose version: `1.3.3`
-- Jetpack Window Manager version: `1.1.0-alpha04`
-- Android Studio version: Dolphin `2021.3.1`
+- Jetpack Compose version: `1.4.3`
+- Jetpack Window Manager version: `1.1.0-beta02`
+- Android Studio version: Flamingo `2022.2.1`
 
 ## Getting Started
 
@@ -32,7 +32,7 @@ A UI component that helps you build two-pane layout for dual-screen, foldable, a
 
 A utility component that helps you easily get details about the window state of dual-screen, foldable, and large-screen devices.
 
-#### Latest Update: [1.0.0-alpha08](https://github.com/microsoft/surface-duo-compose-sdk/releases/tag/windowstate_20230206_alpha08) (February 6th, 2023)
+#### Latest Update: [1.0.0-alpha09](https://github.com/microsoft/surface-duo-compose-sdk/releases/tag/windowstate_20230504_alpha09) (May 4th, 2023)
 
 ### [ComposeTesting](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/ComposeTesting)
 
