@@ -14,11 +14,11 @@ ext {
 
     // ComposeTesting library version code:
     // If you want to publish a new version, bump in one (1) the specific line(s)
-    composeTestingVersionCode = 8
+    composeTestingVersionCode = 9
 
     // ComposeTesting library version name:
     // If you want to publish a new version, bump the specific line
-    composeTestingVersionName = '1.0.0-alpha08'
+    composeTestingVersionName = '1.0.0-alpha09'
 
     // ----------------------------------
 

@@ -20,7 +20,7 @@ The component provides a drag container which represents the draggable area with
 2. Add dependencies to the module-level **build.gradle** file (current version may be different from what's shown here).
 
     ```gradle
-    implementation "com.microsoft.device.dualscreen:draganddrop:1.0.0-alpha04"
+    implementation "com.microsoft.device.dualscreen:draganddrop:1.0.0-alpha05"
     ```
 
 3. Also ensure the compileSdkVersion is set to API 33 and the targetSdkVersion is set to API 32 or newer in the module-level build.gradle file.
