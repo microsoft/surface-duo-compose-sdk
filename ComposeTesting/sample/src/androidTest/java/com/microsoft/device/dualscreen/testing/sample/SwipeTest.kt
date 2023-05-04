@@ -26,16 +26,15 @@ class SwipeTest {
 
     @Test
     fun span_showsTwoPanes() {
+        if (!device.isSurfaceDuo())
+            return
+
         // Assert that only pane 1 is shown
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane1_text)).assertIsDisplayed()
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane2_text)).assertDoesNotExist()
 
         // Span the app from start
-        if (device.isSurfaceDuo()) {
-            device.spanFromStart()
-        } else {
-            return
-        }
+        device.spanFromStart()
 
         // Assert that both panes are now shown
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane1_text)).assertIsDisplayed()
@@ -56,11 +55,7 @@ class SwipeTest {
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane2_text)).assertIsDisplayed()
 
         // Unspan the app to the end
-        if (device.isSurfaceDuo()) {
-            device.unspanToEnd()
-        } else {
-            return
-        }
+        device.unspanToEnd()
 
         // Assert that only pane 1 is now shown
         composeTestRule.onNodeWithText(composeTestRule.getString(R.string.pane1_text)).assertIsDisplayed()
