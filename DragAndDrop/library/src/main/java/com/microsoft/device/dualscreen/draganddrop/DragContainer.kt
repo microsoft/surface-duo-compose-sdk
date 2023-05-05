@@ -19,7 +19,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntSize
@@ -56,7 +55,7 @@ fun DragTarget(
                         currentState.draggableContent = content
                     },
                     onDrag = { change, dragAmount ->
-                        change.consumeAllChanges()
+                        change.consume()
                         currentState.dragOffset += Offset(dragAmount.x, dragAmount.y)
                     },
                     onDragEnd = {
