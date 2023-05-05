@@ -14,7 +14,7 @@ ext {
 
     // DragAndDrop library version code:
     // If you want to publish a new version, bump in one (1) the specific line(s)
-    dragAndDropVersionCode = 05
+    dragAndDropVersionCode = 5
 
     // DragAndDrop library version name:
     // If you want to publish a new version, bump the specific line
