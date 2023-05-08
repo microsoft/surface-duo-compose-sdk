@@ -45,9 +45,7 @@ fun NavGraphBuilder.composable(
     deepLinks: List<NavDeepLink> = emptyList(),
     content: @Composable TwoPaneNavScope.(NavBackStackEntry) -> Unit
 ) {
-    graphContent[route] = content
-
-    addDestination(
+    val destination =
         ComposeNavigator.Destination(provider[ComposeNavigator::class]) { TwoPaneNavScopeInstance.content(it) }
             .apply {
                 this.route = route
@@ -58,5 +56,8 @@ fun NavGraphBuilder.composable(
                     addDeepLink(deepLink)
                 }
             }
-    )
+
+    graphDestinations[destination] = content
+
+    addDestination(destination)
 }
