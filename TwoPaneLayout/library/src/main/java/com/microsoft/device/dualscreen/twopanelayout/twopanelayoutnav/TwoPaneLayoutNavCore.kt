@@ -2,6 +2,7 @@ package com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Bundle
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -70,9 +71,10 @@ private fun findGraphContent(route: String, context: Context): @Composable TwoPa
     val match = getDeepLinkMatchForRoute(route)
     val destination = match.destination
     val content = graphDestinations[destination]!!
+    val args = destination.addInDefaultArgs(match.matchingArgs) ?: Bundle()
 
     @SuppressLint("RestrictedApi")
-    val backStackEntry = NavBackStackEntry.create(context, destination, match.matchingArgs)
+    val backStackEntry = NavBackStackEntry.create(context, destination, args)
 
     return { content(backStackEntry) }
 }
