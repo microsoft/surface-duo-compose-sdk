@@ -45,6 +45,7 @@ internal fun isSinglePaneHandler(): Boolean {
     return isSinglePane
 }
 
+@SuppressLint("RestrictedApi")
 private fun getDeepLinkMatchForRoute(route: String): NavDestination.DeepLinkMatch {
     val navDeepLinkRequest = NavDeepLinkRequest.Builder.fromUri(NavDestination.createRoute(route).toUri()).build()
     var match: NavDestination.DeepLinkMatch? = null
@@ -58,6 +59,7 @@ private fun getDeepLinkMatchForRoute(route: String): NavDestination.DeepLinkMatc
     return match!!.apply { removePlaceholderArgs() }
 }
 
+@SuppressLint("RestrictedApi")
 private fun NavDestination.DeepLinkMatch.removePlaceholderArgs() {
     matchingArgs?.let {
         for (argName in it.keySet()) {
@@ -67,13 +69,13 @@ private fun NavDestination.DeepLinkMatch.removePlaceholderArgs() {
     }
 }
 
+@SuppressLint("RestrictedApi")
 private fun findGraphContent(route: String, context: Context): @Composable TwoPaneNavScope.() -> Unit {
     val match = getDeepLinkMatchForRoute(route)
     val destination = match.destination
     val content = graphDestinations[destination]!!
     val args = destination.addInDefaultArgs(match.matchingArgs) ?: Bundle()
 
-    @SuppressLint("RestrictedApi")
     val backStackEntry = NavBackStackEntry.create(context, destination, args)
 
     return { content(backStackEntry) }
