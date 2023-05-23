@@ -1,6 +1,8 @@
 package com.microsoft.device.dualscreen.twopanelayout.twopanelayoutnav
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.os.Bundle
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -10,11 +12,15 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.net.toUri
 import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptionsBuilder
+import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.compose.NavHost
 import com.microsoft.device.dualscreen.twopanelayout.Screen
 import com.microsoft.device.dualscreen.twopanelayout.TwoPaneNavScope
@@ -32,27 +38,47 @@ internal var getPane1Destination: () -> String = { "" }
 internal var getPane2Destination: () -> String = { "" }
 internal var getSinglePaneDestination: () -> String = { "" }
 internal val backStack = mutableListOf<TwoPaneBackStackEntry>()
-internal val graphContent = mutableMapOf<String, @Composable TwoPaneNavScope.(NavBackStackEntry) -> Unit>()
+internal val graphDestinations =
+    mutableMapOf<ComposeNavigator.Destination, @Composable TwoPaneNavScope.(NavBackStackEntry) -> Unit>()
 
 internal fun isSinglePaneHandler(): Boolean {
     return isSinglePane
 }
 
-private fun verifyRoute(route: String) {
-    if (!graphContent.keys.contains(route))
-        throw IllegalArgumentException("Invalid route $route, not present in list of routes ${graphContent.keys}")
+@SuppressLint("RestrictedApi")
+private fun getDeepLinkMatchForRoute(route: String): NavDestination.DeepLinkMatch {
+    val navDeepLinkRequest = NavDeepLinkRequest.Builder.fromUri(NavDestination.createRoute(route).toUri()).build()
+    var match: NavDestination.DeepLinkMatch? = null
+
+    graphDestinations.keys.firstOrNull {
+        match = it.matchDeepLink(navDeepLinkRequest)
+        match != null
+    }
+        ?: throw IllegalArgumentException("Invalid route $route, not present in list of destinations ${graphDestinations.keys}")
+
+    return match!!.apply { removePlaceholderArgs() }
 }
 
-private fun findGraphContent(route: String): @Composable TwoPaneNavScope.() -> Unit {
-    verifyRoute(route)
+@SuppressLint("RestrictedApi")
+private fun NavDestination.DeepLinkMatch.removePlaceholderArgs() {
+    matchingArgs?.let {
+        for (argName in it.keySet()) {
+            if (it.getString(argName) == "{$argName}")
+                matchingArgs?.remove(argName)
+        }
+    }
+}
 
-    val content = graphContent[route]!!
+@SuppressLint("RestrictedApi")
+private fun findGraphContent(route: String, context: Context): @Composable TwoPaneNavScope.() -> Unit {
+    val match = getDeepLinkMatchForRoute(route)
+    val destination = match.destination
+    val content = graphDestinations[destination]!!
+    val args = destination.addInDefaultArgs(match.matchingArgs) ?: Bundle()
 
-    // REVISIT: passing in empty entry, may update in the future if arguments need to be passed through
-    @SuppressLint("RestrictedApi")
-    val emptyBackStackEntry = NavBackStackEntry.create(null, NavDestination(""))
+    val backStackEntry = NavBackStackEntry.create(context, destination, args)
 
-    return { content(emptyBackStackEntry) }
+    return { content(backStackEntry) }
 }
 
 @Composable
@@ -110,13 +136,13 @@ internal fun TwoPaneContainer(
     // Initialize navigation method handlers
     navigatePane1To = { route ->
         if (currentPane1 != route) {
-            verifyRoute(route)
+            getDeepLinkMatchForRoute(route)
             currentPane1 = route
         }
     }
     navigatePane2To = { route ->
         if (currentPane2 != route) {
-            verifyRoute(route)
+            getDeepLinkMatchForRoute(route)
             currentPane2 = route
         }
     }
@@ -126,8 +152,9 @@ internal fun TwoPaneContainer(
         backStack.initialize(pane1StartDestination, pane2StartDestination)
 
     // Find the destinations to display in each pane
-    val pane1 = findGraphContent(currentPane1)
-    val pane2 = findGraphContent(currentPane2)
+    val context = LocalContext.current
+    val pane1 = findGraphContent(currentPane1, context)
+    val pane2 = findGraphContent(currentPane2, context)
 
     val measurePolicy = twoPaneMeasurePolicy(
         windowMode = windowState.windowMode,
