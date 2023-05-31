@@ -26,7 +26,7 @@ Please check out our page on [Jetpack Compose for Microsoft Surface Duo](https:/
 
 A UI component that helps you build two-pane layout for dual-screen, foldable, and large-screen devices.
 
-#### Latest Update: [1.0.1-alpha06](https://github.com/microsoft/surface-duo-compose-sdk/releases/tag/twopanelayout_20230208_1.0.1-alpha06) (February 8th, 2023)
+#### Latest Update: [1.0.1-alpha07](https://github.com/microsoft/surface-duo-compose-sdk/releases/tag/twopanelayout_20230523_1.0.1-alpha07) (May 23rd, 2023)
 
 ### [WindowState](https://github.com/microsoft/surface-duo-compose-sdk/tree/main/WindowState)
 
@@ -50,6 +50,11 @@ A Compose component that helps you build drag and drop feature on any Android de
 
 | Blog post | Video |
 |---|---|
+| [Blossoming love for Compose animation](https://devblogs.microsoft.com/surface-duo/jetpack-compose-animation-3/) | [Twitch #105: Jetpack Compose animations](https://www.youtube.com/watch?v=8ql2CDpx6lk) |
+| [Blooming love for Compose animation](https://devblogs.microsoft.com/surface-duo/jetpack-compose-animation-2/) | _see above_ |
+| [Budding love for Compose animation](https://devblogs.microsoft.com/surface-duo/jetpack-compose-animation-1/) | _see above_ |
+| [JetchatGPT improvements: error handling and animations](https://devblogs.microsoft.com/surface-duo/android-openai-chatgpt-6/) | [Twitch #104: Working with OpenAI on Android and building JetchatGPT](https://www.youtube.com/watch?v=-J4eb7j25Qg) |
+| [Jetchat with OpenAI on Android](https://devblogs.microsoft.com/surface-duo/android-openai-chatgpt-5/) | _see above_ |
 | [Relay Anchor Leg: Overall impressions](https://devblogs.microsoft.com/surface-duo/jetpack-compose-relay-3/) | [Twitch #102: Relay for Jetpack Compose](https://www.youtube.com/watch?v=Gnf8NJQwENU) |
 | [Relay Leg 2: Tips and tricks](https://devblogs.microsoft.com/surface-duo/jetpack-compose-relay-2/) | _see above_ |
 | [Pass the design baton with Relay](https://devblogs.microsoft.com/surface-duo/jetpack-compose-relay-1/) | _see above_ |
