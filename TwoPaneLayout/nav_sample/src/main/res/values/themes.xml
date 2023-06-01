@@ -2,6 +2,6 @@
 <resources>
 
     <style name="Theme.TwoPaneLayout" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/dark_blue</item>
+        <item name="android:statusBarColor">@color/pink</item>
     </style>
 </resources>
