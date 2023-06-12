@@ -50,6 +50,7 @@ A Compose component that helps you build drag and drop feature on any Android de
 
 | Blog post | Video |
 |---|---|
+| [Improved navigation support in TwoPaneLayout](https://devblogs.microsoft.com/surface-duo/twopanelayout-navigation/) | N/A |
 | [Blossoming love for Compose animation](https://devblogs.microsoft.com/surface-duo/jetpack-compose-animation-3/) | [Twitch #105: Jetpack Compose animations](https://www.youtube.com/watch?v=8ql2CDpx6lk) |
 | [Blooming love for Compose animation](https://devblogs.microsoft.com/surface-duo/jetpack-compose-animation-2/) | _see above_ |
 | [Budding love for Compose animation](https://devblogs.microsoft.com/surface-duo/jetpack-compose-animation-1/) | _see above_ |
