@@ -56,7 +56,7 @@ ext {
     composeMaterialVersion = '1.4.3'
     composeCompilerVersion = '1.4.7'
     activityComposeVersion = '1.7.1'
-    navigationComposeVersion = '2.5.3'
+    navigationComposeVersion = '2.6.0'
     composeDependencies = [
             composeMaterial         : "androidx.compose.material:material:$composeMaterialVersion",
             composeUI               : "androidx.compose.ui:ui:$composeVersion",

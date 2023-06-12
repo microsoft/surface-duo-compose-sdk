@@ -91,10 +91,10 @@ internal fun SinglePaneContainer(
     var currentSinglePane by remember { mutableStateOf(startDestination) }
     getSinglePaneDestination = { currentSinglePane }
     navigateSinglePaneTo = { route, navOptions ->
-        val topDestination = backQueue.lastOrNull()?.destination?.route
+        val topDestination = currentDestination?.route
 
         // Navigate only when necessary
-        if (topDestination != route) {
+        if (topDestination?.let { it != route } == true) {
             navigate(route, navOptions)
             currentSinglePane = route
         }

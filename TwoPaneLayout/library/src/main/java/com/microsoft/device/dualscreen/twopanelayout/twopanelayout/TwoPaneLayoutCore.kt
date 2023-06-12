@@ -57,25 +57,21 @@ internal fun SinglePaneContainer(
     }
 
     navigateToPane1Handler = {
-        if (!navController.backQueue.isEmpty()) {
-            val topPane = navController.backQueue.last().destination.route
+        val topPane = navController.currentDestination?.route
 
-            // Navigate only when pane1 is not shown(not at the top of the backstack)
-            if (topPane != Screen.Pane1.route) {
-                navController.popBackStack()
-            }
+        // Navigate only when pane1 is not shown(not at the top of the backstack)
+        if (topPane?.let { it != Screen.Pane1.route } == true) {
+            navController.popBackStack()
         }
         currentSinglePane = Screen.Pane1.route
     }
 
     navigateToPane2Handler = {
-        if (!navController.backQueue.isEmpty()) {
-            val topPane = navController.backQueue.last().destination.route
+        val topPane = navController.currentDestination?.route
 
-            // Navigate only when pane2 is not shown (not at the top of the backstack)
-            if (topPane != Screen.Pane2.route) {
-                navController.navigate(Screen.Pane2.route)
-            }
+        // Navigate only when pane2 is not shown (not at the top of the backstack)
+        if (topPane?.let { it != Screen.Pane2.route } == true) {
+            navController.navigate(Screen.Pane2.route)
         }
         currentSinglePane = Screen.Pane2.route
     }
