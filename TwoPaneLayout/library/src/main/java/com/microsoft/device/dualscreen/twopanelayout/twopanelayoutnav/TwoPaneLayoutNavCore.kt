@@ -94,7 +94,7 @@ internal fun SinglePaneContainer(
         val topDestination = currentDestination?.route
 
         // Navigate only when necessary
-        if (topDestination?.let { it != route } == true) {
+        if (topDestination != route) {
             navigate(route, navOptions)
             currentSinglePane = route
         }
