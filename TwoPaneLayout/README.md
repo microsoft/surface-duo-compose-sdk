@@ -20,7 +20,7 @@ When the app is spanned across a separating vertical hinge or fold, or when the 
 2. Add dependencies to the module-level **build.gradle** file (current version may be different from what's shown here).
 
     ```gradle
-    implementation "com.microsoft.device.dualscreen:twopanelayout:1.0.1-alpha07"
+    implementation "com.microsoft.device.dualscreen:twopanelayout:1.0.1-alpha08"
     ```
 
 3. Also ensure the compileSdkVersion is set to API 33 and the targetSdkVersion is set to API 32 or newer in the module-level **build.gradle** file.

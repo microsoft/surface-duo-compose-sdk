@@ -14,11 +14,11 @@ ext {
 
     // TwoPaneLayout library version code:
     // If you want to publish a new version, bump in one (1) the specific line(s)
-    twoPaneLayoutVersionCode = 23
+    twoPaneLayoutVersionCode = 24
 
     // TwoPaneLayout library version name:
     // If you want to publish a new version, bump the specific line
-    twoPaneLayoutVersionName = '1.0.1-alpha07'
+    twoPaneLayoutVersionName = '1.0.1-alpha08'
 
     // ----------------------------------
 
@@ -45,7 +45,7 @@ ext {
 
     // AndroidX dependencies
     appCompatVersion = '1.6.1'
-    ktxCoreVersion = '1.10.0'
+    ktxCoreVersion = '1.10.1'
     androidxDependencies = [
             appCompat         : "androidx.appcompat:appcompat:$appCompatVersion",
             ktxCore           : "androidx.core:core-ktx:$ktxCoreVersion",
@@ -55,8 +55,8 @@ ext {
     composeVersion = '1.4.3'
     composeMaterialVersion = '1.4.3'
     composeCompilerVersion = '1.4.7'
-    activityComposeVersion = '1.7.1'
-    navigationComposeVersion = '2.5.3'
+    activityComposeVersion = '1.7.2'
+    navigationComposeVersion = '2.6.0'
     composeDependencies = [
             composeMaterial         : "androidx.compose.material:material:$composeMaterialVersion",
             composeUI               : "androidx.compose.ui:ui:$composeVersion",
@@ -78,7 +78,7 @@ ext {
     ]
 
     // Google dependencies
-    materialVersion = '1.8.0'
+    materialVersion = '1.9.0'
     googleDependencies = [
             material: "com.google.android.material:material:$materialVersion"
     ]
